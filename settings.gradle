@@ -1,0 +1,2 @@
+rootProject.name='LancerScoutKotlin'
+include ':app'
