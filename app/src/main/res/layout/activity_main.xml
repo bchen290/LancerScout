@@ -17,11 +17,12 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/match_scouting"/>
+        android:text="@string/match_scouting"
+        android:textColor="@android:color/black" />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/pit_scouting"/>
-
+        android:text="@string/pit_scouting"
+        android:textColor="@android:color/black" />
 </LinearLayout>
