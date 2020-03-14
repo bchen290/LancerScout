@@ -3,4 +3,7 @@
     <string name="welcome_to_lancer_scout">Welcome to Lancer Scout!</string>
     <string name="match_scouting">Match Scouting</string>
     <string name="pit_scouting">Pit Scouting</string>
+    <string name="pit_templates">Pit Templates</string>
+    <string name="match_templates">Match Templates</string>
+    <string name="templates">Templates</string>
 </resources>

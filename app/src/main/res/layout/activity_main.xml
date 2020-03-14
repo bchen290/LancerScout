@@ -9,8 +9,6 @@
     android:fitsSystemWindows="true"
     tools:context=".MainActivity">
 
-    <include layout="@layout/toolbar" />
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -18,14 +16,23 @@
         android:textSize="30sp"/>
 
     <Button
+        android:id="@+id/match_scouting_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/match_scouting"
         android:textColor="@android:color/black" />
 
     <Button
+        android:id="@+id/pit_scouting_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/pit_scouting"
+        android:textColor="@android:color/black" />
+
+    <Button
+        android:id="@+id/template_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/templates"
         android:textColor="@android:color/black" />
 </LinearLayout>
