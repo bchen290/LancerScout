@@ -1,4 +1,4 @@
-package com.robolancers.lancerscoutkotlin.bluetooth
+package com.robolancers.lancerscoutkotlin.bluetooth.fallback
 
 import android.bluetooth.BluetoothSocket
 import java.io.IOException

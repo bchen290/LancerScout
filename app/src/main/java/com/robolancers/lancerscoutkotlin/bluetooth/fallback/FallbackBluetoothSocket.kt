@@ -1,4 +1,4 @@
-package com.robolancers.lancerscoutkotlin.bluetooth
+package com.robolancers.lancerscoutkotlin.bluetooth.fallback
 
 import android.bluetooth.BluetoothSocket
 import java.io.IOException
@@ -38,7 +38,9 @@ class FallbackBluetoothSocket(tmp: BluetoothSocket) : NativeBluetoothSocket(tmp)
             val params = arrayOf<Any>(Integer.valueOf(1))
             fallbackSocket = m.invoke(tmp.remoteDevice, params) as BluetoothSocket
         } catch (e: Exception) {
-            throw FallbackException(e)
+            throw FallbackException(
+                e
+            )
         }
     }
 }

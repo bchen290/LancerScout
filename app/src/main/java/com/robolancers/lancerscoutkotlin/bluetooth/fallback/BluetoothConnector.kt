@@ -1,10 +1,9 @@
-package com.robolancers.lancerscoutkotlin.bluetooth
+package com.robolancers.lancerscoutkotlin.bluetooth.fallback
 
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothSocket
 import android.util.Log
-import com.robolancers.lancerscoutkotlin.MainActivity
 import java.io.IOException
 import java.util.*
 
@@ -24,7 +23,10 @@ class BluetoothConnector(private val bluetoothDevice: BluetoothDevice, private v
                 break
             } catch (e: IOException) {
                 try {
-                    bluetoothSocket = FallbackBluetoothSocket(bluetoothSocket.getUnderlyingSocket())
+                    bluetoothSocket =
+                        FallbackBluetoothSocket(
+                            bluetoothSocket.getUnderlyingSocket()
+                        )
                     Thread.sleep(500)
                     bluetoothSocket.connect()
                     success = true
@@ -62,7 +64,10 @@ class BluetoothConnector(private val bluetoothDevice: BluetoothDevice, private v
             bluetoothDevice.createInsecureRfcommSocketToServiceRecord(uuid)
         }
 
-        bluetoothSocket = NativeBluetoothSocket(tmp)
+        bluetoothSocket =
+            NativeBluetoothSocket(
+                tmp
+            )
 
         return true
     }

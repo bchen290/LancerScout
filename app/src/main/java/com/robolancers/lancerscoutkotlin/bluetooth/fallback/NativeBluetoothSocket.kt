@@ -1,12 +1,14 @@
-package com.robolancers.lancerscoutkotlin.bluetooth
+package com.robolancers.lancerscoutkotlin.bluetooth.fallback
 
 import android.bluetooth.BluetoothSocket
+import com.robolancers.lancerscoutkotlin.bluetooth.fallback.BluetoothSocketWrapper
 import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
 
 
-open class NativeBluetoothSocket(private val socket: BluetoothSocket) : BluetoothSocketWrapper {
+open class NativeBluetoothSocket(private val socket: BluetoothSocket) :
+    BluetoothSocketWrapper {
     @Throws(IOException::class)
     override fun getInputStream(): InputStream {
         return socket.inputStream
