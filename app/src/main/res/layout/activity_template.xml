@@ -2,6 +2,7 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/template_coordinator_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
@@ -27,10 +28,15 @@
                 android:text="@string/match_templates"
                 android:textSize="30sp" />
 
-            <ListView
-                android:id="@+id/match_template_list_view"
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="0dp" />
+                android:layout_height="1dp"
+                android:background="@android:color/white"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/match_template_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
         </LinearLayout>
 
         <LinearLayout
@@ -46,10 +52,15 @@
                 android:text="@string/pit_templates"
                 android:textSize="30sp" />
 
-            <ListView
-                android:id="@+id/pit_template_list_view"
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="0dp" />
+                android:layout_height="1dp"
+                android:background="@android:color/white"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/pit_template_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
         </LinearLayout>
     </LinearLayout>
     
@@ -57,6 +68,6 @@
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/baseline_add_black_24dp"
+        android:src="@drawable/add_black_24dp"
         android:layout_gravity="bottom|end"/>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

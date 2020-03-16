@@ -6,4 +6,5 @@
     <string name="pit_templates">Pit Templates</string>
     <string name="match_templates">Match Templates</string>
     <string name="templates">Templates</string>
+    <string name="reordering">Reordering</string>
 </resources>
