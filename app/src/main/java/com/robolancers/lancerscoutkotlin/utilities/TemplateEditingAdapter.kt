@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
@@ -32,6 +33,31 @@ class TemplateEditingAdapter<T: Any>(private val context: Context, private val t
         fun bind(templateModel: Note) {
             noteText.setText(templateModel.title)
             noteTitle.setText(templateModel.text)
+        }
+    }
+
+    inner class StopwatchHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+        private var stopwatchTitle = itemView.findViewById<EditText>(R.id.stopwatch_title)
+        private var stopwatchButton = itemView.findViewById<Button>(R.id.stopwatch_button)
+
+        private lateinit var stopWatchThread: StopwatchThread
+
+        @SuppressLint("SetTextI18n")
+        fun bind(templateModel: Stopwatch) {
+            stopwatchTitle.setText(templateModel.title)
+            stopwatchButton.text = "Start ${templateModel.time}"
+
+            stopwatchButton.setOnClickListener {
+                val stopwatchButtonText: String = stopwatchButton.text.toString()
+                val splitText = stopwatchButtonText.split(" ")
+
+                if (splitText[0] == "Start") {
+                    stopWatchThread = StopwatchThread(stopwatchButton, context)
+                    stopWatchThread.start()
+                } else if (splitText[0] == "Stop") {
+                    stopWatchThread.cancel = true
+                }
+            }
         }
     }
 
@@ -72,6 +98,10 @@ class TemplateEditingAdapter<T: Any>(private val context: Context, private val t
                 inflatedView = LayoutInflater.from(parent.context).inflate(R.layout.item_note, parent, false)
                 viewHolder = NoteHolder(inflatedView)
             }
+            VIEW_TYPE_STOPWATCH -> {
+                inflatedView = LayoutInflater.from(parent.context).inflate(R.layout.item_stopwatch, parent, false)
+                viewHolder = StopwatchHolder(inflatedView)
+            }
             else -> {
                 inflatedView = LayoutInflater.from(parent.context).inflate(R.layout.item_empty, parent, false)
                 viewHolder = EmptyHolder(inflatedView)
@@ -96,6 +126,7 @@ class TemplateEditingAdapter<T: Any>(private val context: Context, private val t
         when (holder.itemViewType) {
             VIEW_TYPE_HEADER -> (holder as HeaderHolder).bind(templateModels[position] as Header)
             VIEW_TYPE_NOTE -> (holder as NoteHolder).bind(templateModels[position] as Note)
+            VIEW_TYPE_STOPWATCH -> (holder as TemplateEditingAdapter<*>.StopwatchHolder).bind(templateModels[position] as Stopwatch)
         }
     }
 

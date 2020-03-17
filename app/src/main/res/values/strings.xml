@@ -10,4 +10,5 @@
     <string name="header_title">Header Title</string>
     <string name="note_title">Note Title</string>
     <string name="note_text">Note Text</string>
+    <string name="start_00_00">Start 00:00</string>
 </resources>

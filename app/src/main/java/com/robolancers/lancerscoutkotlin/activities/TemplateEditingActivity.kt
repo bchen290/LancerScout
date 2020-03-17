@@ -10,6 +10,7 @@ import com.robolancers.lancerscoutkotlin.R
 import com.robolancers.lancerscoutkotlin.fragments.TemplateModelChooserDialogFragment
 import com.robolancers.lancerscoutkotlin.models.template.Header
 import com.robolancers.lancerscoutkotlin.models.template.Note
+import com.robolancers.lancerscoutkotlin.models.template.Stopwatch
 import com.robolancers.lancerscoutkotlin.models.template.TemplateModel
 import com.robolancers.lancerscoutkotlin.utilities.ItemTouchHelperSimpleCallback
 import com.robolancers.lancerscoutkotlin.utilities.LancerDialogFragment
@@ -60,7 +61,7 @@ class TemplateEditingActivity : ToolbarActivity(), LancerDialogFragment.LancerDi
             "Note" -> templateEditingList.add(Note())
             "Counter" -> return
             "Item Selector" -> return
-            "Stopwatch" -> return
+            "Stopwatch" -> templateEditingList.add(Stopwatch())
             "Checkbox" -> return
         }
 
