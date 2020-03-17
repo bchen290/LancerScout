@@ -15,6 +15,13 @@
 
         <include layout="@layout/toolbar" />
 
+        <TextView
+            android:id="@+id/template_editing_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textSize="30sp"/>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/template_editing_list"
             android:scrollbars="vertical"
