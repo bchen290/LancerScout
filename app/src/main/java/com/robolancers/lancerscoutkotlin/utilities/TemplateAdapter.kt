@@ -17,10 +17,6 @@ import java.util.*
 class TemplateAdapter<T: Any>(private val context: Context, private val templates: MutableList<T>, private val isPit: Boolean) : LancerAdapter<T>(templates) {
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var textView: TextView = itemView.findViewById(R.id.list_content)
-
-        init {
-            textView.compoundDrawables
-        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
