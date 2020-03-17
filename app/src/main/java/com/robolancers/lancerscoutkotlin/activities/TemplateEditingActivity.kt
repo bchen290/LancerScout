@@ -55,16 +55,13 @@ class TemplateEditingActivity : ToolbarActivity(), LancerDialogFragment.LancerDi
 
     override fun onDialogClicked(vararg clickedItems: String) {
         when(clickedItems[0]) {
-            "Header" -> addHeader()
+            "Header" -> templateEditingList.add(Header())
         }
+
+        templateEditingAdapter.notifyItemInserted(templateEditingList.size - 1)
     }
 
     fun startDragging(viewHolder: RecyclerView.ViewHolder) {
         templateEditingHelper.startDrag(viewHolder)
-    }
-
-    private fun addHeader() {
-        templateEditingList.add(Header())
-        templateEditingAdapter.notifyItemInserted(templateEditingList.size - 1)
     }
 }

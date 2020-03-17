@@ -17,7 +17,7 @@ import com.robolancers.lancerscoutkotlin.models.template.*
 
 class TemplateEditingAdapter<T: Any>(private val context: Context, private val templateModels: MutableList<T>) : LancerAdapter<T>(templateModels) {
     class HeaderHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-        private var headerText: TextView = itemView.findViewById(R.id.header_text_view)
+        private var headerText: TextView = itemView.findViewById(R.id.header_title)
 
         fun bind(templateModel: Any) {
             headerText.text = (templateModel as Header).text
