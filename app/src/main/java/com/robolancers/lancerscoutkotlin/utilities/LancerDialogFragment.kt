@@ -8,7 +8,7 @@ abstract class LancerDialogFragment : DialogFragment() {
     lateinit var listener: LancerDialogListener
 
     interface LancerDialogListener {
-        fun onClick(vararg clickedItems: String)
+        fun onDialogClicked(vararg clickedItems: String)
     }
 
     override fun onAttach(context: Context) {

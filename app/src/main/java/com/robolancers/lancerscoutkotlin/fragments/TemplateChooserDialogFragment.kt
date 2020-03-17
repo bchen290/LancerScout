@@ -12,7 +12,7 @@ class TemplateChooserDialogFragment : LancerDialogFragment() {
             val arrayItem: Array<String> = arrayOf("Match Template", "Pit Template")
             builder.setTitle("Select the type of template")
                 .setItems(arrayItem) { _, which ->
-                listener.onClick(arrayItem[which])
+                listener.onDialogClicked(arrayItem[which])
             }
             builder.create()
         } ?: throw IllegalStateException("Activity cannot be null")

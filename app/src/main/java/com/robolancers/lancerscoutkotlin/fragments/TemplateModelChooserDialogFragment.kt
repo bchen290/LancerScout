@@ -12,7 +12,7 @@ class TemplateModelChooserDialogFragment : LancerDialogFragment() {
             val arrayItem: Array<String> = arrayOf("Checkbox", "Counter", "Header", "Item Selector", "Note", "Stopwatch")
             builder.setTitle("Select the type of template")
                 .setItems(arrayItem) { _, which ->
-                    listener.onClick(arrayItem[which])
+                    listener.onDialogClicked(arrayItem[which])
                 }
             builder.create()
         } ?: throw IllegalStateException("Activity cannot be null")

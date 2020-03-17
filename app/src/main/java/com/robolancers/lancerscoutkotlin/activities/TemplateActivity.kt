@@ -1,26 +1,34 @@
 package com.robolancers.lancerscoutkotlin.activities
 
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
+import android.content.Intent
 import android.os.Bundle
-import android.widget.ArrayAdapter
-import android.widget.ListView
-import androidx.fragment.app.DialogFragment
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.ItemTouchHelper.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.robolancers.lancerscoutkotlin.R
 import com.robolancers.lancerscoutkotlin.fragments.TemplateChooserDialogFragment
-import com.robolancers.lancerscoutkotlin.utilities.ItemTouchHelperSimpleCallback
-import com.robolancers.lancerscoutkotlin.utilities.LancerDialogFragment
-import com.robolancers.lancerscoutkotlin.utilities.TemplateAdapter
-import com.robolancers.lancerscoutkotlin.utilities.ToolbarActivity
-import kotlinx.android.synthetic.main.activity_template.*
+import com.robolancers.lancerscoutkotlin.utilities.*
 
 class TemplateActivity : ToolbarActivity(), LancerDialogFragment.LancerDialogListener {
+    inner class MatchTemplateListener : RecyclerViewOnClickListener<String> {
+        override fun onItemClicked(itemClicked: String) {
+            val intent = Intent(this@TemplateActivity, TemplateEditingActivity::class.java)
+            intent.putExtra("Type", "Match")
+            intent.putExtra("ItemClicked", itemClicked)
+            this@TemplateActivity.startActivity(intent)
+        }
+    }
+
+    inner class PitTemplateListener : RecyclerViewOnClickListener<String> {
+        override fun onItemClicked(itemClicked: String) {
+            val intent = Intent(this@TemplateActivity, TemplateEditingActivity::class.java)
+            intent.putExtra("Type", "Pit")
+            intent.putExtra("ItemClicked", itemClicked)
+            this@TemplateActivity.startActivity(intent)
+        }
+    }
+
     private var templateClicked = ""
     private var matchTemplates = mutableListOf("Default", "Match 1")
     private var pitTemplates = mutableListOf("Default", "TEST")
@@ -49,7 +57,7 @@ class TemplateActivity : ToolbarActivity(), LancerDialogFragment.LancerDialogLis
         }
 
         val matchTemplateManager = LinearLayoutManager(this)
-        matchAdapter = TemplateAdapter(this@TemplateActivity, matchTemplates, false)
+        matchAdapter = TemplateAdapter(this@TemplateActivity, MatchTemplateListener(), matchTemplates, false)
         val matchTemplateRecyclerView = findViewById<RecyclerView>(R.id.match_template_recycler_view).apply {
             layoutManager = matchTemplateManager
             adapter = matchAdapter
@@ -57,7 +65,7 @@ class TemplateActivity : ToolbarActivity(), LancerDialogFragment.LancerDialogLis
         matchItemTouchHelper.attachToRecyclerView(matchTemplateRecyclerView)
 
         val pitTemplateManager = LinearLayoutManager(this)
-        pitAdapter = TemplateAdapter(this@TemplateActivity, pitTemplates, true)
+        pitAdapter = TemplateAdapter(this@TemplateActivity, PitTemplateListener(), pitTemplates, true)
         val pitTemplateRecyclerView = findViewById<RecyclerView>(R.id.pit_template_recycler_view).apply {
             layoutManager = pitTemplateManager
             adapter = pitAdapter
@@ -65,7 +73,7 @@ class TemplateActivity : ToolbarActivity(), LancerDialogFragment.LancerDialogLis
         pitItemTouchHelper.attachToRecyclerView(pitTemplateRecyclerView)
     }
 
-    override fun onClick(vararg clickedItems: String) {
+    override fun onDialogClicked(vararg clickedItems: String) {
         templateClicked = clickedItems[0]
     }
 
@@ -75,6 +83,5 @@ class TemplateActivity : ToolbarActivity(), LancerDialogFragment.LancerDialogLis
         }else{
             matchItemTouchHelper.startDrag(viewHolder)
         }
-
     }
 }

@@ -40,7 +40,7 @@ class TemplateEditingActivity : AppCompatActivity(), LancerDialogFragment.Lancer
         templateEditingHelper.attachToRecyclerView(templateEditingRecyclerView)
     }
 
-    override fun onClick(vararg clickedItems: String) {
+    override fun onDialogClicked(vararg clickedItems: String) {
         TODO("Not yet implemented")
     }
 }

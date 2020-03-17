@@ -14,7 +14,7 @@ import com.robolancers.lancerscoutkotlin.activities.TemplateActivity
 import kotlinx.android.synthetic.main.list_item_white_text.view.*
 import java.util.*
 
-class TemplateAdapter<T: Any>(private val context: Context, private val templates: MutableList<T>, private val isPit: Boolean) : LancerAdapter<T>(templates) {
+class TemplateAdapter<T: Any>(private val context: Context, private val listener: RecyclerViewOnClickListener<T>, private val templates: MutableList<T>, private val isPit: Boolean) : LancerAdapter<T>(templates) {
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var textView: TextView = itemView.findViewById(R.id.list_content)
     }
@@ -39,7 +39,12 @@ class TemplateAdapter<T: Any>(private val context: Context, private val template
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        (holder as ViewHolder).textView.text = templates[position].toString()
+        if (holder is ViewHolder) {
+            holder.textView.text = templates[position].toString()
+            holder.itemView.setOnClickListener {
+                listener.onItemClicked(templates[position])
+            }
+        }
     }
 
     override fun showUndoSnackbar() {
