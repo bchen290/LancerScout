@@ -6,22 +6,22 @@
     android:orientation="horizontal">
 
     <EditText
-        android:id="@+id/note_note_name"
+        android:id="@+id/note_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:autofillHints="Header Title"
-        android:hint="@string/header"
+        android:autofillHints="text"
+        android:hint="@string/note_title"
         android:inputType="textMultiLine"
         android:textColor="@color/colorAccent"
         android:textSize="20sp"
         android:layout_weight="1" />
 
     <EditText
-        android:id="@+id/note_note_text"
+        android:id="@+id/note_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:autofillHints="Header Title"
-        android:hint="@string/header"
+        android:autofillHints="text"
+        android:hint="@string/note_text"
         android:inputType="textMultiLine"
         android:textColor="@color/colorAccent"
         android:textSize="20sp"

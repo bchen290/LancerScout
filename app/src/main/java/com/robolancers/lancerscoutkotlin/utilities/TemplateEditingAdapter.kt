@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -17,10 +18,20 @@ import com.robolancers.lancerscoutkotlin.models.template.*
 
 class TemplateEditingAdapter<T: Any>(private val context: Context, private val templateModels: MutableList<T>) : LancerAdapter<T>(templateModels) {
     class HeaderHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-        private var headerText: TextView = itemView.findViewById(R.id.header_title)
+        private var headerText = itemView.findViewById<EditText>(R.id.header_title)
 
-        fun bind(templateModel: Any) {
-            headerText.text = (templateModel as Header).text
+        fun bind(templateModel: Header) {
+            headerText.setText(templateModel.text)
+        }
+    }
+
+    class NoteHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+        private var noteTitle = itemView.findViewById<EditText>(R.id.note_title)
+        private var noteText = itemView.findViewById<EditText>(R.id.note_text)
+
+        fun bind(templateModel: Note) {
+            noteText.setText(templateModel.title)
+            noteTitle.setText(templateModel.text)
         }
     }
 
@@ -49,14 +60,22 @@ class TemplateEditingAdapter<T: Any>(private val context: Context, private val t
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val inflatedView = when(viewType) {
-            VIEW_TYPE_HEADER -> LayoutInflater.from(parent.context).inflate(R.layout.item_header, parent, false)
-            else -> LayoutInflater.from(parent.context).inflate(R.layout.item_empty, parent, false)
-        }
+        val inflatedView: View
+        val viewHolder: RecyclerView.ViewHolder
 
-        val viewHolder = when(viewType) {
-            VIEW_TYPE_HEADER -> HeaderHolder(inflatedView)
-            else -> EmptyHolder(inflatedView)
+        when(viewType) {
+            VIEW_TYPE_HEADER -> {
+                inflatedView = LayoutInflater.from(parent.context).inflate(R.layout.item_header, parent, false)
+                viewHolder = HeaderHolder(inflatedView)
+            }
+            VIEW_TYPE_NOTE -> {
+                inflatedView = LayoutInflater.from(parent.context).inflate(R.layout.item_note, parent, false)
+                viewHolder = NoteHolder(inflatedView)
+            }
+            else -> {
+                inflatedView = LayoutInflater.from(parent.context).inflate(R.layout.item_empty, parent, false)
+                viewHolder = EmptyHolder(inflatedView)
+            }
         }
 
         val handleView = inflatedView.findViewById<ImageView>(R.id.handle_view)
@@ -75,7 +94,8 @@ class TemplateEditingAdapter<T: Any>(private val context: Context, private val t
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder.itemViewType) {
-            VIEW_TYPE_HEADER -> (holder as HeaderHolder).bind(templateModels[position])
+            VIEW_TYPE_HEADER -> (holder as HeaderHolder).bind(templateModels[position] as Header)
+            VIEW_TYPE_NOTE -> (holder as NoteHolder).bind(templateModels[position] as Note)
         }
     }
 

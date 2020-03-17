@@ -8,4 +8,6 @@
     <string name="templates">Templates</string>
     <string name="reordering">Reordering</string>
     <string name="header_title">Header Title</string>
+    <string name="note_title">Note Title</string>
+    <string name="note_text">Note Text</string>
 </resources>

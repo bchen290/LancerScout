@@ -9,6 +9,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.robolancers.lancerscoutkotlin.R
 import com.robolancers.lancerscoutkotlin.fragments.TemplateModelChooserDialogFragment
 import com.robolancers.lancerscoutkotlin.models.template.Header
+import com.robolancers.lancerscoutkotlin.models.template.Note
 import com.robolancers.lancerscoutkotlin.models.template.TemplateModel
 import com.robolancers.lancerscoutkotlin.utilities.ItemTouchHelperSimpleCallback
 import com.robolancers.lancerscoutkotlin.utilities.LancerDialogFragment
@@ -56,6 +57,11 @@ class TemplateEditingActivity : ToolbarActivity(), LancerDialogFragment.LancerDi
     override fun onDialogClicked(vararg clickedItems: String) {
         when(clickedItems[0]) {
             "Header" -> templateEditingList.add(Header())
+            "Note" -> templateEditingList.add(Note())
+            "Counter" -> return
+            "Item Selector" -> return
+            "Stopwatch" -> return
+            "Checkbox" -> return
         }
 
         templateEditingAdapter.notifyItemInserted(templateEditingList.size - 1)
