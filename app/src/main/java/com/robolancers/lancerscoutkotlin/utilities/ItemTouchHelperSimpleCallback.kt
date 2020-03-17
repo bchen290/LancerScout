@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.ItemTouchHelper.ACTION_STATE_DRAG
 import androidx.recyclerview.widget.RecyclerView
 import com.robolancers.lancerscoutkotlin.R
 
-class ItemTouchHelperSimpleCallback(context: Context, val adapter: TemplateAdapter) {
+class ItemTouchHelperSimpleCallback<T: Any>(context: Context, val adapter: LancerAdapter<T>) {
     private val icon = ContextCompat.getDrawable(context, R.drawable.delete_white_24dp)
     private val background = ColorDrawable(Color.RED)
 
@@ -24,7 +24,6 @@ class ItemTouchHelperSimpleCallback(context: Context, val adapter: TemplateAdapt
             viewHolder: RecyclerView.ViewHolder,
             target: RecyclerView.ViewHolder
         ): Boolean {
-            val adapter = recyclerView.adapter as TemplateAdapter
             val from = viewHolder.adapterPosition
             val to = target.adapterPosition
 

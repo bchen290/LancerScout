@@ -1,14 +1,28 @@
 package com.robolancers.lancerscoutkotlin.utilities
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import com.robolancers.lancerscoutkotlin.R
+import com.robolancers.lancerscoutkotlin.activities.TemplateEditingActivity
 import com.robolancers.lancerscoutkotlin.models.template.*
 
-class TemplateEditingAdapter(private val templateModels: MutableList<TemplateModel>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class TemplateEditingAdapter<T: Any>(private val context: Context, private val templateModels: MutableList<T>) : LancerAdapter<T>(templateModels) {
+    class HeaderHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+        private var headerText: TextView = itemView.findViewById(R.id.header_text_view)
+
+        fun bind(templateModel: Any) {
+            headerText.text = (templateModel as Header).text
+        }
+    }
+
+    class EmptyHolder(itemView: View): RecyclerView.ViewHolder(itemView)
+
     companion object {
         const val VIEW_TYPE_CHECKBOX = 1
         const val VIEW_TYPE_COUNTER = 2
@@ -47,13 +61,14 @@ class TemplateEditingAdapter(private val templateModels: MutableList<TemplateMod
         return templateModels.size
     }
 
-    class HeaderHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-        var headerText: TextView = itemView.findViewById(R.id.header_text_view)
-
-        fun bind(templateModel: TemplateModel) {
-            headerText.text = (templateModel as Header).text
+    override fun showUndoSnackbar() {
+        if (context is TemplateEditingActivity) {
+            val view = context.findViewById<CoordinatorLayout>(R.id.template_coordinator_layout)
+            val snackbar = Snackbar.make(view, "Deleted", Snackbar.LENGTH_LONG)
+            snackbar.setAction("Undo") {
+                undoDelete()
+            }
+            snackbar.show()
         }
     }
-
-    class EmptyHolder(itemView: View): RecyclerView.ViewHolder(itemView)
 }

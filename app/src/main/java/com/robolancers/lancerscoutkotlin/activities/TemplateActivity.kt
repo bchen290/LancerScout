@@ -15,17 +15,18 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.robolancers.lancerscoutkotlin.R
 import com.robolancers.lancerscoutkotlin.fragments.TemplateChooserDialogFragment
 import com.robolancers.lancerscoutkotlin.utilities.ItemTouchHelperSimpleCallback
+import com.robolancers.lancerscoutkotlin.utilities.LancerDialogFragment
 import com.robolancers.lancerscoutkotlin.utilities.TemplateAdapter
 import com.robolancers.lancerscoutkotlin.utilities.ToolbarActivity
 import kotlinx.android.synthetic.main.activity_template.*
 
-class TemplateActivity : ToolbarActivity(), TemplateChooserDialogFragment.TemplateChooserListener {
+class TemplateActivity : ToolbarActivity(), LancerDialogFragment.LancerDialogListener {
     private var templateClicked = ""
     private var matchTemplates = mutableListOf("Default", "Match 1")
     private var pitTemplates = mutableListOf("Default", "TEST")
 
-    private lateinit var matchAdapter: TemplateAdapter
-    private lateinit var pitAdapter: TemplateAdapter
+    private lateinit var matchAdapter: TemplateAdapter<String>
+    private lateinit var pitAdapter: TemplateAdapter<String>
 
     private val matchItemTouchHelper by lazy {
         ItemTouchHelper(ItemTouchHelperSimpleCallback(applicationContext, matchAdapter).simpleItemCallback)
@@ -64,8 +65,8 @@ class TemplateActivity : ToolbarActivity(), TemplateChooserDialogFragment.Templa
         pitItemTouchHelper.attachToRecyclerView(pitTemplateRecyclerView)
     }
 
-    override fun onClick(clickedItem: String) {
-        templateClicked = clickedItem
+    override fun onClick(vararg clickedItems: String) {
+        templateClicked = clickedItems[0]
     }
 
     fun startDragging(viewHolder: RecyclerView.ViewHolder, isPit: Boolean) {
