@@ -12,7 +12,6 @@ import com.google.android.material.snackbar.Snackbar
 import com.robolancers.lancerscoutkotlin.R
 import com.robolancers.lancerscoutkotlin.activities.TemplateActivity
 import kotlinx.android.synthetic.main.list_item_white_text.view.*
-import java.util.*
 
 class TemplateAdapter<T: Any>(private val context: Context, private val listener: RecyclerViewOnClickListener<T>, private val templates: MutableList<T>, private val isPit: Boolean) : LancerAdapter<T>(templates) {
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

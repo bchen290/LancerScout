@@ -7,4 +7,5 @@
     <string name="match_templates">Match Templates</string>
     <string name="templates">Templates</string>
     <string name="reordering">Reordering</string>
+    <string name="header">Header</string>
 </resources>

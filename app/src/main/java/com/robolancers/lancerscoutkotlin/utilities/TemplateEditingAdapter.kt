@@ -1,9 +1,12 @@
 package com.robolancers.lancerscoutkotlin.utilities
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.recyclerview.widget.RecyclerView
@@ -44,11 +47,30 @@ class TemplateEditingAdapter<T: Any>(private val context: Context, private val t
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return when(viewType) {
-            VIEW_TYPE_HEADER -> HeaderHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_header, parent, false))
-            else -> EmptyHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_empty, parent, false))
+        val inflatedView = when(viewType) {
+            VIEW_TYPE_HEADER -> LayoutInflater.from(parent.context).inflate(R.layout.item_header, parent, false)
+            else -> LayoutInflater.from(parent.context).inflate(R.layout.item_empty, parent, false)
         }
+
+        val viewHolder = when(viewType) {
+            VIEW_TYPE_HEADER -> HeaderHolder(inflatedView)
+            else -> EmptyHolder(inflatedView)
+        }
+
+        val handleView = inflatedView.findViewById<ImageView>(R.id.handle_view)
+        handleView.setOnTouchListener { _, event ->
+            if (event.actionMasked == MotionEvent.ACTION_DOWN) {
+                if (context is TemplateEditingActivity) {
+                    context.startDragging(viewHolder)
+                }
+            }
+
+            return@setOnTouchListener true
+        }
+
+        return viewHolder
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -63,7 +85,7 @@ class TemplateEditingAdapter<T: Any>(private val context: Context, private val t
 
     override fun showUndoSnackbar() {
         if (context is TemplateEditingActivity) {
-            val view = context.findViewById<CoordinatorLayout>(R.id.template_coordinator_layout)
+            val view = context.findViewById<CoordinatorLayout>(R.id.template_editing_coordinator_layout)
             val snackbar = Snackbar.make(view, "Deleted", Snackbar.LENGTH_LONG)
             snackbar.setAction("Undo") {
                 undoDelete()

@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.robolancers.lancerscoutkotlin.R
 import com.robolancers.lancerscoutkotlin.fragments.TemplateModelChooserDialogFragment
+import com.robolancers.lancerscoutkotlin.models.template.Header
 import com.robolancers.lancerscoutkotlin.models.template.TemplateModel
 import com.robolancers.lancerscoutkotlin.utilities.ItemTouchHelperSimpleCallback
 import com.robolancers.lancerscoutkotlin.utilities.LancerDialogFragment
@@ -44,7 +45,7 @@ class TemplateEditingActivity : ToolbarActivity(), LancerDialogFragment.LancerDi
             newFragment.show(supportFragmentManager, "templateModelChooser")
         }
         
-        templateEditingAdapter = TemplateEditingAdapter(this, templateEditingList)
+        templateEditingAdapter = TemplateEditingAdapter(this@TemplateEditingActivity, templateEditingList)
         templateEditingRecyclerView = findViewById<RecyclerView>(R.id.template_editing_list).apply {
             layoutManager = LinearLayoutManager(this@TemplateEditingActivity)
             adapter = templateEditingAdapter
@@ -53,6 +54,17 @@ class TemplateEditingActivity : ToolbarActivity(), LancerDialogFragment.LancerDi
     }
 
     override fun onDialogClicked(vararg clickedItems: String) {
-        TODO("Not yet implemented")
+        when(clickedItems[0]) {
+            "Header" -> addHeader()
+        }
+    }
+
+    fun startDragging(viewHolder: RecyclerView.ViewHolder) {
+        templateEditingHelper.startDrag(viewHolder)
+    }
+
+    private fun addHeader() {
+        templateEditingList.add(Header())
+        templateEditingAdapter.notifyItemInserted(templateEditingList.size - 1)
     }
 }
