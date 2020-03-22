@@ -8,10 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.robolancers.lancerscoutkotlin.R
 import com.robolancers.lancerscoutkotlin.fragments.TemplateModelChooserDialogFragment
-import com.robolancers.lancerscoutkotlin.models.template.Header
-import com.robolancers.lancerscoutkotlin.models.template.Note
-import com.robolancers.lancerscoutkotlin.models.template.Stopwatch
-import com.robolancers.lancerscoutkotlin.models.template.TemplateModel
+import com.robolancers.lancerscoutkotlin.models.template.*
 import com.robolancers.lancerscoutkotlin.utilities.ItemTouchHelperSimpleCallback
 import com.robolancers.lancerscoutkotlin.utilities.LancerDialogFragment
 import com.robolancers.lancerscoutkotlin.utilities.TemplateEditingAdapter
@@ -59,10 +56,10 @@ class TemplateEditingActivity : ToolbarActivity(), LancerDialogFragment.LancerDi
         when(clickedItems[0]) {
             "Header" -> templateEditingList.add(Header())
             "Note" -> templateEditingList.add(Note())
-            "Counter" -> return
-            "Item Selector" -> return
+            "Counter" -> templateEditingList.add(Counter())
+            "Item Selector" -> templateEditingList.add(ItemSelector())
             "Stopwatch" -> templateEditingList.add(Stopwatch())
-            "Checkbox" -> return
+            "Checkbox" -> templateEditingList.add(Checkbox())
         }
 
         templateEditingAdapter.notifyItemInserted(templateEditingList.size - 1)
