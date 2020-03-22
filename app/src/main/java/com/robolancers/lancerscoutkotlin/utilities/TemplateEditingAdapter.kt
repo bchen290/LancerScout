@@ -6,10 +6,7 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
@@ -61,6 +58,32 @@ class TemplateEditingAdapter<T: Any>(private val context: Context, private val t
         }
     }
 
+    class CounterHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+        private var counterTitle = itemView.findViewById<EditText>(R.id.counter_title)
+        private var counterPlusButton = itemView.findViewById<Button>(R.id.counter_plus)
+        private var counterMinusButton = itemView.findViewById<Button>(R.id.counter_minus)
+        private var counterCount = itemView.findViewById<EditText>(R.id.counter_count)
+        private var counterUnit = itemView.findViewById<EditText>(R.id.counter_unit)
+
+        fun bind(templateModel: Counter) {
+            counterTitle.setText(templateModel.title)
+            counterCount.setText(templateModel.count.toString())
+            counterUnit.setText(templateModel.unit)
+
+            counterMinusButton.setOnClickListener {
+                var count = counterCount.text.toString().toInt()
+                count -= 1
+                counterCount.setText(count.toString())
+            }
+
+            counterPlusButton.setOnClickListener {
+                var count = counterCount.text.toString().toInt()
+                count += 1
+                counterCount.setText(count.toString())
+            }
+        }
+    }
+
     class EmptyHolder(itemView: View): RecyclerView.ViewHolder(itemView)
 
     companion object {
@@ -102,6 +125,10 @@ class TemplateEditingAdapter<T: Any>(private val context: Context, private val t
                 inflatedView = LayoutInflater.from(parent.context).inflate(R.layout.item_stopwatch, parent, false)
                 viewHolder = StopwatchHolder(inflatedView)
             }
+            VIEW_TYPE_COUNTER -> {
+                inflatedView = LayoutInflater.from(parent.context).inflate(R.layout.item_counter, parent, false)
+                viewHolder = CounterHolder(inflatedView)
+            }
             else -> {
                 inflatedView = LayoutInflater.from(parent.context).inflate(R.layout.item_empty, parent, false)
                 viewHolder = EmptyHolder(inflatedView)
@@ -127,6 +154,7 @@ class TemplateEditingAdapter<T: Any>(private val context: Context, private val t
             VIEW_TYPE_HEADER -> (holder as HeaderHolder).bind(templateModels[position] as Header)
             VIEW_TYPE_NOTE -> (holder as NoteHolder).bind(templateModels[position] as Note)
             VIEW_TYPE_STOPWATCH -> (holder as TemplateEditingAdapter<*>.StopwatchHolder).bind(templateModels[position] as Stopwatch)
+            VIEW_TYPE_COUNTER -> (holder as CounterHolder).bind(templateModels[position] as Counter)
         }
     }
 

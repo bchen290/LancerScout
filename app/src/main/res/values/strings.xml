@@ -11,4 +11,10 @@
     <string name="note_title">Note Title</string>
     <string name="note_text">Note Text</string>
     <string name="start_00_00">Start 00:00</string>
+    <string name="counter_title">Counter title</string>
+    <string name="plus">+</string>
+    <string name="minus">-</string>
+    <string name="counter">Counter</string>
+    <string name="unit">Unit</string>
+    <string name="_0">0</string>
 </resources>

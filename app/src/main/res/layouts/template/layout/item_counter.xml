@@ -1,6 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <EditText
+        android:id="@+id/counter_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:autofillHints="text"
+        android:hint="@string/counter_title"
+        android:inputType="textMultiLine"
+        android:textColor="@color/colorAccent"
+        android:textSize="20sp"
+        android:layout_weight="1" />
+
+    <Button
+        android:id="@+id/counter_minus"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:text="@string/minus"
+        android:textColor="@android:color/black"/>
+
+    <EditText
+        android:id="@+id/counter_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/_0"
+        android:hint="@string/_0"
+        android:textColor="@color/colorAccent"
+        android:autofillHints=""
+        android:textSize="20sp"
+        android:inputType="number" />
+
+    <EditText
+        android:id="@+id/counter_unit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:autofillHints="text"
+        android:hint="@string/unit"
+        android:inputType="number"
+        android:textColor="@color/colorAccent"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/counter_plus"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:text="@string/plus"
+        android:textColor="@android:color/black"/>
+
+    <include
+        android:id="@+id/handle_view"
+        layout="@layout/list_item_handle" />
+</LinearLayout>
