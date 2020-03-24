@@ -21,6 +21,7 @@
             android:hint="@string/item_selector_title"
             android:inputType="text"
             android:autofillHints="@string/item_selector_title"
+            android:textSize="20sp"
             android:layout_weight="1"/>
 
         <Button
