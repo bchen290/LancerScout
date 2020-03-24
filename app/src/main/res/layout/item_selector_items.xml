@@ -6,6 +6,10 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal">
 
+    <include
+        layout="@layout/list_item_handle"
+        android:id="@+id/handle_view" />
+
     <ImageButton
         android:id="@+id/item_selector_item_button"
         android:layout_width="wrap_content"
@@ -25,8 +29,4 @@
         android:importantForAutofill="no"
         android:inputType="text"
         android:hint="@string/item_title"/>
-
-    <include
-        layout="@layout/list_item_handle"
-        android:id="@+id/handle_view" />
 </LinearLayout>

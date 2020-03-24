@@ -10,6 +10,10 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
 
+        <include
+            android:id="@+id/handle_view"
+            layout="@layout/list_item_handle" />
+
         <EditText
             android:id="@+id/item_selector_title"
             android:layout_width="0dp"
@@ -25,10 +29,6 @@
             android:layout_height="wrap_content"
             android:text="@string/plus"
             android:textColor="@android:color/black"/>
-
-        <include
-            android:id="@+id/handle_view"
-            layout="@layout/list_item_handle" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView

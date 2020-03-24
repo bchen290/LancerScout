@@ -4,6 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+    <include
+        android:id="@+id/handle_view"
+        layout="@layout/list_item_handle" />
+
     <EditText
         android:id="@+id/counter_title"
         android:layout_width="0dp"
@@ -49,8 +53,4 @@
         android:layout_height="wrap_content"
         android:text="@string/plus"
         android:textColor="@android:color/black"/>
-
-    <include
-        android:id="@+id/handle_view"
-        layout="@layout/list_item_handle" />
 </LinearLayout>

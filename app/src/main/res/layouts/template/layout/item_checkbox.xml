@@ -4,6 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+    <include
+        android:id="@+id/handle_view"
+        layout="@layout/list_item_handle" />
+
     <CheckBox
         android:id="@+id/checkbox"
         android:layout_width="wrap_content"
@@ -18,8 +22,4 @@
         android:inputType="text"
         android:textSize="20sp"
         android:hint="@string/checkbox_title"/>
-
-    <include
-        android:id="@+id/handle_view"
-        layout="@layout/list_item_handle" />
 </LinearLayout>

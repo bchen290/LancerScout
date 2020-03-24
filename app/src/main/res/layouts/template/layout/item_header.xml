@@ -5,6 +5,10 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal">
 
+    <include
+        android:id="@+id/handle_view"
+        layout="@layout/list_item_handle" />
+
     <EditText
         android:id="@+id/header_title"
         android:layout_width="0dp"
@@ -15,8 +19,4 @@
         android:textColor="@color/colorAccent"
         android:textSize="20sp"
         android:layout_weight="1" />
-
-    <include
-        android:id="@+id/handle_view"
-        layout="@layout/list_item_handle" />
 </LinearLayout>
