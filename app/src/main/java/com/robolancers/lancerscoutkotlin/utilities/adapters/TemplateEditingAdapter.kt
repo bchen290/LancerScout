@@ -2,6 +2,7 @@ package com.robolancers.lancerscoutkotlin.utilities.adapters
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -54,14 +55,14 @@ class TemplateEditingAdapter<T: Any>(private val context: Context, private val t
                 val splitText = stopwatchButtonText.split(" ")
 
                 if (splitText[0] == "Start") {
-                    stopWatchThread =
-                        StopwatchThread(
-                            stopwatchButton,
-                            context
-                        )
+                    stopWatchThread = StopwatchThread(stopwatchButton, context)
                     stopWatchThread.start()
+
+                    stopwatchButton.setBackgroundColor(Color.RED)
                 } else if (splitText[0] == "Stop") {
                     stopWatchThread.cancel = true
+
+                    stopwatchButton.setBackgroundColor(Color.GREEN)
                 }
             }
         }

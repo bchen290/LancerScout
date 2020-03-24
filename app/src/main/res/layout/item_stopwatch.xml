@@ -22,5 +22,6 @@
         android:id="@+id/stopwatch_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/start_00_00"/>
+        android:text="@string/start_00_00"
+        android:background="#00FF00"/>
 </LinearLayout>
