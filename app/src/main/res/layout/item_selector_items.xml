@@ -6,10 +6,6 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal">
 
-    <include
-        layout="@layout/list_item_handle"
-        android:id="@+id/handle_view" />
-
     <ImageButton
         android:id="@+id/item_selector_item_button"
         android:layout_width="wrap_content"
@@ -17,6 +13,10 @@
         android:src="@drawable/check_box_outline_blank_white_18dp"
         android:contentDescription="@string/item_title"
         android:visibility="invisible"/>
+
+    <include
+        layout="@layout/list_item_handle"
+        android:id="@+id/handle_view" />
 
     <EditText
         android:id="@+id/item_selector_item_title"
