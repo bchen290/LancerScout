@@ -12,7 +12,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:autofillHints="text"
-        android:hint="@string/note_title"
+        android:hint="@string/stopwatch_title"
         android:inputType="textMultiLine"
         android:textColor="@color/colorAccent"
         android:textSize="20sp"
