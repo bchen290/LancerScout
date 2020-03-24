@@ -19,4 +19,5 @@
     <string name="_0">0</string>
     <string name="item_selector_title">Item Selector Title</string>
     <string name="item_title">Item Title</string>
+    <string name="checkbox_title">Checkbox Title</string>
 </resources>

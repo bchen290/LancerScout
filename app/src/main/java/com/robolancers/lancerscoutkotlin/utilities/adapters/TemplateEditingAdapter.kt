@@ -129,6 +129,16 @@ class TemplateEditingAdapter<T: Any>(private val context: Context, private val t
         }
     }
 
+    class CheckboxHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+        private val checkbox = itemView.findViewById<CheckBox>(R.id.checkbox)
+        private val checkboxEditText = itemView.findViewById<EditText>(R.id.checkbox_title)
+
+        fun bind(templateModel: Checkbox) {
+            checkbox.isChecked = templateModel.checkedState
+            checkboxEditText.setText(templateModel.title)
+        }
+    }
+
     class EmptyHolder(itemView: View): RecyclerView.ViewHolder(itemView)
 
     private val viewPool = RecyclerView.RecycledViewPool()
@@ -180,6 +190,10 @@ class TemplateEditingAdapter<T: Any>(private val context: Context, private val t
                 inflatedView = LayoutInflater.from(parent.context).inflate(R.layout.item_selector, parent, false)
                 viewHolder = ItemSelectorHolder(inflatedView)
             }
+            VIEW_TYPE_CHECKBOX -> {
+                inflatedView = LayoutInflater.from(parent.context).inflate(R.layout.item_checkbox, parent, false)
+                viewHolder = CheckboxHolder(inflatedView)
+            }
             else -> {
                 inflatedView = LayoutInflater.from(parent.context).inflate(R.layout.item_empty, parent, false)
                 viewHolder = EmptyHolder(inflatedView)
@@ -207,6 +221,7 @@ class TemplateEditingAdapter<T: Any>(private val context: Context, private val t
             VIEW_TYPE_STOPWATCH -> (holder as TemplateEditingAdapter<*>.StopwatchHolder).bind(templateModels[position] as Stopwatch)
             VIEW_TYPE_COUNTER -> (holder as CounterHolder).bind(templateModels[position] as Counter)
             VIEW_TYPE_ITEM_SELECTOR -> (holder as TemplateEditingAdapter<*>.ItemSelectorHolder).bind(templateModels[position] as ItemSelector)
+            VIEW_TYPE_CHECKBOX -> (holder as CheckboxHolder).bind(templateModels[position] as Checkbox)
         }
     }
 
