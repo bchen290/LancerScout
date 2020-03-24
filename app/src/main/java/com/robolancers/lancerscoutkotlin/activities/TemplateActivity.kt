@@ -9,6 +9,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.robolancers.lancerscoutkotlin.R
 import com.robolancers.lancerscoutkotlin.fragments.TemplateChooserDialogFragment
 import com.robolancers.lancerscoutkotlin.utilities.*
+import com.robolancers.lancerscoutkotlin.utilities.adapters.TemplateAdapter
 
 class TemplateActivity : ToolbarActivity(), LancerDialogFragment.LancerDialogListener {
     inner class MatchTemplateListener : RecyclerViewOnClickListener<String> {
@@ -57,7 +58,13 @@ class TemplateActivity : ToolbarActivity(), LancerDialogFragment.LancerDialogLis
         }
 
         val matchTemplateManager = LinearLayoutManager(this)
-        matchAdapter = TemplateAdapter(this@TemplateActivity, MatchTemplateListener(), matchTemplates, false)
+        matchAdapter =
+            TemplateAdapter(
+                this@TemplateActivity,
+                MatchTemplateListener(),
+                matchTemplates,
+                false
+            )
         val matchTemplateRecyclerView = findViewById<RecyclerView>(R.id.match_template_recycler_view).apply {
             layoutManager = matchTemplateManager
             adapter = matchAdapter
@@ -65,7 +72,13 @@ class TemplateActivity : ToolbarActivity(), LancerDialogFragment.LancerDialogLis
         matchItemTouchHelper.attachToRecyclerView(matchTemplateRecyclerView)
 
         val pitTemplateManager = LinearLayoutManager(this)
-        pitAdapter = TemplateAdapter(this@TemplateActivity, PitTemplateListener(), pitTemplates, true)
+        pitAdapter =
+            TemplateAdapter(
+                this@TemplateActivity,
+                PitTemplateListener(),
+                pitTemplates,
+                true
+            )
         val pitTemplateRecyclerView = findViewById<RecyclerView>(R.id.pit_template_recycler_view).apply {
             layoutManager = pitTemplateManager
             adapter = pitAdapter

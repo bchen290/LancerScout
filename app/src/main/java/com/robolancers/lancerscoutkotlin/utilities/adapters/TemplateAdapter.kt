@@ -1,4 +1,4 @@
-package com.robolancers.lancerscoutkotlin.utilities
+package com.robolancers.lancerscoutkotlin.utilities.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.robolancers.lancerscoutkotlin.R
 import com.robolancers.lancerscoutkotlin.activities.TemplateActivity
+import com.robolancers.lancerscoutkotlin.utilities.RecyclerViewOnClickListener
 import kotlinx.android.synthetic.main.list_item_white_text.view.*
 
 class TemplateAdapter<T: Any>(private val context: Context, private val listener: RecyclerViewOnClickListener<T>, private val templates: MutableList<T>, private val isPit: Boolean) : LancerAdapter<T>(templates) {
@@ -19,7 +20,12 @@ class TemplateAdapter<T: Any>(private val context: Context, private val listener
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val viewHolder = ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.list_item_white_text, parent, false))
+        val viewHolder =
+            ViewHolder(
+                LayoutInflater.from(parent.context)
+                    .inflate(R.layout.list_item_white_text, parent, false)
+            )
+
         viewHolder.itemView.handle_view.setOnTouchListener { _, event ->
             if (event.actionMasked == MotionEvent.ACTION_DOWN) {
                 if (context is TemplateActivity) {

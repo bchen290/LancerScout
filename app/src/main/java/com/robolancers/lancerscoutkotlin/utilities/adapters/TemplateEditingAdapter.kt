@@ -1,4 +1,4 @@
-package com.robolancers.lancerscoutkotlin.utilities
+package com.robolancers.lancerscoutkotlin.utilities.adapters
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -8,11 +8,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.robolancers.lancerscoutkotlin.R
 import com.robolancers.lancerscoutkotlin.activities.TemplateEditingActivity
 import com.robolancers.lancerscoutkotlin.models.template.*
+import com.robolancers.lancerscoutkotlin.utilities.ItemTouchHelperSimpleCallback
+import com.robolancers.lancerscoutkotlin.utilities.ItemTouchHelperSimpleCallbackNoSwipe
+import com.robolancers.lancerscoutkotlin.utilities.StopwatchThread
 
 class TemplateEditingAdapter<T: Any>(private val context: Context, private val templateModels: MutableList<T>) : LancerAdapter<T>(templateModels) {
     class HeaderHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
@@ -49,7 +54,11 @@ class TemplateEditingAdapter<T: Any>(private val context: Context, private val t
                 val splitText = stopwatchButtonText.split(" ")
 
                 if (splitText[0] == "Start") {
-                    stopWatchThread = StopwatchThread(stopwatchButton, context)
+                    stopWatchThread =
+                        StopwatchThread(
+                            stopwatchButton,
+                            context
+                        )
                     stopWatchThread.start()
                 } else if (splitText[0] == "Stop") {
                     stopWatchThread.cancel = true
@@ -84,7 +93,45 @@ class TemplateEditingAdapter<T: Any>(private val context: Context, private val t
         }
     }
 
+    inner class ItemSelectorHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+        private var itemSelectorTitle = itemView.findViewById<EditText>(R.id.item_selector_title)
+        private var itemSelectorAdd = itemView.findViewById<Button>(R.id.item_selector_add)
+        private var itemSelectorRecyclerView = itemView.findViewById<RecyclerView>(R.id.item_selector_list)
+
+        private var itemSelectorItems = mutableListOf<ItemSelectorItem>()
+
+        private var itemSelectorAdapter = ItemSelectorAdapter(itemSelectorRecyclerView.context, itemSelectorItems, this)
+        private var itemSelectorItemTouchHelper = ItemTouchHelper(ItemTouchHelperSimpleCallbackNoSwipe(itemSelectorRecyclerView.context, itemSelectorAdapter).simpleItemCallback)
+        private val itemSelectorLinearLayoutManager = LinearLayoutManager(itemSelectorRecyclerView.context, RecyclerView.VERTICAL, false)
+
+        fun bind(templateModel: ItemSelector) {
+            itemSelectorTitle.setText(templateModel.title)
+            itemSelectorItems.addAll(templateModel.list)
+            itemSelectorAdapter.notifyDataSetChanged()
+
+            itemSelectorAdd.setOnClickListener {
+                itemSelectorItems.add(ItemSelectorItem(""))
+                itemSelectorAdapter.notifyItemInserted(templateModel.list.size - 1)
+            }
+
+            itemSelectorRecyclerView.apply {
+                layoutManager = itemSelectorLinearLayoutManager
+                adapter = itemSelectorAdapter
+                setRecycledViewPool(viewPool)
+            }
+
+
+            itemSelectorItemTouchHelper.attachToRecyclerView(itemSelectorRecyclerView)
+        }
+
+        fun startDragging(viewHolder: RecyclerView.ViewHolder) {
+            itemSelectorItemTouchHelper.startDrag(viewHolder)
+        }
+    }
+
     class EmptyHolder(itemView: View): RecyclerView.ViewHolder(itemView)
+
+    private val viewPool = RecyclerView.RecycledViewPool()
 
     companion object {
         const val VIEW_TYPE_CHECKBOX = 1
@@ -129,6 +176,10 @@ class TemplateEditingAdapter<T: Any>(private val context: Context, private val t
                 inflatedView = LayoutInflater.from(parent.context).inflate(R.layout.item_counter, parent, false)
                 viewHolder = CounterHolder(inflatedView)
             }
+            VIEW_TYPE_ITEM_SELECTOR -> {
+                inflatedView = LayoutInflater.from(parent.context).inflate(R.layout.item_selector, parent, false)
+                viewHolder = ItemSelectorHolder(inflatedView)
+            }
             else -> {
                 inflatedView = LayoutInflater.from(parent.context).inflate(R.layout.item_empty, parent, false)
                 viewHolder = EmptyHolder(inflatedView)
@@ -155,6 +206,7 @@ class TemplateEditingAdapter<T: Any>(private val context: Context, private val t
             VIEW_TYPE_NOTE -> (holder as NoteHolder).bind(templateModels[position] as Note)
             VIEW_TYPE_STOPWATCH -> (holder as TemplateEditingAdapter<*>.StopwatchHolder).bind(templateModels[position] as Stopwatch)
             VIEW_TYPE_COUNTER -> (holder as CounterHolder).bind(templateModels[position] as Counter)
+            VIEW_TYPE_ITEM_SELECTOR -> (holder as TemplateEditingAdapter<*>.ItemSelectorHolder).bind(templateModels[position] as ItemSelector)
         }
     }
 

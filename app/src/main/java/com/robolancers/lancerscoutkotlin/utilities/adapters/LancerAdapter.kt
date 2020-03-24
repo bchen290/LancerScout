@@ -1,4 +1,4 @@
-package com.robolancers.lancerscoutkotlin.utilities
+package com.robolancers.lancerscoutkotlin.utilities.adapters
 
 import androidx.recyclerview.widget.RecyclerView
 import java.util.*
@@ -7,7 +7,7 @@ abstract class LancerAdapter<T: Any>(var list: MutableList<T>) : RecyclerView.Ad
     private lateinit var recentlyDeletedItem: T
     private var recentlyDeletedItemPosition: Int = 0
 
-    public fun moveItem(from: Int, to: Int){
+    fun moveItem(from: Int, to: Int){
         Collections.swap(list, from, to)
     }
 

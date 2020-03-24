@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <ImageButton
+        android:id="@+id/item_selector_item_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/check_box_outline_blank_white_18dp"
+        android:contentDescription="@string/item_title"
+        android:visibility="invisible"/>
+
+    <EditText
+        android:id="@+id/item_selector_item_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        android:layout_weight="1"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        android:hint="@string/item_title"/>
+
+    <include
+        layout="@layout/list_item_handle"
+        android:id="@+id/handle_view" />
+</LinearLayout>

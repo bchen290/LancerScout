@@ -1,6 +1,7 @@
 package com.robolancers.lancerscoutkotlin.activities
 
 import android.os.Bundle
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -11,7 +12,7 @@ import com.robolancers.lancerscoutkotlin.fragments.TemplateModelChooserDialogFra
 import com.robolancers.lancerscoutkotlin.models.template.*
 import com.robolancers.lancerscoutkotlin.utilities.ItemTouchHelperSimpleCallback
 import com.robolancers.lancerscoutkotlin.utilities.LancerDialogFragment
-import com.robolancers.lancerscoutkotlin.utilities.TemplateEditingAdapter
+import com.robolancers.lancerscoutkotlin.utilities.adapters.TemplateEditingAdapter
 import com.robolancers.lancerscoutkotlin.utilities.ToolbarActivity
 
 class TemplateEditingActivity : ToolbarActivity(), LancerDialogFragment.LancerDialogListener {
@@ -46,7 +47,7 @@ class TemplateEditingActivity : ToolbarActivity(), LancerDialogFragment.LancerDi
         
         templateEditingAdapter = TemplateEditingAdapter(this@TemplateEditingActivity, templateEditingList)
         templateEditingRecyclerView = findViewById<RecyclerView>(R.id.template_editing_list).apply {
-            layoutManager = LinearLayoutManager(this@TemplateEditingActivity)
+            layoutManager = LinearLayoutManager(this@TemplateEditingActivity, RecyclerView.VERTICAL, false)
             adapter = templateEditingAdapter
         }
         templateEditingHelper.attachToRecyclerView(templateEditingRecyclerView)

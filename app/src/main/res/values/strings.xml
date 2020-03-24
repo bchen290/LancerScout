@@ -17,4 +17,6 @@
     <string name="counter">Counter</string>
     <string name="unit">Unit</string>
     <string name="_0">0</string>
+    <string name="item_selector_title">Item Selector Title</string>
+    <string name="item_title">Item Title</string>
 </resources>
