@@ -21,4 +21,6 @@
     <string name="item_title">Item Title</string>
     <string name="checkbox_title">Checkbox Title</string>
     <string name="stopwatch_title">Stopwatch Title</string>
+    <string name="save">Save</string>
+    <string name="template_preferences">TEMPLATE_PREFERENCES</string>
 </resources>

@@ -1,12 +1,16 @@
 package com.robolancers.lancerscoutkotlin.activities
 
+import android.content.Context
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.gson.Gson
 import com.robolancers.lancerscoutkotlin.R
 import com.robolancers.lancerscoutkotlin.fragments.TemplateModelChooserDialogFragment
 import com.robolancers.lancerscoutkotlin.models.template.*
@@ -64,6 +68,25 @@ class TemplateEditingActivity : ToolbarActivity(), LancerDialogFragment.LancerDi
         }
 
         templateEditingAdapter.notifyItemInserted(templateEditingList.size - 1)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.item_editing_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId) {
+            R.id.item_editing_save -> {
+                val sharedPreferences = getSharedPreferences(getString(R.string.template_preferences), Context.MODE_PRIVATE)
+                with (sharedPreferences.edit()) {
+                    putString("$templateType-$templateName", Gson().toJson(templateEditingList))
+                    commit()
+                }
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     fun startDragging(viewHolder: RecyclerView.ViewHolder) {
