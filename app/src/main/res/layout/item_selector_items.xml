@@ -28,4 +28,12 @@
         android:importantForAutofill="no"
         android:inputType="text"
         android:hint="@string/item_title"/>
+
+    <ImageButton
+        android:id="@+id/item_selector_item_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/delete_white_24dp"
+        android:contentDescription="@string/delete"
+        android:background="@android:color/transparent"/>
 </LinearLayout>

@@ -23,4 +23,5 @@
     <string name="stopwatch_title">Stopwatch Title</string>
     <string name="save">Save</string>
     <string name="template_preferences">TEMPLATE_PREFERENCES</string>
+    <string name="delete">Delete</string>
 </resources>
