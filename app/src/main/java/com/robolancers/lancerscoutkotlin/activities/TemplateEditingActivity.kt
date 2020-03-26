@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import android.widget.TextView
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -42,13 +43,18 @@ class TemplateEditingActivity : ToolbarActivity(), LancerDialogFragment.LancerDi
         templateType = intent.getStringExtra("Type")
         templateName = intent.getStringExtra("ItemClicked")
 
-        val templateEditingTitle = findViewById<TextView>(R.id.template_editing_title)
-        templateEditingTitle.text = templateName
+        val templateEditingTitle = findViewById<EditText>(R.id.template_editing_title)
+        templateEditingTitle.setText(templateName)
+
+        templateEditingTitle.setOnFocusChangeListener { _, hasFocus ->
+            if(!hasFocus) {
+                templateName = templateEditingTitle.text.toString()
+            }
+        }
 
         val sharedPreferences = getSharedPreferences(getString(R.string.template_preferences), Context.MODE_PRIVATE)
 
         if (sharedPreferences.getString("$templateType-$templateName", "") != "") {
-            Log.e("TEST", sharedPreferences.getString("$templateType-$templateName", "")!!)
             templateEditingList = gson.fromJson(sharedPreferences.getString("$templateType-$templateName", "")!!)
         }
         

@@ -25,4 +25,5 @@
     <string name="template_preferences">TEMPLATE_PREFERENCES</string>
     <string name="delete">Delete</string>
     <string name="add">Add</string>
+    <string name="template_title">Template Title</string>
 </resources>
