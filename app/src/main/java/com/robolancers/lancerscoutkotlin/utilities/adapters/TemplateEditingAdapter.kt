@@ -3,7 +3,6 @@ package com.robolancers.lancerscoutkotlin.utilities.adapters
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -17,20 +16,21 @@ import com.google.android.material.snackbar.Snackbar
 import com.robolancers.lancerscoutkotlin.R
 import com.robolancers.lancerscoutkotlin.activities.TemplateEditingActivity
 import com.robolancers.lancerscoutkotlin.models.template.*
-import com.robolancers.lancerscoutkotlin.utilities.ItemTouchHelperSimpleCallback
 import com.robolancers.lancerscoutkotlin.utilities.ItemTouchHelperSimpleCallbackNoSwipe
 import com.robolancers.lancerscoutkotlin.utilities.StopwatchThread
 
 class TemplateEditingAdapter<T: Any>(private val context: Context, private val templateModels: MutableList<T>) : LancerAdapter<T>(templateModels) {
     class HeaderHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-        private var headerText = itemView.findViewById<EditText>(R.id.header_title).apply {
-            setOnFocusChangeListener { v, hasFocus ->
-                Log.e("TEST", "TEST")
-            }
-        }
+        private var headerText = itemView.findViewById<EditText>(R.id.header_title)
 
         fun bind(templateModel: Header) {
             headerText.setText(templateModel.text)
+
+            headerText.setOnFocusChangeListener { _, hasFocus ->
+                if(!hasFocus) {
+                    templateModel.text = headerText.text.toString()
+                }
+            }
         }
     }
 
@@ -39,8 +39,20 @@ class TemplateEditingAdapter<T: Any>(private val context: Context, private val t
         private var noteText = itemView.findViewById<EditText>(R.id.note_text)
 
         fun bind(templateModel: Note) {
-            noteText.setText(templateModel.title)
-            noteTitle.setText(templateModel.text)
+            noteTitle.setText(templateModel.title)
+            noteText.setText(templateModel.text)
+
+            noteTitle.setOnFocusChangeListener { _, hasFocus ->
+                if(!hasFocus) {
+                    templateModel.title = noteTitle.text.toString()
+                }
+            }
+
+            noteText.setOnFocusChangeListener { _, hasFocus ->
+                if(!hasFocus) {
+                    templateModel.text = noteText.text.toString()
+                }
+            }
         }
     }
 
@@ -68,6 +80,14 @@ class TemplateEditingAdapter<T: Any>(private val context: Context, private val t
                     stopWatchThread.cancel = true
 
                     stopwatchButton.setBackgroundColor(Color.GREEN)
+
+                    templateModel.time = splitText[1]
+                }
+            }
+
+            stopwatchTitle.setOnFocusChangeListener { _, hasFocus ->
+                if(!hasFocus) {
+                    templateModel.title = stopwatchTitle.text.toString()
                 }
             }
         }
@@ -89,12 +109,34 @@ class TemplateEditingAdapter<T: Any>(private val context: Context, private val t
                 var count = counterCount.text.toString().toInt()
                 count -= 1
                 counterCount.setText(count.toString())
+
+                templateModel.count = counterCount.text.toString().toInt()
             }
 
             counterPlusButton.setOnClickListener {
                 var count = counterCount.text.toString().toInt()
                 count += 1
                 counterCount.setText(count.toString())
+
+                templateModel.count = counterCount.text.toString().toInt()
+            }
+
+            counterTitle.setOnFocusChangeListener { _, hasFocus ->
+                if(!hasFocus) {
+                    templateModel.title = counterTitle.text.toString()
+                }
+            }
+
+            counterCount.setOnFocusChangeListener { _, hasFocus ->
+                if(!hasFocus) {
+                    templateModel.count = counterCount.text.toString().toInt()
+                }
+            }
+
+            counterUnit.setOnFocusChangeListener { _, hasFocus ->
+                if(!hasFocus) {
+                    templateModel.unit = counterUnit.text.toString()
+                }
             }
         }
     }
@@ -126,6 +168,11 @@ class TemplateEditingAdapter<T: Any>(private val context: Context, private val t
                 setRecycledViewPool(viewPool)
             }
 
+            itemSelectorTitle.setOnFocusChangeListener { _, hasFocus ->
+                if(!hasFocus) {
+                    templateModel.title = itemSelectorTitle.text.toString()
+                }
+            }
 
             itemSelectorItemTouchHelper.attachToRecyclerView(itemSelectorRecyclerView)
         }
@@ -137,11 +184,21 @@ class TemplateEditingAdapter<T: Any>(private val context: Context, private val t
 
     class CheckboxHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         private val checkbox = itemView.findViewById<CheckBox>(R.id.checkbox)
-        private val checkboxEditText = itemView.findViewById<EditText>(R.id.checkbox_title)
+        private val checkboxTitle = itemView.findViewById<EditText>(R.id.checkbox_title)
 
         fun bind(templateModel: Checkbox) {
             checkbox.isChecked = templateModel.checkedState
-            checkboxEditText.setText(templateModel.title)
+            checkboxTitle.setText(templateModel.title)
+
+            checkboxTitle.setOnFocusChangeListener { _, hasFocus ->
+                if(!hasFocus) {
+                    templateModel.title = checkboxTitle.text.toString()
+                }
+            }
+
+            checkbox.setOnClickListener {
+                templateModel.checkedState = checkbox.isChecked
+            }
         }
     }
 
