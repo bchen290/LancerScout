@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.LinearLayout
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
@@ -62,7 +63,7 @@ class ItemSelectorAdapter<T: Any>(private val context: Context, private val list
 
     override fun showUndoSnackbar() {
         if (context is TemplateEditingActivity) {
-            val view = context.findViewById<CoordinatorLayout>(R.id.template_editing_coordinator_layout)
+            val view = context.findViewById<LinearLayout>(R.id.template_editing_linear_layout)
             val snackbar = Snackbar.make(view, "Deleted", Snackbar.LENGTH_LONG)
             snackbar.setAction("Undo") {
                 undoDelete()

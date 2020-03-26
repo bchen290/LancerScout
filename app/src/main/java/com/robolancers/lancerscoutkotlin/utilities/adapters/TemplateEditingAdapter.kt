@@ -294,7 +294,7 @@ class TemplateEditingAdapter<T: Any>(private val context: Context, private val t
 
     override fun showUndoSnackbar() {
         if (context is TemplateEditingActivity) {
-            val view = context.findViewById<CoordinatorLayout>(R.id.template_editing_coordinator_layout)
+            val view = context.findViewById<LinearLayout>(R.id.template_editing_linear_layout)
             val snackbar = Snackbar.make(view, "Deleted", Snackbar.LENGTH_LONG)
             snackbar.setAction("Undo") {
                 undoDelete()

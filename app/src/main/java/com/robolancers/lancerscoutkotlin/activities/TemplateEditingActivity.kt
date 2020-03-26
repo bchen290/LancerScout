@@ -45,12 +45,6 @@ class TemplateEditingActivity : ToolbarActivity(), LancerDialogFragment.LancerDi
         val templateEditingTitle = findViewById<TextView>(R.id.template_editing_title)
         templateEditingTitle.text = templateName
 
-        val fab = findViewById<FloatingActionButton>(R.id.fab)
-        fab.setOnClickListener {
-            val newFragment = TemplateModelChooserDialogFragment()
-            newFragment.show(supportFragmentManager, "templateModelChooser")
-        }
-
         val sharedPreferences = getSharedPreferences(getString(R.string.template_preferences), Context.MODE_PRIVATE)
 
         if (sharedPreferences.getString("$templateType-$templateName", "") != "") {
@@ -94,6 +88,11 @@ class TemplateEditingActivity : ToolbarActivity(), LancerDialogFragment.LancerDi
         return when(item.itemId) {
             R.id.item_editing_save -> {
                 save()
+                true
+            }
+            R.id.item_editing_add -> {
+                val newFragment = TemplateModelChooserDialogFragment()
+                newFragment.show(supportFragmentManager, "templateModelChooser")
                 true
             }
             else -> super.onOptionsItemSelected(item)
