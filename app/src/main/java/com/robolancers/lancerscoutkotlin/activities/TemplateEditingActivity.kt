@@ -93,11 +93,7 @@ class TemplateEditingActivity : ToolbarActivity(), LancerDialogFragment.LancerDi
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId) {
             R.id.item_editing_save -> {
-                val sharedPreferences = getSharedPreferences(getString(R.string.template_preferences), Context.MODE_PRIVATE)
-                with (sharedPreferences.edit()) {
-                    putString("$templateType-$templateName", gson.toJson(templateEditingList, gsonTypeToken<MutableList<TemplateModel>>()))
-                    commit()
-                }
+                save()
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -108,7 +104,11 @@ class TemplateEditingActivity : ToolbarActivity(), LancerDialogFragment.LancerDi
         templateEditingHelper.startDrag(viewHolder)
     }
 
-    fun save() {
-
+    private fun save() {
+        val sharedPreferences = getSharedPreferences(getString(R.string.template_preferences), Context.MODE_PRIVATE)
+        with (sharedPreferences.edit()) {
+            putString("$templateType-$templateName", gson.toJson(templateEditingList, gsonTypeToken<MutableList<TemplateModel>>()))
+            commit()
+        }
     }
 }

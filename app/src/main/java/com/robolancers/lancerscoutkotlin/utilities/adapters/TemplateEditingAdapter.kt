@@ -3,6 +3,7 @@ package com.robolancers.lancerscoutkotlin.utilities.adapters
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -22,7 +23,11 @@ import com.robolancers.lancerscoutkotlin.utilities.StopwatchThread
 
 class TemplateEditingAdapter<T: Any>(private val context: Context, private val templateModels: MutableList<T>) : LancerAdapter<T>(templateModels) {
     class HeaderHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-        private var headerText = itemView.findViewById<EditText>(R.id.header_title)
+        private var headerText = itemView.findViewById<EditText>(R.id.header_title).apply {
+            setOnFocusChangeListener { v, hasFocus ->
+                Log.e("TEST", "TEST")
+            }
+        }
 
         fun bind(templateModel: Header) {
             headerText.setText(templateModel.text)
