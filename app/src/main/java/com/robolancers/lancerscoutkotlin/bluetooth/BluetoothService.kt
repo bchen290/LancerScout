@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import com.robolancers.lancerscoutkotlin.utilities.Constants
+import com.robolancers.lancerscoutkotlin.utilities.Util
 import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
