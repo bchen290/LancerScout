@@ -1,10 +1,12 @@
 package com.robolancers.lancerscoutkotlin.activities
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,10 +17,8 @@ import com.robolancers.lancerscoutkotlin.fragments.TemplateModelChooserDialogFra
 import com.robolancers.lancerscoutkotlin.models.template.*
 import com.robolancers.lancerscoutkotlin.utilities.adapters.TemplateEditingAdapter
 import com.github.salomonbrys.kotson.*
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
-import com.google.gson.reflect.TypeToken
 import com.robolancers.lancerscoutkotlin.utilities.*
+import com.robolancers.lancerscoutkotlin.utilities.Util.Companion.gson
 
 class TemplateEditingActivity : ToolbarActivity(), LancerDialogFragment.LancerDialogListener {
     private lateinit var templateEditingRecyclerView: RecyclerView
@@ -32,6 +32,7 @@ class TemplateEditingActivity : ToolbarActivity(), LancerDialogFragment.LancerDi
         ItemTouchHelper(ItemTouchHelperSimpleCallback(applicationContext, templateEditingAdapter).simpleItemCallback)
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_template_editing)
@@ -54,7 +55,7 @@ class TemplateEditingActivity : ToolbarActivity(), LancerDialogFragment.LancerDi
 
         if (sharedPreferences.getString("$templateType-$templateName", "") != "") {
             Log.e("TEST", sharedPreferences.getString("$templateType-$templateName", "")!!)
-            templateEditingList = Util.gson.fromJson(sharedPreferences.getString("$templateType-$templateName", "")!!)
+            templateEditingList = gson.fromJson(sharedPreferences.getString("$templateType-$templateName", "")!!)
         }
         
         templateEditingAdapter = TemplateEditingAdapter(this@TemplateEditingActivity, templateEditingList)
@@ -62,6 +63,12 @@ class TemplateEditingActivity : ToolbarActivity(), LancerDialogFragment.LancerDi
             layoutManager = LinearLayoutManager(this@TemplateEditingActivity, RecyclerView.VERTICAL, false)
             adapter = templateEditingAdapter
         }
+
+        templateEditingRecyclerView.setOnTouchListener { v, _ ->
+            (getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(v.windowToken, 0)
+            false
+        }
+
         templateEditingHelper.attachToRecyclerView(templateEditingRecyclerView)
     }
 
@@ -88,7 +95,7 @@ class TemplateEditingActivity : ToolbarActivity(), LancerDialogFragment.LancerDi
             R.id.item_editing_save -> {
                 val sharedPreferences = getSharedPreferences(getString(R.string.template_preferences), Context.MODE_PRIVATE)
                 with (sharedPreferences.edit()) {
-                    putString("$templateType-$templateName", Util.gson.toJson(templateEditingList, gsonTypeToken<MutableList<TemplateModel>>()))
+                    putString("$templateType-$templateName", gson.toJson(templateEditingList, gsonTypeToken<MutableList<TemplateModel>>()))
                     commit()
                 }
                 true
@@ -99,5 +106,9 @@ class TemplateEditingActivity : ToolbarActivity(), LancerDialogFragment.LancerDi
 
     fun startDragging(viewHolder: RecyclerView.ViewHolder) {
         templateEditingHelper.startDrag(viewHolder)
+    }
+
+    fun save() {
+
     }
 }
