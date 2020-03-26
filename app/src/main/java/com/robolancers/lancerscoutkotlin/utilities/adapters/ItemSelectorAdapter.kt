@@ -16,17 +16,16 @@ import com.robolancers.lancerscoutkotlin.models.template.ItemSelectorItem
 import kotlinx.android.synthetic.main.list_item_white_text.view.*
 
 class ItemSelectorAdapter<T: Any>(private val context: Context, private val listItems: MutableList<ItemSelectorItem>, private val itemSelectorHolder: TemplateEditingAdapter<T>.ItemSelectorHolder) : LancerAdapter<ItemSelectorItem>(listItems) {
-    private lateinit var checkedButton: ImageButton
-
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-        private val itemButton: ImageButton = itemView.findViewById(R.id.item_selector_item_button)
         private val itemTitle: EditText = itemView.findViewById(R.id.item_selector_item_title)
 
         fun bind(listItem: ItemSelectorItem) {
             itemTitle.setText(listItem.itemName)
 
-            itemButton.setOnClickListener {
-                checkedButton = itemButton
+            itemTitle.setOnFocusChangeListener { _, hasFocus ->
+                if(!hasFocus) {
+                    listItem.itemName = itemTitle.text.toString()
+                }
             }
         }
     }
