@@ -18,6 +18,7 @@ import kotlinx.android.synthetic.main.list_item_white_text.view.*
 class ItemSelectorAdapter<T: Any>(private val context: Context, private val listItems: MutableList<ItemSelectorItem>, private val itemSelectorHolder: TemplateEditingAdapter<T>.ItemSelectorHolder) : LancerAdapter<ItemSelectorItem>(listItems) {
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         private val itemTitle: EditText = itemView.findViewById(R.id.item_selector_item_title)
+        private val itemDelete: ImageButton = itemView.findViewById(R.id.item_selector_item_delete)
 
         fun bind(listItem: ItemSelectorItem) {
             itemTitle.setText(listItem.itemName)
@@ -26,6 +27,11 @@ class ItemSelectorAdapter<T: Any>(private val context: Context, private val list
                 if(!hasFocus) {
                     listItem.itemName = itemTitle.text.toString()
                 }
+            }
+
+            itemDelete.setOnClickListener {
+                listItems.removeAt(adapterPosition)
+                notifyItemRemoved(adapterPosition)
             }
         }
     }

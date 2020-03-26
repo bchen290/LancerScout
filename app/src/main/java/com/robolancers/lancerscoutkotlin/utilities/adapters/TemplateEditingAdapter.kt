@@ -159,7 +159,7 @@ class TemplateEditingAdapter<T: Any>(private val context: Context, private val t
 
             itemSelectorAdd.setOnClickListener {
                 itemSelectorItems.add(ItemSelectorItem(""))
-                itemSelectorAdapter.notifyItemInserted(templateModel.list.size - 1)
+                itemSelectorAdapter.notifyItemInserted(itemSelectorItems.size - 1)
             }
 
             itemSelectorRecyclerView.apply {
