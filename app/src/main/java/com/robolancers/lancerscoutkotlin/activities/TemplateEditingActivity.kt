@@ -56,6 +56,7 @@ class TemplateEditingActivity : ToolbarActivity(), LancerDialogFragment.LancerDi
 
         if (sharedPreferences.getString("$templateType-$templateName", "") != "") {
             templateEditingList = gson.fromJson(sharedPreferences.getString("$templateType-$templateName", "")!!)
+            sharedPreferences.edit().remove("$templateType-$templateName").apply()
         }
         
         templateEditingAdapter = TemplateEditingAdapter(this@TemplateEditingActivity, templateEditingList)
