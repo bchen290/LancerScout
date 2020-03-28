@@ -105,6 +105,15 @@ class TemplateEditingActivity : ToolbarActivity(), LancerDialogFragment.LancerDi
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        save()
+    }
+
+    override fun onBackPressed() {
+        save()
+    }
+
     fun startDragging(viewHolder: RecyclerView.ViewHolder) {
         templateEditingHelper.startDrag(viewHolder)
     }
