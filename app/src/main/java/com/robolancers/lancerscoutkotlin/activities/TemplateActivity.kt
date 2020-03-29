@@ -3,6 +3,7 @@ package com.robolancers.lancerscoutkotlin.activities
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -16,7 +17,7 @@ class TemplateActivity : ToolbarActivity(), LancerDialogFragment.LancerDialogLis
     inner class MatchTemplateListener : RecyclerViewOnClickListener<String> {
         override fun onItemClicked(itemClicked: String) {
             val intent = Intent(this@TemplateActivity, TemplateEditingActivity::class.java)
-            intent.putExtra("Type", "Match")
+            intent.putExtra("Type", "MATCH")
             intent.putExtra("ItemClicked", itemClicked)
             this@TemplateActivity.startActivity(intent)
         }
@@ -25,13 +26,12 @@ class TemplateActivity : ToolbarActivity(), LancerDialogFragment.LancerDialogLis
     inner class PitTemplateListener : RecyclerViewOnClickListener<String> {
         override fun onItemClicked(itemClicked: String) {
             val intent = Intent(this@TemplateActivity, TemplateEditingActivity::class.java)
-            intent.putExtra("Type", "Pit")
+            intent.putExtra("Type", "PIT")
             intent.putExtra("ItemClicked", itemClicked)
             this@TemplateActivity.startActivity(intent)
         }
     }
 
-    private var templateClicked = ""
     private var matchTemplates = mutableListOf<String>()
     private var pitTemplates = mutableListOf<String>()
 
@@ -61,14 +61,15 @@ class TemplateActivity : ToolbarActivity(), LancerDialogFragment.LancerDialogLis
         val sharedPreferences = getSharedPreferences(getString(R.string.template_preferences), Context.MODE_PRIVATE)
         val allSharedPreferences = sharedPreferences.all
 
+        Log.e("TEST", allSharedPreferences.toString())
+
         for((key, _) in allSharedPreferences) {
             if (key.startsWith("PIT")) {
-                matchTemplates.add(key)
+                pitTemplates.add(key.split("~")[1])
             } else if (key.startsWith("MATCH")) {
-                pitTemplates.add(key)
+                matchTemplates.add(key.split("~")[1])
             }
         }
-
 
         val matchTemplateManager = LinearLayoutManager(this)
         matchAdapter =
@@ -78,6 +79,7 @@ class TemplateActivity : ToolbarActivity(), LancerDialogFragment.LancerDialogLis
                 matchTemplates,
                 false
             )
+
         val matchTemplateRecyclerView = findViewById<RecyclerView>(R.id.match_template_recycler_view).apply {
             layoutManager = matchTemplateManager
             adapter = matchAdapter
@@ -100,7 +102,7 @@ class TemplateActivity : ToolbarActivity(), LancerDialogFragment.LancerDialogLis
     }
 
     override fun onDialogClicked(vararg clickedItems: String) {
-        templateClicked = clickedItems[0]
+        startActivity(Intent(this, TemplateEditingActivity::class.java).putExtra("Type", clickedItems[0]).putExtra("ItemClicked", ""))
     }
 
     fun startDragging(viewHolder: RecyclerView.ViewHolder, isPit: Boolean) {
