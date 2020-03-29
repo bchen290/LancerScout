@@ -1,5 +1,6 @@
 package com.robolancers.lancerscoutkotlin.activities
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -31,8 +32,8 @@ class TemplateActivity : ToolbarActivity(), LancerDialogFragment.LancerDialogLis
     }
 
     private var templateClicked = ""
-    private var matchTemplates = mutableListOf("Default", "Match 1")
-    private var pitTemplates = mutableListOf("Default", "TEST")
+    private var matchTemplates = mutableListOf<String>()
+    private var pitTemplates = mutableListOf<String>()
 
     private lateinit var matchAdapter: TemplateAdapter<String>
     private lateinit var pitAdapter: TemplateAdapter<String>
@@ -56,6 +57,18 @@ class TemplateActivity : ToolbarActivity(), LancerDialogFragment.LancerDialogLis
             val newFragment = TemplateChooserDialogFragment()
             newFragment.show(supportFragmentManager, "templates")
         }
+
+        val sharedPreferences = getSharedPreferences(getString(R.string.template_preferences), Context.MODE_PRIVATE)
+        val allSharedPreferences = sharedPreferences.all
+
+        for((key, _) in allSharedPreferences) {
+            if (key.startsWith("PIT")) {
+                matchTemplates.add(key)
+            } else if (key.startsWith("MATCH")) {
+                pitTemplates.add(key)
+            }
+        }
+
 
         val matchTemplateManager = LinearLayoutManager(this)
         matchAdapter =
