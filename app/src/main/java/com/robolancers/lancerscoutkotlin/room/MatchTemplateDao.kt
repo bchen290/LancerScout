@@ -9,11 +9,11 @@ import androidx.room.Query
 @Dao
 interface MatchTemplateDao {
     @Insert
-    fun insert(matchTemplateEntity: MatchTemplateEntity)
+    fun insert(matchTemplate: MatchTemplate)
 
     @Delete
-    fun deleteMatchTemplates(vararg matchTemplateEntity: MatchTemplateEntity)
+    fun deleteMatchTemplates(vararg matchTemplate: MatchTemplate)
 
     @Query("SELECT * FROM match_templates")
-    fun getAllNotes(): LiveData<List<MatchTemplateEntity>>
+    fun getAllNotes(): LiveData<List<MatchTemplate>>
 }

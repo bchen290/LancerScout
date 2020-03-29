@@ -9,11 +9,11 @@ import androidx.room.Query
 @Dao
 interface PitTemplateDao {
     @Insert
-    fun insert(pitTemplateEntity: PitTemplateEntity)
+    fun insert(pitTemplate: PitTemplate)
 
     @Delete
-    fun deletePitTemplates(vararg pitTemplateEntity: PitTemplateEntity)
+    fun deletePitTemplates(vararg pitTemplate: PitTemplate)
 
     @Query("SELECT * FROM pit_templates")
-    fun getAllPitTemplates(): LiveData<List<PitTemplateEntity>>
+    fun getAllPitTemplates(): LiveData<List<PitTemplate>>
 }
