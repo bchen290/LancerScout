@@ -15,5 +15,5 @@ interface MatchTemplateDao {
     fun deleteMatchTemplates(vararg matchTemplate: MatchTemplate)
 
     @Query("SELECT * FROM match_templates")
-    fun getAllNotes(): LiveData<List<MatchTemplate>>
+    fun getAllMatchTemplates(): LiveData<List<MatchTemplate>>
 }
