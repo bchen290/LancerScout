@@ -7,10 +7,9 @@ import android.graphics.drawable.ColorDrawable
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.ItemTouchHelper.ACTION_STATE_DRAG
 import androidx.recyclerview.widget.RecyclerView
 import com.robolancers.lancerscoutkotlin.R
-import com.robolancers.lancerscoutkotlin.utilities.adapters.LancerAdapter
+import com.robolancers.lancerscoutkotlin.adapters.LancerAdapter
 
 class ItemTouchHelperSimpleCallback<T: Any>(context: Context, val adapter: LancerAdapter<T>) {
     private val icon = ContextCompat.getDrawable(context, R.drawable.delete_white_24dp)

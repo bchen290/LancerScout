@@ -1,4 +1,4 @@
-package com.robolancers.lancerscoutkotlin.utilities.adapters
+package com.robolancers.lancerscoutkotlin.adapters
 
 import androidx.recyclerview.widget.RecyclerView
 import java.util.*

@@ -11,7 +11,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.robolancers.lancerscoutkotlin.R
 import com.robolancers.lancerscoutkotlin.fragments.TemplateChooserDialogFragment
 import com.robolancers.lancerscoutkotlin.utilities.*
-import com.robolancers.lancerscoutkotlin.utilities.adapters.TemplateAdapter
+import com.robolancers.lancerscoutkotlin.adapters.TemplateAdapter
 
 class TemplateActivity : ToolbarActivity(), LancerDialogFragment.LancerDialogListener {
     inner class MatchTemplateListener : RecyclerViewOnClickListener<String> {

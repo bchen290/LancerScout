@@ -1,4 +1,4 @@
-package com.robolancers.lancerscoutkotlin.utilities.adapters
+package com.robolancers.lancerscoutkotlin.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
