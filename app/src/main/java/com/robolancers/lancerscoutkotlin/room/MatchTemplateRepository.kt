@@ -8,4 +8,8 @@ class MatchTemplateRepository(private val matchTemplateDao: MatchTemplateDao) {
     suspend fun insert(matchTemplate: MatchTemplate) {
         matchTemplateDao.insert(matchTemplate)
     }
+
+    suspend fun deleteMatchTemplates(vararg matchTemplates: MatchTemplate) {
+        matchTemplateDao.deleteMatchTemplates(*matchTemplates)
+    }
 }

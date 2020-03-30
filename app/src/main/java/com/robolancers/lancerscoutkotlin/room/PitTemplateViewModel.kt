@@ -20,4 +20,8 @@ class PitTemplateViewModel(application: Application) : AndroidViewModel(applicat
     fun insert(pitTemplate: PitTemplate) = viewModelScope.launch {
         pitTemplateRepository.insert(pitTemplate)
     }
+
+    fun delete(vararg pitTemplate: PitTemplate) = viewModelScope.launch {
+        pitTemplateRepository.deletePitTemplates(*pitTemplate)
+    }
 }

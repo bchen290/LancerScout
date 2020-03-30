@@ -20,4 +20,8 @@ class MatchTemplateViewModel(application: Application) : AndroidViewModel(applic
     fun insert(matchTemplate: MatchTemplate) = viewModelScope.launch {
         matchTemplateRepository.insert(matchTemplate)
     }
+
+    fun delete(vararg matchTemplates: MatchTemplate) = viewModelScope.launch {
+        matchTemplateRepository.deleteMatchTemplates(*matchTemplates)
+    }
 }

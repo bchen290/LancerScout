@@ -14,8 +14,9 @@ import com.robolancers.lancerscoutkotlin.R
 import com.robolancers.lancerscoutkotlin.activities.TemplateEditingActivity
 import com.robolancers.lancerscoutkotlin.models.template.ItemSelectorItem
 import kotlinx.android.synthetic.main.list_item_white_text.view.*
+import java.util.*
 
-class ItemSelectorAdapter<T: Any>(private val context: Context, private val listItems: MutableList<ItemSelectorItem>, private val itemSelectorHolder: TemplateEditingAdapter<T>.ItemSelectorHolder) : LancerAdapter<ItemSelectorItem>(listItems) {
+class ItemSelectorAdapter<T: Any>(private val context: Context, private val listItems: MutableList<ItemSelectorItem>, private val itemSelectorHolder: TemplateEditingAdapter<T>.ItemSelectorHolder) : LancerAdapter() {
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         private val itemTitle: EditText = itemView.findViewById(R.id.item_selector_item_title)
         private val itemDelete: ImageButton = itemView.findViewById(R.id.item_selector_item_delete)
@@ -59,6 +60,14 @@ class ItemSelectorAdapter<T: Any>(private val context: Context, private val list
             holder.bind(listItems[position])
         }
     }
+
+    override fun moveItem(from: Int, to: Int){
+        Collections.swap(listItems, from, to)
+    }
+
+    override fun deleteItem(position: Int) {}
+
+    override fun undoDelete() {}
 
     override fun showUndoSnackbar() {
         if (context is TemplateEditingActivity) {

@@ -17,8 +17,9 @@ import com.robolancers.lancerscoutkotlin.activities.TemplateEditingActivity
 import com.robolancers.lancerscoutkotlin.models.template.*
 import com.robolancers.lancerscoutkotlin.utilities.ItemTouchHelperSimpleCallbackNoSwipe
 import com.robolancers.lancerscoutkotlin.utilities.StopwatchThread
+import java.util.*
 
-class TemplateEditingAdapter<T: Any>(private val context: Context, private val templateModels: MutableList<T>) : LancerAdapter<T>(templateModels) {
+class TemplateEditingAdapter<T: Any>(val context: Context, private val templateModels: MutableList<T>) : LancerAdapter() {
     class HeaderHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         private var headerText = itemView.findViewById<EditText>(R.id.header_title)
 
@@ -204,6 +205,8 @@ class TemplateEditingAdapter<T: Any>(private val context: Context, private val t
     class EmptyHolder(itemView: View): RecyclerView.ViewHolder(itemView)
 
     private val viewPool = RecyclerView.RecycledViewPool()
+    private lateinit var recentlyDeletedItem: T
+    private var recentlyDeletedItemPosition = 0
 
     companion object {
         const val VIEW_TYPE_CHECKBOX = 1
@@ -287,8 +290,23 @@ class TemplateEditingAdapter<T: Any>(private val context: Context, private val t
         }
     }
 
-    override fun getItemCount(): Int {
-        return templateModels.size
+    override fun getItemCount(): Int = templateModels.size
+
+    override fun moveItem(from: Int, to: Int){
+        Collections.swap(templateModels, from, to)
+    }
+
+    override fun deleteItem(position: Int) {
+        recentlyDeletedItem = templateModels[position]
+        templateModels.removeAt(position)
+        recentlyDeletedItemPosition = position
+        notifyItemRemoved(position)
+        showUndoSnackbar()
+    }
+
+    override fun undoDelete() {
+        templateModels.add(recentlyDeletedItemPosition, recentlyDeletedItem)
+        notifyItemInserted(recentlyDeletedItemPosition)
     }
 
     override fun showUndoSnackbar() {

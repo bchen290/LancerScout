@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.robolancers.lancerscoutkotlin.R
 import com.robolancers.lancerscoutkotlin.adapters.LancerAdapter
 
-class ItemTouchHelperSimpleCallback<T: Any>(context: Context, val adapter: LancerAdapter<T>) {
+class ItemTouchHelperSimpleCallback(context: Context, val adapter: LancerAdapter) {
     private val icon = ContextCompat.getDrawable(context, R.drawable.delete_white_24dp)
     private val background = ColorDrawable(Color.RED)
 
@@ -85,7 +85,7 @@ class ItemTouchHelperSimpleCallback<T: Any>(context: Context, val adapter: Lance
     }
 }
 
-class ItemTouchHelperSimpleCallbackNoSwipe<T: Any>(context: Context, val adapter: LancerAdapter<T>) {
+class ItemTouchHelperSimpleCallbackNoSwipe(context: Context, val adapter: LancerAdapter) {
     val simpleItemCallback = object : ItemTouchHelper.SimpleCallback(
         ItemTouchHelper.UP or ItemTouchHelper.DOWN or ItemTouchHelper.START or ItemTouchHelper.END, 0
     ) {

@@ -4,25 +4,23 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.robolancers.lancerscoutkotlin.R
+import com.robolancers.lancerscoutkotlin.adapters.MatchTemplateAdapter
+import com.robolancers.lancerscoutkotlin.adapters.PitTemplateAdapter
 import com.robolancers.lancerscoutkotlin.fragments.TemplateChooserDialogFragment
+import com.robolancers.lancerscoutkotlin.room.MatchTemplate
 import com.robolancers.lancerscoutkotlin.utilities.*
-import com.robolancers.lancerscoutkotlin.adapters.TemplateAdapter
+import com.robolancers.lancerscoutkotlin.room.MatchTemplateViewModel
+import com.robolancers.lancerscoutkotlin.room.PitTemplate
+import com.robolancers.lancerscoutkotlin.room.PitTemplateViewModel
 
 class TemplateActivity : ToolbarActivity(), LancerDialogFragment.LancerDialogListener {
-    inner class MatchTemplateListener : RecyclerViewOnClickListener<String> {
-        override fun onItemClicked(itemClicked: String) {
-            val intent = Intent(this@TemplateActivity, TemplateEditingActivity::class.java)
-            intent.putExtra("Type", "MATCH")
-            intent.putExtra("ItemClicked", itemClicked)
-            this@TemplateActivity.startActivity(intent)
-        }
-    }
-
     inner class PitTemplateListener : RecyclerViewOnClickListener<String> {
         override fun onItemClicked(itemClicked: String) {
             val intent = Intent(this@TemplateActivity, TemplateEditingActivity::class.java)
@@ -32,11 +30,8 @@ class TemplateActivity : ToolbarActivity(), LancerDialogFragment.LancerDialogLis
         }
     }
 
-    private var matchTemplates = mutableListOf<String>()
-    private var pitTemplates = mutableListOf<String>()
-
-    private lateinit var matchAdapter: TemplateAdapter<String>
-    private lateinit var pitAdapter: TemplateAdapter<String>
+    private lateinit var matchAdapter: MatchTemplateAdapter
+    private lateinit var pitAdapter: PitTemplateAdapter
 
     private val matchItemTouchHelper by lazy {
         ItemTouchHelper(ItemTouchHelperSimpleCallback(applicationContext, matchAdapter).simpleItemCallback)
@@ -45,6 +40,9 @@ class TemplateActivity : ToolbarActivity(), LancerDialogFragment.LancerDialogLis
     private val pitItemTouchHelper by lazy {
         ItemTouchHelper(ItemTouchHelperSimpleCallback(applicationContext, pitAdapter).simpleItemCallback)
     }
+
+    private lateinit var matchTemplateViewModel: MatchTemplateViewModel
+    private lateinit var pitTemplateViewModel: PitTemplateViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,27 +56,8 @@ class TemplateActivity : ToolbarActivity(), LancerDialogFragment.LancerDialogLis
             newFragment.show(supportFragmentManager, "templates")
         }
 
-        val sharedPreferences = getSharedPreferences(getString(R.string.template_preferences), Context.MODE_PRIVATE)
-        val allSharedPreferences = sharedPreferences.all
-
-        Log.e("TEST", allSharedPreferences.toString())
-
-        for((key, _) in allSharedPreferences) {
-            if (key.startsWith("PIT")) {
-                pitTemplates.add(key.split("~")[1])
-            } else if (key.startsWith("MATCH")) {
-                matchTemplates.add(key.split("~")[1])
-            }
-        }
-
         val matchTemplateManager = LinearLayoutManager(this)
-        matchAdapter =
-            TemplateAdapter(
-                this@TemplateActivity,
-                MatchTemplateListener(),
-                matchTemplates,
-                false
-            )
+        matchAdapter = MatchTemplateAdapter(this@TemplateActivity)
 
         val matchTemplateRecyclerView = findViewById<RecyclerView>(R.id.match_template_recycler_view).apply {
             layoutManager = matchTemplateManager
@@ -88,28 +67,40 @@ class TemplateActivity : ToolbarActivity(), LancerDialogFragment.LancerDialogLis
 
         val pitTemplateManager = LinearLayoutManager(this)
         pitAdapter =
-            TemplateAdapter(
-                this@TemplateActivity,
-                PitTemplateListener(),
-                pitTemplates,
-                true
+            PitTemplateAdapter(
+                this@TemplateActivity
             )
         val pitTemplateRecyclerView = findViewById<RecyclerView>(R.id.pit_template_recycler_view).apply {
             layoutManager = pitTemplateManager
             adapter = pitAdapter
         }
         pitItemTouchHelper.attachToRecyclerView(pitTemplateRecyclerView)
+
+        matchTemplateViewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory(application)).get(MatchTemplateViewModel::class.java)
+        pitTemplateViewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory(application)).get(PitTemplateViewModel::class.java)
+
+        matchTemplateViewModel.allMatchTemplates.observe(this, Observer { templates ->
+            templates?.let {
+                matchAdapter.setTemplates(it)
+            }
+        })
+
+        pitTemplateViewModel.allPitTemplates.observe(this, Observer { templates ->
+            templates.let {
+                pitAdapter.setTemplates(it)
+            }
+        })
     }
 
     override fun onDialogClicked(vararg clickedItems: String) {
         startActivity(Intent(this, TemplateEditingActivity::class.java).putExtra("Type", clickedItems[0]).putExtra("ItemClicked", ""))
     }
 
-    fun startDragging(viewHolder: RecyclerView.ViewHolder, isPit: Boolean) {
-        if(isPit){
-            pitItemTouchHelper.startDrag(viewHolder)
-        }else{
-            matchItemTouchHelper.startDrag(viewHolder)
-        }
+    fun startPitDrag(viewHolder: RecyclerView.ViewHolder) {
+        pitItemTouchHelper.startDrag(viewHolder)
+    }
+
+    fun startMatchDrag(viewHolder: RecyclerView.ViewHolder) {
+        matchItemTouchHelper.startDrag(viewHolder)
     }
 }

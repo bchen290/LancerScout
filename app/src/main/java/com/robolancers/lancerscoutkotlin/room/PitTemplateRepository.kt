@@ -8,4 +8,8 @@ class PitTemplateRepository(private val pitTemplateDao: PitTemplateDao) {
     suspend fun insert(pitTemplate: PitTemplate) {
         pitTemplateDao.insert(pitTemplate)
     }
+
+    suspend fun deletePitTemplates(vararg pitTemplate: PitTemplate) {
+        pitTemplateDao.deletePitTemplates(*pitTemplate)
+    }
 }
