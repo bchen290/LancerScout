@@ -23,7 +23,6 @@ class TemplateEditingActivity : ToolbarActivity(), LancerDialogFragment.LancerDi
     private lateinit var templateEditingAdapter: TemplateEditingAdapter<TemplateModel>
     private var templateEditingList = mutableListOf<TemplateModel>()
 
-    private lateinit var templateType: String
     private lateinit var templateName: String
 
     private val templateEditingHelper by lazy {
@@ -37,7 +36,6 @@ class TemplateEditingActivity : ToolbarActivity(), LancerDialogFragment.LancerDi
 
         setupToolbar()
 
-        templateType = intent.getStringExtra("Type")
         templateName = intent.getStringExtra("ItemClicked")
 
         val templateEditingTitle = findViewById<EditText>(R.id.template_editing_title)
@@ -47,13 +45,6 @@ class TemplateEditingActivity : ToolbarActivity(), LancerDialogFragment.LancerDi
             if(!hasFocus) {
                 templateName = templateEditingTitle.text.toString()
             }
-        }
-
-        val sharedPreferences = getSharedPreferences(getString(R.string.template_preferences), Context.MODE_PRIVATE)
-
-        if (sharedPreferences.getString("$templateType~$templateName", "") != "") {
-            templateEditingList = gson.fromJson(sharedPreferences.getString("$templateType~$templateName", "")!!)
-            sharedPreferences.edit().remove("$templateType~$templateName").apply()
         }
         
         templateEditingAdapter = TemplateEditingAdapter(this@TemplateEditingActivity, templateEditingList)
@@ -117,10 +108,6 @@ class TemplateEditingActivity : ToolbarActivity(), LancerDialogFragment.LancerDi
     }
 
     private fun save() {
-        val sharedPreferences = getSharedPreferences(getString(R.string.template_preferences), Context.MODE_PRIVATE)
-        with (sharedPreferences.edit()) {
-            putString("$templateType~$templateName", gson.toJson(templateEditingList, gsonTypeToken<MutableList<TemplateModel>>()))
-            commit()
-        }
+
     }
 }
