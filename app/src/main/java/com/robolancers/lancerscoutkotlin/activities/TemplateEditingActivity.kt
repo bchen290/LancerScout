@@ -40,6 +40,10 @@ class TemplateEditingActivity : ToolbarActivity(), LancerDialogFragment.LancerDi
         templateName = intent.getStringExtra("ItemClicked")
         templateData = intent.getStringExtra("ItemClickedData")
 
+        if (templateData != "") {
+            templateEditingList = gson.fromJson(templateData)
+        }
+
         val templateEditingTitle = findViewById<EditText>(R.id.template_editing_title)
         templateEditingTitle.setText(templateName)
 
