@@ -61,7 +61,7 @@ class PitTemplateAdapter(private val context: Context): LancerAdapter() {
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is ViewHolder) {
-            holder.textView.text = templates[position].toString()
+            holder.textView.text = templates[position].name
             holder.itemView.setOnClickListener {
                 listener.onItemClicked(templates[position])
             }

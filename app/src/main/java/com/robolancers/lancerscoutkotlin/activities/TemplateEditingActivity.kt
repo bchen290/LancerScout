@@ -24,6 +24,7 @@ class TemplateEditingActivity : ToolbarActivity(), LancerDialogFragment.LancerDi
     private var templateEditingList = mutableListOf<TemplateModel>()
 
     private lateinit var templateName: String
+    private lateinit var templateData: String
 
     private val templateEditingHelper by lazy {
         ItemTouchHelper(ItemTouchHelperSimpleCallback(applicationContext, templateEditingAdapter).simpleItemCallback)
@@ -37,6 +38,7 @@ class TemplateEditingActivity : ToolbarActivity(), LancerDialogFragment.LancerDi
         setupToolbar()
 
         templateName = intent.getStringExtra("ItemClicked")
+        templateData = intent.getStringExtra("ItemClickedData")
 
         val templateEditingTitle = findViewById<EditText>(R.id.template_editing_title)
         templateEditingTitle.setText(templateName)
@@ -108,6 +110,6 @@ class TemplateEditingActivity : ToolbarActivity(), LancerDialogFragment.LancerDi
     }
 
     private fun save() {
-
+        gson.toJson(templateEditingList, gsonTypeToken<MutableList<TemplateModel>>())
     }
 }

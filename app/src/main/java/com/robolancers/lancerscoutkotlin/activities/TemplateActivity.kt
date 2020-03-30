@@ -57,10 +57,8 @@ class TemplateActivity : ToolbarActivity(), LancerDialogFragment.LancerDialogLis
         matchItemTouchHelper.attachToRecyclerView(matchTemplateRecyclerView)
 
         val pitTemplateManager = LinearLayoutManager(this)
-        pitAdapter =
-            PitTemplateAdapter(
-                this@TemplateActivity
-            )
+        pitAdapter = PitTemplateAdapter(this@TemplateActivity)
+
         val pitTemplateRecyclerView = findViewById<RecyclerView>(R.id.pit_template_recycler_view).apply {
             layoutManager = pitTemplateManager
             adapter = pitAdapter
@@ -84,7 +82,7 @@ class TemplateActivity : ToolbarActivity(), LancerDialogFragment.LancerDialogLis
     }
 
     override fun onDialogClicked(vararg clickedItems: String) {
-        startActivity(Intent(this, TemplateEditingActivity::class.java).putExtra("Type", clickedItems[0]).putExtra("ItemClicked", ""))
+        startActivity(Intent(this, TemplateEditingActivity::class.java).putExtra("ItemClicked", "").putExtra("ItemClickedData", ""))
     }
 
     fun startPitDrag(viewHolder: RecyclerView.ViewHolder) {
