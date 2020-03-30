@@ -9,7 +9,7 @@ class TemplateChooserDialogFragment : LancerDialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return activity?.let {
             val builder = AlertDialog.Builder(it)
-            val arrayItem: Array<String> = arrayOf("MATCH", "PIT")
+            val arrayItem: Array<String> = arrayOf("Match", "Pit")
             builder.setTitle("Select the type of template")
                 .setItems(arrayItem) { _, which ->
                 listener.onDialogClicked(arrayItem[which])
