@@ -17,6 +17,8 @@ import com.robolancers.lancerscoutkotlin.activities.TemplateEditingActivity
 import com.robolancers.lancerscoutkotlin.room.PitTemplate
 import com.robolancers.lancerscoutkotlin.room.PitTemplateViewModel
 import com.robolancers.lancerscoutkotlin.utilities.RecyclerViewOnClickListener
+import com.robolancers.lancerscoutkotlin.utilities.enums.TemplateType
+import com.robolancers.lancerscoutkotlin.utilities.enums.putExtra
 import kotlinx.android.synthetic.main.list_item_white_text.view.*
 import java.util.*
 
@@ -24,6 +26,7 @@ class PitTemplateAdapter(private val context: Context): LancerAdapter() {
     inner class PitTemplateListener : RecyclerViewOnClickListener<PitTemplate> {
         override fun onItemClicked(itemClicked: PitTemplate) {
             val intent = Intent(context, TemplateEditingActivity::class.java)
+            intent.putExtra(TemplateType.PIT)
             intent.putExtra("ItemClickedName", itemClicked.name)
             intent.putExtra("ItemClickedData", itemClicked.data)
             context.startActivity(intent)

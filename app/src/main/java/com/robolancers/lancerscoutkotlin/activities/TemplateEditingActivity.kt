@@ -17,12 +17,15 @@ import com.robolancers.lancerscoutkotlin.adapters.TemplateEditingAdapter
 import com.github.salomonbrys.kotson.*
 import com.robolancers.lancerscoutkotlin.utilities.*
 import com.robolancers.lancerscoutkotlin.utilities.Util.Companion.gson
+import com.robolancers.lancerscoutkotlin.utilities.enums.TemplateType
+import com.robolancers.lancerscoutkotlin.utilities.enums.getEnumExtra
 
-class TemplateEditingActivity : ToolbarActivity(), LancerDialogFragment.LancerDialogListener {
+class TemplateEditingActivity : ToolbarActivity() {
     private lateinit var templateEditingRecyclerView: RecyclerView
     private lateinit var templateEditingAdapter: TemplateEditingAdapter<TemplateModel>
     private var templateEditingList = mutableListOf<TemplateModel>()
 
+    private var templateType: TemplateType? = null
     private lateinit var templateName: String
     private lateinit var templateData: String
 
@@ -37,7 +40,8 @@ class TemplateEditingActivity : ToolbarActivity(), LancerDialogFragment.LancerDi
 
         setupToolbar()
 
-        templateName = intent.getStringExtra("ItemClicked")
+        templateType = intent.getEnumExtra<TemplateType>()
+        templateName = intent.getStringExtra("ItemClickedName")
         templateData = intent.getStringExtra("ItemClickedData")
 
         if (templateData != "") {
@@ -67,7 +71,7 @@ class TemplateEditingActivity : ToolbarActivity(), LancerDialogFragment.LancerDi
         templateEditingHelper.attachToRecyclerView(templateEditingRecyclerView)
     }
 
-    override fun onDialogClicked(vararg clickedItems: String) {
+    fun onDialogClicked(vararg clickedItems: String) {
         when(clickedItems[0]) {
             "Header" -> templateEditingList.add(Header())
             "Note" -> templateEditingList.add(Note())

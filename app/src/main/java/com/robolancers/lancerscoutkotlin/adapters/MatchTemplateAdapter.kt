@@ -17,6 +17,8 @@ import com.robolancers.lancerscoutkotlin.activities.TemplateEditingActivity
 import com.robolancers.lancerscoutkotlin.room.MatchTemplate
 import com.robolancers.lancerscoutkotlin.room.MatchTemplateViewModel
 import com.robolancers.lancerscoutkotlin.utilities.RecyclerViewOnClickListener
+import com.robolancers.lancerscoutkotlin.utilities.enums.TemplateType
+import com.robolancers.lancerscoutkotlin.utilities.enums.putExtra
 import kotlinx.android.synthetic.main.list_item_white_text.view.*
 import java.util.*
 
@@ -24,6 +26,7 @@ class MatchTemplateAdapter(private val context: Context): LancerAdapter() {
     inner class MatchTemplateListener : RecyclerViewOnClickListener<MatchTemplate> {
         override fun onItemClicked(itemClicked: MatchTemplate) {
             val intent = Intent(context, TemplateEditingActivity::class.java)
+            intent.putExtra(TemplateType.MATCH)
             intent.putExtra("ItemClickedName", itemClicked.name)
             intent.putExtra("ItemClickedData", itemClicked.data)
             context.startActivity(intent)

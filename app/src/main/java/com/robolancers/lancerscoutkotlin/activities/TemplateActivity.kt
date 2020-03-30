@@ -1,9 +1,7 @@
 package com.robolancers.lancerscoutkotlin.activities
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -14,13 +12,13 @@ import com.robolancers.lancerscoutkotlin.R
 import com.robolancers.lancerscoutkotlin.adapters.MatchTemplateAdapter
 import com.robolancers.lancerscoutkotlin.adapters.PitTemplateAdapter
 import com.robolancers.lancerscoutkotlin.fragments.TemplateChooserDialogFragment
-import com.robolancers.lancerscoutkotlin.room.MatchTemplate
 import com.robolancers.lancerscoutkotlin.utilities.*
 import com.robolancers.lancerscoutkotlin.room.MatchTemplateViewModel
-import com.robolancers.lancerscoutkotlin.room.PitTemplate
 import com.robolancers.lancerscoutkotlin.room.PitTemplateViewModel
+import com.robolancers.lancerscoutkotlin.utilities.enums.TemplateType
+import com.robolancers.lancerscoutkotlin.utilities.enums.putExtra
 
-class TemplateActivity : ToolbarActivity(), LancerDialogFragment.LancerDialogListener {
+class TemplateActivity : ToolbarActivity(), TemplateChooserDialogFragment.TemplateChooserDialogListener {
     private lateinit var matchAdapter: MatchTemplateAdapter
     private lateinit var pitAdapter: PitTemplateAdapter
 
@@ -81,8 +79,12 @@ class TemplateActivity : ToolbarActivity(), LancerDialogFragment.LancerDialogLis
         })
     }
 
-    override fun onDialogClicked(vararg clickedItems: String) {
-        startActivity(Intent(this, TemplateEditingActivity::class.java).putExtra("ItemClicked", "").putExtra("ItemClickedData", ""))
+    override fun onDialogClicked(clickedItem: TemplateType) {
+        val intent = Intent(this, TemplateEditingActivity::class.java)
+        intent.putExtra(clickedItem)
+        intent.putExtra("ItemClickedName", "")
+        intent.putExtra("ItemClickedData", "")
+        startActivity(intent)
     }
 
     fun startPitDrag(viewHolder: RecyclerView.ViewHolder) {
