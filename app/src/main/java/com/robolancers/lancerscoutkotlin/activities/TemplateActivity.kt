@@ -21,15 +21,6 @@ import com.robolancers.lancerscoutkotlin.room.PitTemplate
 import com.robolancers.lancerscoutkotlin.room.PitTemplateViewModel
 
 class TemplateActivity : ToolbarActivity(), LancerDialogFragment.LancerDialogListener {
-    inner class PitTemplateListener : RecyclerViewOnClickListener<String> {
-        override fun onItemClicked(itemClicked: String) {
-            val intent = Intent(this@TemplateActivity, TemplateEditingActivity::class.java)
-            intent.putExtra("Type", "PIT")
-            intent.putExtra("ItemClicked", itemClicked)
-            this@TemplateActivity.startActivity(intent)
-        }
-    }
-
     private lateinit var matchAdapter: MatchTemplateAdapter
     private lateinit var pitAdapter: PitTemplateAdapter
 
