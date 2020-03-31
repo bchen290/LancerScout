@@ -4,7 +4,7 @@ import androidx.room.*
 import java.io.Serializable
 
 @Dao
-abstract class BaseDao<T>: Serializable {
+abstract class BaseDao<T> {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     abstract suspend fun insert(obj: T): Long
 
