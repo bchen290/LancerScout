@@ -17,10 +17,12 @@ import com.robolancers.lancerscoutkotlin.adapters.TemplateEditingAdapter
 import com.github.salomonbrys.kotson.*
 import com.robolancers.lancerscoutkotlin.utilities.*
 import com.robolancers.lancerscoutkotlin.utilities.Util.Companion.gson
+import com.robolancers.lancerscoutkotlin.utilities.enums.TemplateModelType
+import com.robolancers.lancerscoutkotlin.utilities.enums.TemplateModelType.*
 import com.robolancers.lancerscoutkotlin.utilities.enums.TemplateType
 import com.robolancers.lancerscoutkotlin.utilities.enums.getEnumExtra
 
-class TemplateEditingActivity : ToolbarActivity() {
+class TemplateEditingActivity : ToolbarActivity(), TemplateModelChooserDialogFragment.TemplateModelChooserDialogListener {
     private lateinit var templateEditingRecyclerView: RecyclerView
     private lateinit var templateEditingAdapter: TemplateEditingAdapter<TemplateModel>
     private var templateEditingList = mutableListOf<TemplateModel>()
@@ -71,14 +73,14 @@ class TemplateEditingActivity : ToolbarActivity() {
         templateEditingHelper.attachToRecyclerView(templateEditingRecyclerView)
     }
 
-    fun onDialogClicked(vararg clickedItems: String) {
-        when(clickedItems[0]) {
-            "Header" -> templateEditingList.add(Header())
-            "Note" -> templateEditingList.add(Note())
-            "Counter" -> templateEditingList.add(Counter())
-            "Item Selector" -> templateEditingList.add(ItemSelector())
-            "Stopwatch" -> templateEditingList.add(Stopwatch())
-            "Checkbox" -> templateEditingList.add(Checkbox())
+    override fun onDialogClicked(clickedItem: TemplateModelType) {
+        when(clickedItem) {
+            HEADER -> templateEditingList.add(Header())
+            NOTE -> templateEditingList.add(Note())
+            COUNTER -> templateEditingList.add(Counter())
+            ITEM_SELECTOR -> templateEditingList.add(ItemSelector())
+            STOPWATCH -> templateEditingList.add(Stopwatch())
+            CHECKBOX -> templateEditingList.add(Checkbox())
         }
 
         templateEditingAdapter.notifyItemInserted(templateEditingList.size - 1)
