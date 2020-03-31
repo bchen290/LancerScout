@@ -22,7 +22,8 @@
             android:inputType="text"
             android:autofillHints="@string/item_selector_title"
             android:textSize="20sp"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:textColor="@color/colorAccent"/>
 
         <Button
             android:id="@+id/item_selector_add"
