@@ -26,7 +26,7 @@ abstract class TemplateDatabase  : RoomDatabase() {
                     context.applicationContext,
                     TemplateDatabase::class.java,
                     "template_database"
-                ).build()
+                ).fallbackToDestructiveMigration().build()
                 INSTANCE = instance
                 return instance
             }
