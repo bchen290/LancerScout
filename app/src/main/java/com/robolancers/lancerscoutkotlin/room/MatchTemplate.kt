@@ -6,7 +6,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "match_templates")
-data class MatchTemplate(var name: String?, var data: String?) : Parcelable{
+data class MatchTemplate(var name: String?, var data: String?) : Parcelable {
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
 

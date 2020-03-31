@@ -27,8 +27,7 @@ class MatchTemplateAdapter(private val context: Context): LancerAdapter() {
         override fun onItemClicked(itemClicked: MatchTemplate) {
             val intent = Intent(context, TemplateEditingActivity::class.java)
             intent.putExtra(TemplateType.MATCH)
-            intent.putExtra("ItemClickedName", itemClicked.name)
-            intent.putExtra("ItemClickedData", itemClicked.data)
+            intent.putExtra("Template", itemClicked)
             context.startActivity(intent)
         }
     }

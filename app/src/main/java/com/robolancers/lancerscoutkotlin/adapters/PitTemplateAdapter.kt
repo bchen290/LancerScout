@@ -27,8 +27,7 @@ class PitTemplateAdapter(private val context: Context): LancerAdapter() {
         override fun onItemClicked(itemClicked: PitTemplate) {
             val intent = Intent(context, TemplateEditingActivity::class.java)
             intent.putExtra(TemplateType.PIT)
-            intent.putExtra("ItemClickedName", itemClicked.name)
-            intent.putExtra("ItemClickedData", itemClicked.data)
+            intent.putExtra("Template", itemClicked)
             context.startActivity(intent)
         }
     }

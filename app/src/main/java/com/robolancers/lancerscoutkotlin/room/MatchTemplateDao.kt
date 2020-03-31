@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.room.*
 
 @Dao
-abstract class MatchTemplateDao : BaseDao<MatchTemplate>() {
+interface MatchTemplateDao : BaseDao<MatchTemplate> {
     @Query("SELECT * FROM match_templates")
-    abstract fun getAllMatchTemplates(): LiveData<List<MatchTemplate>>
+    fun getAllMatchTemplates(): LiveData<List<MatchTemplate>>
 }

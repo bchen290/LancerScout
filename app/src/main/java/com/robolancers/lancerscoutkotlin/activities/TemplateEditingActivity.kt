@@ -19,10 +19,7 @@ import com.robolancers.lancerscoutkotlin.models.template.*
 import com.robolancers.lancerscoutkotlin.adapters.TemplateEditingAdapter
 import com.github.salomonbrys.kotson.*
 import com.google.android.material.snackbar.Snackbar
-import com.robolancers.lancerscoutkotlin.room.MatchTemplate
-import com.robolancers.lancerscoutkotlin.room.MatchTemplateViewModel
-import com.robolancers.lancerscoutkotlin.room.PitTemplate
-import com.robolancers.lancerscoutkotlin.room.PitTemplateViewModel
+import com.robolancers.lancerscoutkotlin.room.*
 import com.robolancers.lancerscoutkotlin.utilities.*
 import com.robolancers.lancerscoutkotlin.utilities.Util.Companion.gson
 import com.robolancers.lancerscoutkotlin.utilities.enums.TemplateModelType
@@ -39,8 +36,9 @@ class TemplateEditingActivity : ToolbarActivity(), TemplateModelChooserDialogFra
     private var templateEditingList = mutableListOf<TemplateModel>()
 
     private var templateType: TemplateType? = null
-    private lateinit var templateName: String
-    private lateinit var templateData: String
+    private var pitTemplate: PitTemplate? = null
+    private var matchTemplate: MatchTemplate? = null
+    private var templateName: String? = ""
 
     private lateinit var matchTemplateViewModel: MatchTemplateViewModel
     private lateinit var pitTemplateViewModel: PitTemplateViewModel
@@ -59,10 +57,22 @@ class TemplateEditingActivity : ToolbarActivity(), TemplateModelChooserDialogFra
         parentLayout = findViewById(R.id.template_editing_linear_layout)
 
         templateType = intent.getEnumExtra<TemplateType>()
-        templateName = intent.getStringExtra("ItemClickedName")
-        templateData = intent.getStringExtra("ItemClickedData")
+        var templateData: String? = ""
 
-        if (templateData != "") {
+        when (templateType) {
+            TemplateType.PIT -> {
+                pitTemplate = intent.getParcelableExtra("Template")
+                templateData = pitTemplate?.data
+                templateName = pitTemplate?.name
+            }
+            TemplateType.MATCH -> {
+                matchTemplate = intent.getParcelableExtra("Template")
+                templateData = matchTemplate?.data
+                templateName = matchTemplate?.name
+            }
+        }
+
+        if (templateData != null && templateData != "") {
             templateEditingList = gson.fromJson(templateData)
         }
 
@@ -134,10 +144,22 @@ class TemplateEditingActivity : ToolbarActivity(), TemplateModelChooserDialogFra
 
         when(templateType) {
             TemplateType.PIT -> {
-                pitTemplateViewModel.insert(PitTemplate(templateName, json))
+                val template = pitTemplate
+                if (template != null) {
+                    template.data = json
+                    template.name = templateName
+
+                    pitTemplateViewModel.insert(template)
+                }
             }
             TemplateType.MATCH -> {
-                matchTemplateViewModel.insert(MatchTemplate(templateName, json))
+                val template = matchTemplate
+                if (template != null) {
+                    template.data = json
+                    template.name = templateName
+
+                    matchTemplateViewModel.insert(template)
+                }
             }
             null -> {
                 Log.e("TemplateEditingActivity", "Template Type should never be null!")

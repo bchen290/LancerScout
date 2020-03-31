@@ -7,7 +7,6 @@ class PitTemplateRepository(private val pitTemplateDao: PitTemplateDao) {
     val allPitTemplates: LiveData<List<PitTemplate>> = pitTemplateDao.getAllPitTemplates()
 
     suspend fun insert(pitTemplate: PitTemplate) {
-        Log.e("TEST", "Inserting: $pitTemplate")
         pitTemplateDao.insert(pitTemplate)
     }
 

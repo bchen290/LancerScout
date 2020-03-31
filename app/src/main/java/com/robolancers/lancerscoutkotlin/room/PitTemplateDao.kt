@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.room.*
 
 @Dao
-abstract class PitTemplateDao : BaseDao<PitTemplate>() {
+interface PitTemplateDao : BaseDao<PitTemplate> {
     @Query("SELECT * FROM pit_templates")
-    abstract fun getAllPitTemplates(): LiveData<List<PitTemplate>>
+    fun getAllPitTemplates(): LiveData<List<PitTemplate>>
 }

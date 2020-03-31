@@ -84,8 +84,6 @@ class TemplateActivity : ToolbarActivity(), TemplateChooserDialogFragment.Templa
     override fun onDialogClicked(clickedItem: TemplateType) {
         val intent = Intent(this, TemplateEditingActivity::class.java)
         intent.putExtra(clickedItem)
-        intent.putExtra("ItemClickedName", "")
-        intent.putExtra("ItemClickedData", "")
 
         when (clickedItem) {
             TemplateType.PIT -> intent.putExtra("Template", PitTemplate("", ""))
