@@ -3,10 +3,13 @@ package com.robolancers.lancerscoutkotlin.activities
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.LinearLayout
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,6 +18,11 @@ import com.robolancers.lancerscoutkotlin.fragments.TemplateModelChooserDialogFra
 import com.robolancers.lancerscoutkotlin.models.template.*
 import com.robolancers.lancerscoutkotlin.adapters.TemplateEditingAdapter
 import com.github.salomonbrys.kotson.*
+import com.google.android.material.snackbar.Snackbar
+import com.robolancers.lancerscoutkotlin.room.MatchTemplate
+import com.robolancers.lancerscoutkotlin.room.MatchTemplateViewModel
+import com.robolancers.lancerscoutkotlin.room.PitTemplate
+import com.robolancers.lancerscoutkotlin.room.PitTemplateViewModel
 import com.robolancers.lancerscoutkotlin.utilities.*
 import com.robolancers.lancerscoutkotlin.utilities.Util.Companion.gson
 import com.robolancers.lancerscoutkotlin.utilities.enums.TemplateModelType
@@ -23,6 +31,9 @@ import com.robolancers.lancerscoutkotlin.utilities.enums.TemplateType
 import com.robolancers.lancerscoutkotlin.utilities.enums.getEnumExtra
 
 class TemplateEditingActivity : ToolbarActivity(), TemplateModelChooserDialogFragment.TemplateModelChooserDialogListener {
+    private lateinit var parentLayout: LinearLayout
+    private lateinit var templateEditingTitle: EditText
+
     private lateinit var templateEditingRecyclerView: RecyclerView
     private lateinit var templateEditingAdapter: TemplateEditingAdapter<TemplateModel>
     private var templateEditingList = mutableListOf<TemplateModel>()
@@ -30,6 +41,9 @@ class TemplateEditingActivity : ToolbarActivity(), TemplateModelChooserDialogFra
     private var templateType: TemplateType? = null
     private lateinit var templateName: String
     private lateinit var templateData: String
+
+    private lateinit var matchTemplateViewModel: MatchTemplateViewModel
+    private lateinit var pitTemplateViewModel: PitTemplateViewModel
 
     private val templateEditingHelper by lazy {
         ItemTouchHelper(ItemTouchHelperSimpleCallback(applicationContext, templateEditingAdapter).simpleItemCallback)
@@ -42,6 +56,8 @@ class TemplateEditingActivity : ToolbarActivity(), TemplateModelChooserDialogFra
 
         setupToolbar()
 
+        parentLayout = findViewById(R.id.template_editing_linear_layout)
+
         templateType = intent.getEnumExtra<TemplateType>()
         templateName = intent.getStringExtra("ItemClickedName")
         templateData = intent.getStringExtra("ItemClickedData")
@@ -50,14 +66,8 @@ class TemplateEditingActivity : ToolbarActivity(), TemplateModelChooserDialogFra
             templateEditingList = gson.fromJson(templateData)
         }
 
-        val templateEditingTitle = findViewById<EditText>(R.id.template_editing_title)
+        templateEditingTitle = findViewById(R.id.template_editing_title)
         templateEditingTitle.setText(templateName)
-
-        templateEditingTitle.setOnFocusChangeListener { _, hasFocus ->
-            if(!hasFocus) {
-                templateName = templateEditingTitle.text.toString()
-            }
-        }
         
         templateEditingAdapter = TemplateEditingAdapter(this@TemplateEditingActivity, templateEditingList)
         templateEditingRecyclerView = findViewById<RecyclerView>(R.id.template_editing_list).apply {
@@ -71,6 +81,9 @@ class TemplateEditingActivity : ToolbarActivity(), TemplateModelChooserDialogFra
         }
 
         templateEditingHelper.attachToRecyclerView(templateEditingRecyclerView)
+
+        matchTemplateViewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory(application)).get(MatchTemplateViewModel::class.java)
+        pitTemplateViewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory(application)).get(PitTemplateViewModel::class.java)
     }
 
     override fun onDialogClicked(clickedItem: TemplateModelType) {
@@ -111,7 +124,8 @@ class TemplateEditingActivity : ToolbarActivity(), TemplateModelChooserDialogFra
         save()
     }
 
-    override fun onBackPressed() {
+    override fun onPause() {
+        super.onPause()
         save()
     }
 
@@ -120,6 +134,21 @@ class TemplateEditingActivity : ToolbarActivity(), TemplateModelChooserDialogFra
     }
 
     private fun save() {
-        gson.toJson(templateEditingList, gsonTypeToken<MutableList<TemplateModel>>())
+        val json = gson.toJson(templateEditingList, gsonTypeToken<MutableList<TemplateModel>>())
+        templateName = templateEditingTitle.text.toString()
+
+        when(templateType) {
+            TemplateType.PIT -> {
+                pitTemplateViewModel.insert(PitTemplate(templateName, json))
+            }
+            TemplateType.MATCH -> {
+                matchTemplateViewModel.insert(MatchTemplate(templateName, json))
+            }
+            null -> {
+                Log.e("TemplateEditingActivity", "Template Type should never be null!")
+            }
+        }
+
+        Snackbar.make(parentLayout, "Saved", Snackbar.LENGTH_LONG).show()
     }
 }
