@@ -1,12 +1,14 @@
 package com.robolancers.lancerscoutkotlin.utilities
 
 import android.util.Log
+import com.github.salomonbrys.kotson.fromJson
 import com.github.salomonbrys.kotson.get
 import com.github.salomonbrys.kotson.registerTypeAdapter
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
+import com.google.gson.reflect.TypeToken
 import com.robolancers.lancerscoutkotlin.models.template.*
 
 class Util {
@@ -36,7 +38,7 @@ class Util {
                             }
                             is ItemSelector -> {
                                 jsonObject.addProperty("title", it.title)
-                                jsonObject.addProperty("list", Gson().toJson(it.list))
+                                jsonObject.addProperty("list", Gson().toJson(it.list, object: TypeToken<MutableList<ItemSelectorItem>>() {}.type))
                             }
                             is Note -> {
                                 jsonObject.addProperty("title", it.title)
@@ -79,9 +81,7 @@ class Util {
                                 )
                             }
                             "ItemSelector" -> {
-                                val list = jsonObject["list"].asJsonArray.toMutableList().map {
-                                    ItemSelectorItem(it["itemName"].asString)
-                                }.toMutableList()
+                                val list = Gson().fromJson<MutableList<ItemSelectorItem>>(jsonObject["list"].asString)
 
                                 ItemSelector(
                                     jsonObject["title"].asString,

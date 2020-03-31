@@ -1,6 +1,7 @@
 package com.robolancers.lancerscoutkotlin.adapters
 
 import android.content.Context
+import android.text.Editable
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -13,6 +14,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.robolancers.lancerscoutkotlin.R
 import com.robolancers.lancerscoutkotlin.activities.TemplateEditingActivity
 import com.robolancers.lancerscoutkotlin.models.template.ItemSelectorItem
+import com.robolancers.lancerscoutkotlin.utilities.LancerTextWatcher
 import kotlinx.android.synthetic.main.list_item_white_text.view.*
 import java.util.*
 
@@ -24,11 +26,11 @@ class ItemSelectorAdapter<T: Any>(private val context: Context, private val list
         fun bind(listItem: ItemSelectorItem) {
             itemTitle.setText(listItem.itemName)
 
-            itemTitle.setOnFocusChangeListener { _, hasFocus ->
-                if(!hasFocus) {
-                    listItem.itemName = itemTitle.text.toString()
+            itemTitle.addTextChangedListener(object: LancerTextWatcher() {
+                override fun afterTextChanged(s: Editable?) {
+                    listItem.itemName = s.toString()
                 }
-            }
+            })
 
             itemDelete.setOnClickListener {
                 listItems.removeAt(adapterPosition)

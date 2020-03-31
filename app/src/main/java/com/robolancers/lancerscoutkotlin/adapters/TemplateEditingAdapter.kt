@@ -3,11 +3,15 @@ package com.robolancers.lancerscoutkotlin.adapters
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
+import android.text.Editable
+import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -16,6 +20,7 @@ import com.robolancers.lancerscoutkotlin.R
 import com.robolancers.lancerscoutkotlin.activities.TemplateEditingActivity
 import com.robolancers.lancerscoutkotlin.models.template.*
 import com.robolancers.lancerscoutkotlin.utilities.ItemTouchHelperSimpleCallbackNoSwipe
+import com.robolancers.lancerscoutkotlin.utilities.LancerTextWatcher
 import com.robolancers.lancerscoutkotlin.utilities.StopwatchThread
 import java.util.*
 
@@ -26,11 +31,11 @@ class TemplateEditingAdapter<T: Any>(val context: Context, private val templateM
         fun bind(templateModel: Header) {
             headerText.setText(templateModel.text)
 
-            headerText.setOnFocusChangeListener { _, hasFocus ->
-                if(!hasFocus) {
-                    templateModel.text = headerText.text.toString()
+            headerText.addTextChangedListener(object: LancerTextWatcher() {
+                override fun afterTextChanged(s: Editable?) {
+                    templateModel.text = s.toString()
                 }
-            }
+            })
         }
     }
 
@@ -42,17 +47,17 @@ class TemplateEditingAdapter<T: Any>(val context: Context, private val templateM
             noteTitle.setText(templateModel.title)
             noteText.setText(templateModel.text)
 
-            noteTitle.setOnFocusChangeListener { _, hasFocus ->
-                if(!hasFocus) {
-                    templateModel.title = noteTitle.text.toString()
+            noteTitle.addTextChangedListener(object: LancerTextWatcher() {
+                override fun afterTextChanged(s: Editable?) {
+                    templateModel.title = s.toString()
                 }
-            }
+            })
 
-            noteText.setOnFocusChangeListener { _, hasFocus ->
-                if(!hasFocus) {
-                    templateModel.text = noteText.text.toString()
+            noteText.addTextChangedListener(object: LancerTextWatcher() {
+                override fun afterTextChanged(s: Editable?) {
+                    templateModel.text = s.toString()
                 }
-            }
+            })
         }
     }
 
@@ -85,11 +90,11 @@ class TemplateEditingAdapter<T: Any>(val context: Context, private val templateM
                 }
             }
 
-            stopwatchTitle.setOnFocusChangeListener { _, hasFocus ->
-                if(!hasFocus) {
-                    templateModel.title = stopwatchTitle.text.toString()
+            stopwatchTitle.addTextChangedListener(object: LancerTextWatcher() {
+                override fun afterTextChanged(s: Editable?) {
+                    templateModel.title = s.toString()
                 }
-            }
+            })
         }
     }
 
@@ -121,23 +126,27 @@ class TemplateEditingAdapter<T: Any>(val context: Context, private val templateM
                 templateModel.count = counterCount.text.toString().toInt()
             }
 
-            counterTitle.setOnFocusChangeListener { _, hasFocus ->
-                if(!hasFocus) {
-                    templateModel.title = counterTitle.text.toString()
+            counterTitle.addTextChangedListener(object: LancerTextWatcher() {
+                override fun afterTextChanged(s: Editable?) {
+                    templateModel.title = s.toString()
                 }
-            }
+            })
 
-            counterCount.setOnFocusChangeListener { _, hasFocus ->
-                if(!hasFocus) {
-                    templateModel.count = counterCount.text.toString().toInt()
+            counterCount.addTextChangedListener(object: LancerTextWatcher() {
+                override fun afterTextChanged(s: Editable?) {
+                    if (s.toString().isEmpty()){
+                        templateModel.count = 0
+                    } else {
+                        templateModel.count = s.toString().toInt()
+                    }
                 }
-            }
+            })
 
-            counterUnit.setOnFocusChangeListener { _, hasFocus ->
-                if(!hasFocus) {
-                    templateModel.unit = counterUnit.text.toString()
+            counterUnit.addTextChangedListener(object: LancerTextWatcher() {
+                override fun afterTextChanged(s: Editable?) {
+                    templateModel.unit = s.toString()
                 }
-            }
+            })
         }
     }
 
@@ -155,6 +164,7 @@ class TemplateEditingAdapter<T: Any>(val context: Context, private val templateM
         fun bind(templateModel: ItemSelector) {
             itemSelectorTitle.setText(templateModel.title)
             itemSelectorItems.addAll(templateModel.list)
+            templateModel.list = itemSelectorItems
             itemSelectorAdapter.notifyDataSetChanged()
 
             itemSelectorAdd.setOnClickListener {
@@ -168,11 +178,11 @@ class TemplateEditingAdapter<T: Any>(val context: Context, private val templateM
                 setRecycledViewPool(viewPool)
             }
 
-            itemSelectorTitle.setOnFocusChangeListener { _, hasFocus ->
-                if(!hasFocus) {
-                    templateModel.title = itemSelectorTitle.text.toString()
+            itemSelectorTitle.addTextChangedListener(object: LancerTextWatcher() {
+                override fun afterTextChanged(s: Editable?) {
+                    templateModel.title = s.toString()
                 }
-            }
+            })
 
             itemSelectorItemTouchHelper.attachToRecyclerView(itemSelectorRecyclerView)
         }
@@ -190,11 +200,11 @@ class TemplateEditingAdapter<T: Any>(val context: Context, private val templateM
             checkbox.isChecked = templateModel.checkedState
             checkboxTitle.setText(templateModel.title)
 
-            checkboxTitle.setOnFocusChangeListener { _, hasFocus ->
-                if(!hasFocus) {
-                    templateModel.title = checkboxTitle.text.toString()
+            checkboxTitle.addTextChangedListener(object: LancerTextWatcher() {
+                override fun afterTextChanged(s: Editable?) {
+                    templateModel.title = s.toString()
                 }
-            }
+            })
 
             checkbox.setOnClickListener {
                 templateModel.checkedState = checkbox.isChecked
