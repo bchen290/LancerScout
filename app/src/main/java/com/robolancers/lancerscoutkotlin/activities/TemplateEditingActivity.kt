@@ -119,8 +119,8 @@ class TemplateEditingActivity : ToolbarActivity(), TemplateModelChooserDialogFra
         }
     }
 
-    override fun onPause() {
-        super.onPause()
+    override fun onStop() {
+        super.onStop()
         save()
     }
 
