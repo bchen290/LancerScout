@@ -14,8 +14,8 @@ import com.google.android.material.snackbar.Snackbar
 import com.robolancers.lancerscoutkotlin.R
 import com.robolancers.lancerscoutkotlin.activities.TemplateActivity
 import com.robolancers.lancerscoutkotlin.activities.TemplateEditingActivity
-import com.robolancers.lancerscoutkotlin.room.MatchTemplate
-import com.robolancers.lancerscoutkotlin.room.MatchTemplateViewModel
+import com.robolancers.lancerscoutkotlin.room.entities.MatchTemplate
+import com.robolancers.lancerscoutkotlin.room.viewmodels.MatchTemplateViewModel
 import com.robolancers.lancerscoutkotlin.utilities.RecyclerViewOnClickListener
 import com.robolancers.lancerscoutkotlin.utilities.enums.TemplateType
 import com.robolancers.lancerscoutkotlin.utilities.enums.putExtra
@@ -39,7 +39,8 @@ class MatchTemplateAdapter(private val context: Context): LancerAdapter() {
     private lateinit var recentlyDeletedItem: MatchTemplate
     private var templates = emptyList<MatchTemplate>()
     private val listener = MatchTemplateListener()
-    private val viewModel = ViewModelProvider(context as TemplateActivity, ViewModelProvider.AndroidViewModelFactory(context.application)).get(MatchTemplateViewModel::class.java)
+    private val viewModel = ViewModelProvider(context as TemplateActivity, ViewModelProvider.AndroidViewModelFactory(context.application)).get(
+        MatchTemplateViewModel::class.java)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val viewHolder =

@@ -1,4 +1,4 @@
-package com.robolancers.lancerscoutkotlin.room
+package com.robolancers.lancerscoutkotlin.room.daos
 
 import androidx.room.*
 

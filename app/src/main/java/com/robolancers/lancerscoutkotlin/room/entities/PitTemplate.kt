@@ -1,12 +1,12 @@
-package com.robolancers.lancerscoutkotlin.room
+package com.robolancers.lancerscoutkotlin.room.entities
 
 import android.os.Parcel
 import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "match_templates")
-data class MatchTemplate(var name: String?, var data: String?) : Parcelable {
+@Entity(tableName = "pit_templates")
+data class PitTemplate(var name: String?, var data: String?) : Parcelable {
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
 
@@ -27,12 +27,14 @@ data class MatchTemplate(var name: String?, var data: String?) : Parcelable {
         return 0
     }
 
-    companion object CREATOR : Parcelable.Creator<MatchTemplate> {
-        override fun createFromParcel(parcel: Parcel): MatchTemplate {
-            return MatchTemplate(parcel)
+    companion object CREATOR : Parcelable.Creator<PitTemplate> {
+        override fun createFromParcel(parcel: Parcel): PitTemplate {
+            return PitTemplate(
+                parcel
+            )
         }
 
-        override fun newArray(size: Int): Array<MatchTemplate?> {
+        override fun newArray(size: Int): Array<PitTemplate?> {
             return arrayOfNulls(size)
         }
     }

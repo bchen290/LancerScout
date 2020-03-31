@@ -1,6 +1,8 @@
-package com.robolancers.lancerscoutkotlin.room
+package com.robolancers.lancerscoutkotlin.room.repositories
 
 import androidx.lifecycle.LiveData
+import com.robolancers.lancerscoutkotlin.room.daos.MatchTemplateDao
+import com.robolancers.lancerscoutkotlin.room.entities.MatchTemplate
 
 class MatchTemplateRepository(private val matchTemplateDao: MatchTemplateDao) {
     val allMatchTemplates: LiveData<List<MatchTemplate>> = matchTemplateDao.getAllMatchTemplates()

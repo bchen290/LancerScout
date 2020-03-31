@@ -19,7 +19,10 @@ import com.robolancers.lancerscoutkotlin.models.template.*
 import com.robolancers.lancerscoutkotlin.adapters.TemplateEditingAdapter
 import com.github.salomonbrys.kotson.*
 import com.google.android.material.snackbar.Snackbar
-import com.robolancers.lancerscoutkotlin.room.*
+import com.robolancers.lancerscoutkotlin.room.entities.MatchTemplate
+import com.robolancers.lancerscoutkotlin.room.entities.PitTemplate
+import com.robolancers.lancerscoutkotlin.room.viewmodels.MatchTemplateViewModel
+import com.robolancers.lancerscoutkotlin.room.viewmodels.PitTemplateViewModel
 import com.robolancers.lancerscoutkotlin.utilities.*
 import com.robolancers.lancerscoutkotlin.utilities.Util.Companion.gson
 import com.robolancers.lancerscoutkotlin.utilities.enums.TemplateModelType
@@ -92,8 +95,10 @@ class TemplateEditingActivity : ToolbarActivity(), TemplateModelChooserDialogFra
 
         templateEditingHelper.attachToRecyclerView(templateEditingRecyclerView)
 
-        matchTemplateViewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory(application)).get(MatchTemplateViewModel::class.java)
-        pitTemplateViewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory(application)).get(PitTemplateViewModel::class.java)
+        matchTemplateViewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory(application)).get(
+            MatchTemplateViewModel::class.java)
+        pitTemplateViewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory(application)).get(
+            PitTemplateViewModel::class.java)
     }
 
     override fun onDialogClicked(clickedItem: TemplateModelType) {

@@ -12,11 +12,11 @@ import com.robolancers.lancerscoutkotlin.R
 import com.robolancers.lancerscoutkotlin.adapters.MatchTemplateAdapter
 import com.robolancers.lancerscoutkotlin.adapters.PitTemplateAdapter
 import com.robolancers.lancerscoutkotlin.fragments.TemplateChooserDialogFragment
-import com.robolancers.lancerscoutkotlin.room.MatchTemplate
+import com.robolancers.lancerscoutkotlin.room.entities.MatchTemplate
 import com.robolancers.lancerscoutkotlin.utilities.*
-import com.robolancers.lancerscoutkotlin.room.MatchTemplateViewModel
-import com.robolancers.lancerscoutkotlin.room.PitTemplate
-import com.robolancers.lancerscoutkotlin.room.PitTemplateViewModel
+import com.robolancers.lancerscoutkotlin.room.viewmodels.MatchTemplateViewModel
+import com.robolancers.lancerscoutkotlin.room.entities.PitTemplate
+import com.robolancers.lancerscoutkotlin.room.viewmodels.PitTemplateViewModel
 import com.robolancers.lancerscoutkotlin.utilities.enums.TemplateType
 import com.robolancers.lancerscoutkotlin.utilities.enums.putExtra
 
@@ -65,8 +65,10 @@ class TemplateActivity : ToolbarActivity(), TemplateChooserDialogFragment.Templa
         }
         pitItemTouchHelper.attachToRecyclerView(pitTemplateRecyclerView)
 
-        matchTemplateViewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory(application)).get(MatchTemplateViewModel::class.java)
-        pitTemplateViewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory(application)).get(PitTemplateViewModel::class.java)
+        matchTemplateViewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory(application)).get(
+            MatchTemplateViewModel::class.java)
+        pitTemplateViewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory(application)).get(
+            PitTemplateViewModel::class.java)
 
         matchTemplateViewModel.allMatchTemplates.observe(this, Observer { templates ->
             templates?.let {
@@ -86,8 +88,18 @@ class TemplateActivity : ToolbarActivity(), TemplateChooserDialogFragment.Templa
         intent.putExtra(clickedItem)
 
         when (clickedItem) {
-            TemplateType.PIT -> intent.putExtra("Template", PitTemplate("", ""))
-            TemplateType.MATCH -> intent.putExtra("Template", MatchTemplate("", ""))
+            TemplateType.PIT -> intent.putExtra("Template",
+                PitTemplate(
+                    "",
+                    ""
+                )
+            )
+            TemplateType.MATCH -> intent.putExtra("Template",
+                MatchTemplate(
+                    "",
+                    ""
+                )
+            )
         }
 
         startActivity(intent)

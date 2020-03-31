@@ -14,8 +14,8 @@ import com.google.android.material.snackbar.Snackbar
 import com.robolancers.lancerscoutkotlin.R
 import com.robolancers.lancerscoutkotlin.activities.TemplateActivity
 import com.robolancers.lancerscoutkotlin.activities.TemplateEditingActivity
-import com.robolancers.lancerscoutkotlin.room.PitTemplate
-import com.robolancers.lancerscoutkotlin.room.PitTemplateViewModel
+import com.robolancers.lancerscoutkotlin.room.entities.PitTemplate
+import com.robolancers.lancerscoutkotlin.room.viewmodels.PitTemplateViewModel
 import com.robolancers.lancerscoutkotlin.utilities.RecyclerViewOnClickListener
 import com.robolancers.lancerscoutkotlin.utilities.enums.TemplateType
 import com.robolancers.lancerscoutkotlin.utilities.enums.putExtra
@@ -39,7 +39,8 @@ class PitTemplateAdapter(private val context: Context): LancerAdapter() {
     private lateinit var recentlyDeletedItem: PitTemplate
     private var templates = emptyList<PitTemplate>()
     private val listener = PitTemplateListener()
-    private val viewModel = ViewModelProvider(context as TemplateActivity, ViewModelProvider.AndroidViewModelFactory(context.application)).get(PitTemplateViewModel::class.java)
+    private val viewModel = ViewModelProvider(context as TemplateActivity, ViewModelProvider.AndroidViewModelFactory(context.application)).get(
+        PitTemplateViewModel::class.java)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val viewHolder =

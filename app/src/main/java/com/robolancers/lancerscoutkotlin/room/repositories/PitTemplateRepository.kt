@@ -1,7 +1,8 @@
-package com.robolancers.lancerscoutkotlin.room
+package com.robolancers.lancerscoutkotlin.room.repositories
 
-import android.util.Log
 import androidx.lifecycle.LiveData
+import com.robolancers.lancerscoutkotlin.room.daos.PitTemplateDao
+import com.robolancers.lancerscoutkotlin.room.entities.PitTemplate
 
 class PitTemplateRepository(private val pitTemplateDao: PitTemplateDao) {
     val allPitTemplates: LiveData<List<PitTemplate>> = pitTemplateDao.getAllPitTemplates()
