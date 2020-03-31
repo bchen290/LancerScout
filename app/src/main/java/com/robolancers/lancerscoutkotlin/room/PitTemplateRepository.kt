@@ -12,6 +12,6 @@ class PitTemplateRepository(private val pitTemplateDao: PitTemplateDao) {
     }
 
     suspend fun deletePitTemplates(vararg pitTemplate: PitTemplate) {
-        pitTemplateDao.deletePitTemplates(*pitTemplate)
+        pitTemplateDao.delete(*pitTemplate)
     }
 }

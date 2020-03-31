@@ -10,6 +10,6 @@ class MatchTemplateRepository(private val matchTemplateDao: MatchTemplateDao) {
     }
 
     suspend fun deleteMatchTemplates(vararg matchTemplates: MatchTemplate) {
-        matchTemplateDao.deleteMatchTemplates(*matchTemplates)
+        matchTemplateDao.delete(*matchTemplates)
     }
 }
