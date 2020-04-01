@@ -1,7 +1,6 @@
 package com.robolancers.lancerscoutkotlin.room.viewmodels
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
