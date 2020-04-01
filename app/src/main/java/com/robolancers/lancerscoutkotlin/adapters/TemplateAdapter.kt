@@ -22,7 +22,7 @@ import com.robolancers.lancerscoutkotlin.utilities.callback.RecyclerViewOnClickL
 import kotlinx.android.synthetic.main.list_item_white_text.view.*
 import java.util.*
 
-class TemplateAdapter(private val context: Context): ListAdapter<Template, RecyclerView.ViewHolder>(DIFF_CALLBACK), LancerAdapter {
+class TemplateAdapter(private val context: Context): RecyclerView.Adapter<RecyclerView.ViewHolder>(), LancerAdapter {
     inner class TemplateListener :
         RecyclerViewOnClickListener<Template> {
         override fun onItemClicked(itemClicked: Template) {
@@ -34,14 +34,6 @@ class TemplateAdapter(private val context: Context): ListAdapter<Template, Recyc
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var textView: TextView = itemView.findViewById(R.id.list_content)
-    }
-
-    companion object {
-        val DIFF_CALLBACK = object: DiffUtil.ItemCallback<Template>() {
-            override fun areItemsTheSame(oldItem: Template, newItem: Template): Boolean = oldItem.id == newItem.id
-
-            override fun areContentsTheSame(oldItem: Template, newItem: Template): Boolean = oldItem.name == newItem.name && oldItem.data == newItem.data
-        }
     }
 
     private lateinit var recentlyDeletedItem: Template
