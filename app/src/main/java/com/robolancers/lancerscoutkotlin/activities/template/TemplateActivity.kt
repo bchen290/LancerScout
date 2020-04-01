@@ -15,6 +15,7 @@ import com.robolancers.lancerscoutkotlin.room.entities.Template
 import com.robolancers.lancerscoutkotlin.room.viewmodels.TemplateViewModel
 import com.robolancers.lancerscoutkotlin.utilities.activity.ToolbarActivity
 import com.robolancers.lancerscoutkotlin.utilities.callback.ItemTouchHelperSimpleCallback
+import kotlinx.android.synthetic.main.activity_template.*
 
 class TemplateActivity : ToolbarActivity() {
     private lateinit var templateAdapter: TemplateAdapter
@@ -35,7 +36,6 @@ class TemplateActivity : ToolbarActivity() {
 
         setupToolbar()
 
-        val fab = findViewById<FloatingActionButton>(R.id.fab)
         fab.setOnClickListener {
             val intent = Intent(this, TemplateEditingActivity::class.java)
             intent.putExtra("Template", Template("", ""))
@@ -46,7 +46,7 @@ class TemplateActivity : ToolbarActivity() {
         val templateManager = LinearLayoutManager(this)
         templateAdapter = TemplateAdapter(this@TemplateActivity)
 
-        val templateRecyclerView = findViewById<RecyclerView>(R.id.template_recycler_view).apply {
+        val templateRecyclerView = template_recycler_view.apply {
             layoutManager = templateManager
             adapter = templateAdapter
         }

@@ -1,10 +1,10 @@
-package com.robolancers.lancerscoutkotlin.activities.match
+package com.robolancers.lancerscoutkotlin.activities.scouting
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.robolancers.lancerscoutkotlin.R
 
-class MatchChooserActivity : AppCompatActivity() {
+class TeamChooserActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

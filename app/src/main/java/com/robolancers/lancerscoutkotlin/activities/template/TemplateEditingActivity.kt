@@ -25,11 +25,9 @@ import com.robolancers.lancerscoutkotlin.utilities.activity.ToolbarActivity
 import com.robolancers.lancerscoutkotlin.utilities.callback.ItemTouchHelperSimpleCallback
 import com.robolancers.lancerscoutkotlin.utilities.enums.TemplateModelType
 import com.robolancers.lancerscoutkotlin.utilities.enums.TemplateModelType.*
+import kotlinx.android.synthetic.main.activity_template_editing.*
 
 class TemplateEditingActivity : ToolbarActivity(), TemplateModelChooserDialogFragment.TemplateModelChooserDialogListener {
-    private lateinit var parentLayout: LinearLayout
-    private lateinit var templateEditingTitle: EditText
-
     private lateinit var templateEditingRecyclerView: RecyclerView
     private lateinit var templateEditingAdapter: TemplateEditingAdapter<TemplateModel>
     private var templateEditingList = mutableListOf<TemplateModel>()
@@ -54,8 +52,6 @@ class TemplateEditingActivity : ToolbarActivity(), TemplateModelChooserDialogFra
 
         setupToolbar()
 
-        parentLayout = findViewById(R.id.template_editing_linear_layout)
-
         template = intent.getParcelableExtra("Template")
         templateName = template?.name
 
@@ -64,8 +60,7 @@ class TemplateEditingActivity : ToolbarActivity(), TemplateModelChooserDialogFra
             templateEditingList = gson.fromJson(templateData)
         }
 
-        templateEditingTitle = findViewById(R.id.template_editing_title)
-        templateEditingTitle.setText(templateName)
+        template_editing_title.setText(templateName)
         
         templateEditingAdapter = TemplateEditingAdapter(this@TemplateEditingActivity, templateEditingList)
         templateEditingRecyclerView = findViewById<RecyclerView>(R.id.template_editing_list).apply {
@@ -132,7 +127,7 @@ class TemplateEditingActivity : ToolbarActivity(), TemplateModelChooserDialogFra
 
     private fun save() {
         val json = gson.toJson(templateEditingList, gsonTypeToken<MutableList<TemplateModel>>())
-        templateName = templateEditingTitle.text.toString()
+        templateName = template_editing_title.text.toString()
 
         val templateCopy = template
         if (templateCopy != null) {
@@ -142,6 +137,6 @@ class TemplateEditingActivity : ToolbarActivity(), TemplateModelChooserDialogFra
             templateViewModel.insert(templateCopy)
         }
 
-        Snackbar.make(parentLayout, "Saved", Snackbar.LENGTH_LONG).show()
+        Snackbar.make(template_editing_linear_layout, "Saved", Snackbar.LENGTH_LONG).show()
     }
 }

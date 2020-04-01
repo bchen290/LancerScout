@@ -16,17 +16,10 @@
         android:textSize="30sp"/>
 
     <Button
-        android:id="@+id/match_scouting_button"
+        android:id="@+id/scouting_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/match_scouting"
-        android:textColor="@android:color/black" />
-
-    <Button
-        android:id="@+id/pit_scouting_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/pit_scouting"
+        android:text="@string/scouting"
         android:textColor="@android:color/black" />
 
     <Button
