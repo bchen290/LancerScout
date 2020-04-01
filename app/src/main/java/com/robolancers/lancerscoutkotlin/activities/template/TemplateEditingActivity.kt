@@ -10,8 +10,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.list.listItems
 import com.robolancers.lancerscoutkotlin.R
-import com.robolancers.lancerscoutkotlin.fragments.TemplateModelChooserDialogFragment
 import com.robolancers.lancerscoutkotlin.models.template.*
 import com.robolancers.lancerscoutkotlin.adapters.TemplateEditingAdapter
 import com.github.salomonbrys.kotson.*
@@ -21,12 +22,11 @@ import com.robolancers.lancerscoutkotlin.room.viewmodels.TemplateViewModel
 import com.robolancers.lancerscoutkotlin.utilities.GsonHelper.Companion.gson
 import com.robolancers.lancerscoutkotlin.utilities.activity.ToolbarActivity
 import com.robolancers.lancerscoutkotlin.utilities.callback.ItemTouchHelperSimpleCallback
-import com.robolancers.lancerscoutkotlin.utilities.callback.ItemTouchHelperSimpleCallbackDeletable
 import com.robolancers.lancerscoutkotlin.utilities.enums.TemplateModelType
 import com.robolancers.lancerscoutkotlin.utilities.enums.TemplateModelType.*
 import kotlinx.android.synthetic.main.activity_template_editing.*
 
-class TemplateEditingActivity : ToolbarActivity(), TemplateModelChooserDialogFragment.TemplateModelChooserDialogListener {
+class TemplateEditingActivity : ToolbarActivity() {
     private lateinit var templateEditingAdapter: TemplateEditingAdapter<TemplateModel>
     private var templateEditingList = mutableListOf<TemplateModel>()
 
@@ -78,19 +78,6 @@ class TemplateEditingActivity : ToolbarActivity(), TemplateModelChooserDialogFra
             TemplateViewModel::class.java)
     }
 
-    override fun onDialogClicked(clickedItem: TemplateModelType) {
-        when(clickedItem) {
-            HEADER -> templateEditingList.add(Header())
-            NOTE -> templateEditingList.add(Note())
-            COUNTER -> templateEditingList.add(Counter())
-            ITEM_SELECTOR -> templateEditingList.add(ItemSelector())
-            STOPWATCH -> templateEditingList.add(Stopwatch())
-            CHECKBOX -> templateEditingList.add(Checkbox())
-        }
-
-        templateEditingAdapter.notifyItemInserted(templateEditingList.size - 1)
-    }
-
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.item_editing_menu, menu)
         return true
@@ -99,12 +86,27 @@ class TemplateEditingActivity : ToolbarActivity(), TemplateModelChooserDialogFra
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId) {
             R.id.item_editing_save -> {
+                MaterialDialog(this).show {
+
+                }
                 save()
                 true
             }
             R.id.item_editing_add -> {
-                val newFragment = TemplateModelChooserDialogFragment()
-                newFragment.show(supportFragmentManager, "templateModelChooser")
+                MaterialDialog(this).show {
+                    listItems(items = values().map { it.toString() }.toList()) { _, _, text ->
+                        when(text) {
+                            HEADER.toString() -> templateEditingList.add(Header())
+                            NOTE.toString() -> templateEditingList.add(Note())
+                            COUNTER.toString() -> templateEditingList.add(Counter())
+                            ITEM_SELECTOR.toString() -> templateEditingList.add(ItemSelector())
+                            STOPWATCH.toString() -> templateEditingList.add(Stopwatch())
+                            CHECKBOX.toString() -> templateEditingList.add(Checkbox())
+                        }
+
+                        templateEditingAdapter.notifyItemInserted(templateEditingList.size - 1)
+                    }
+                }
                 true
             }
             android.R.id.home -> {

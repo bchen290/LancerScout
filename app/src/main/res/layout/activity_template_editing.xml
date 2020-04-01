@@ -21,7 +21,6 @@
         android:autofillHints="title"
         android:inputType="text"
         android:hint="@string/template_title"
-        android:textColor="@color/colorAccent"
         android:gravity="center"
         android:transitionName="title"
         android:background="@android:color/transparent"/>

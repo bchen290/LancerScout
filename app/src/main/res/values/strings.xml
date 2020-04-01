@@ -27,4 +27,6 @@
     <string name="add">Add</string>
     <string name="template_title">Template Title</string>
     <string name="scouting">Scouting</string>
+    <string name="input_team_number">Input team number</string>
+    <string name="team_number">Team Number</string>
 </resources>

@@ -16,7 +16,6 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:textColor="@android:color/white"
         android:textSize="30sp"
         android:layout_weight="1"
         android:transitionName="title"/>

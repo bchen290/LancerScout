@@ -40,7 +40,7 @@ class TemplateAdapter(private val templateActivity: TemplateActivity): RecyclerV
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return ViewHolder(
             LayoutInflater.from(parent.context)
-                .inflate(R.layout.list_item_white_text_no_handle, parent, false)
+                .inflate(R.layout.list_item_text_no_handle, parent, false)
         )
     }
 

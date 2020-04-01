@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
     android:orientation="vertical"
+    android:gravity="center"
     android:fitsSystemWindows="true"
     tools:context=".MainActivity">
 
@@ -19,13 +19,11 @@
         android:id="@+id/scouting_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/scouting"
-        android:textColor="@android:color/black" />
+        android:text="@string/scouting"/>
 
     <Button
         android:id="@+id/template_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/templates"
-        android:textColor="@android:color/black" />
+        android:text="@string/templates" />
 </LinearLayout>

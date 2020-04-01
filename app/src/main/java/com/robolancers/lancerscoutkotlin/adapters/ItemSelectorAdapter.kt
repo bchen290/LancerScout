@@ -17,7 +17,7 @@ import com.robolancers.lancerscoutkotlin.models.template.ItemSelectorItem
 import com.robolancers.lancerscoutkotlin.utilities.adapters.Deletable
 import com.robolancers.lancerscoutkotlin.utilities.adapters.Reorderable
 import com.robolancers.lancerscoutkotlin.utilities.callback.LancerTextWatcher
-import kotlinx.android.synthetic.main.list_item_white_text_handle.view.*
+import kotlinx.android.synthetic.main.list_item_text_handle.view.*
 import java.util.*
 
 class ItemSelectorAdapter<T: Any>(private val context: Context, private val listItems: MutableList<ItemSelectorItem>, private val itemSelectorHolder: TemplateEditingAdapter<T>.ItemSelectorHolder) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), Deletable, Reorderable {
