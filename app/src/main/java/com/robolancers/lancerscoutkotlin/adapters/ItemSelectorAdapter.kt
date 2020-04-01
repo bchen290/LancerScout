@@ -9,16 +9,17 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.LinearLayout
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.robolancers.lancerscoutkotlin.R
 import com.robolancers.lancerscoutkotlin.activities.template.TemplateEditingActivity
 import com.robolancers.lancerscoutkotlin.models.template.ItemSelectorItem
-import com.robolancers.lancerscoutkotlin.utilities.LancerTextWatcher
+import com.robolancers.lancerscoutkotlin.utilities.callback.LancerTextWatcher
 import kotlinx.android.synthetic.main.list_item_white_text.view.*
 import java.util.*
 
-class ItemSelectorAdapter<T: Any>(private val context: Context, private val listItems: MutableList<ItemSelectorItem>, private val itemSelectorHolder: TemplateEditingAdapter<T>.ItemSelectorHolder) : LancerAdapter() {
+class ItemSelectorAdapter<T: Any>(private val context: Context, private val listItems: MutableList<ItemSelectorItem>, private val itemSelectorHolder: TemplateEditingAdapter<T>.ItemSelectorHolder) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), LancerAdapter {
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         private val itemTitle: EditText = itemView.findViewById(R.id.item_selector_item_title)
         private val itemDelete: ImageButton = itemView.findViewById(R.id.item_selector_item_delete)

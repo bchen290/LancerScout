@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.robolancers.lancerscoutkotlin.R
@@ -16,14 +18,13 @@ import com.robolancers.lancerscoutkotlin.activities.template.TemplateActivity
 import com.robolancers.lancerscoutkotlin.activities.template.TemplateEditingActivity
 import com.robolancers.lancerscoutkotlin.room.entities.Template
 import com.robolancers.lancerscoutkotlin.room.viewmodels.TemplateViewModel
-import com.robolancers.lancerscoutkotlin.utilities.RecyclerViewOnClickListener
-import com.robolancers.lancerscoutkotlin.utilities.enums.TemplateType
-import com.robolancers.lancerscoutkotlin.utilities.enums.putExtra
+import com.robolancers.lancerscoutkotlin.utilities.callback.RecyclerViewOnClickListener
 import kotlinx.android.synthetic.main.list_item_white_text.view.*
 import java.util.*
 
-class TemplateAdapter(private val context: Context): LancerAdapter() {
-    inner class TemplateListener : RecyclerViewOnClickListener<Template> {
+class TemplateAdapter(private val context: Context): ListAdapter<Template, RecyclerView.ViewHolder>(DIFF_CALLBACK), LancerAdapter {
+    inner class TemplateListener :
+        RecyclerViewOnClickListener<Template> {
         override fun onItemClicked(itemClicked: Template) {
             val intent = Intent(context, TemplateEditingActivity::class.java)
             intent.putExtra("Template", itemClicked)
@@ -33,6 +34,14 @@ class TemplateAdapter(private val context: Context): LancerAdapter() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var textView: TextView = itemView.findViewById(R.id.list_content)
+    }
+
+    companion object {
+        val DIFF_CALLBACK = object: DiffUtil.ItemCallback<Template>() {
+            override fun areItemsTheSame(oldItem: Template, newItem: Template): Boolean = oldItem.id == newItem.id
+
+            override fun areContentsTheSame(oldItem: Template, newItem: Template): Boolean = oldItem.name == newItem.name && oldItem.data == newItem.data
+        }
     }
 
     private lateinit var recentlyDeletedItem: Template

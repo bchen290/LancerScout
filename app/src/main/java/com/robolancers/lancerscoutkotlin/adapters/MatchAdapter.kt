@@ -3,7 +3,7 @@ package com.robolancers.lancerscoutkotlin.adapters
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
-class MatchAdapter : LancerAdapter() {
+class MatchAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(), LancerAdapter {
     override fun moveItem(from: Int, to: Int) {
         TODO("Not yet implemented")
     }

@@ -1,6 +1,5 @@
 package com.robolancers.lancerscoutkotlin.utilities
 
-import android.util.Log
 import com.github.salomonbrys.kotson.fromJson
 import com.github.salomonbrys.kotson.get
 import com.github.salomonbrys.kotson.registerTypeAdapter
@@ -11,7 +10,7 @@ import com.google.gson.JsonObject
 import com.google.gson.reflect.TypeToken
 import com.robolancers.lancerscoutkotlin.models.template.*
 
-class Util {
+class GsonHelper {
     companion object {
         val gson = GsonBuilder()
             .registerTypeAdapter<MutableList<TemplateModel>> {

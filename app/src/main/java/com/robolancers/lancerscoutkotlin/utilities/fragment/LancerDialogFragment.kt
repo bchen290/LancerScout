@@ -1,4 +1,4 @@
-package com.robolancers.lancerscoutkotlin.utilities
+package com.robolancers.lancerscoutkotlin.utilities.fragment
 
 import android.view.WindowManager
 import androidx.fragment.app.DialogFragment

@@ -16,12 +16,12 @@ import com.google.android.material.snackbar.Snackbar
 import com.robolancers.lancerscoutkotlin.R
 import com.robolancers.lancerscoutkotlin.activities.template.TemplateEditingActivity
 import com.robolancers.lancerscoutkotlin.models.template.*
-import com.robolancers.lancerscoutkotlin.utilities.ItemTouchHelperSimpleCallbackNoSwipe
-import com.robolancers.lancerscoutkotlin.utilities.LancerTextWatcher
-import com.robolancers.lancerscoutkotlin.utilities.StopwatchThread
+import com.robolancers.lancerscoutkotlin.utilities.callback.ItemTouchHelperSimpleCallbackNoSwipe
+import com.robolancers.lancerscoutkotlin.utilities.callback.LancerTextWatcher
+import com.robolancers.lancerscoutkotlin.utilities.activity.StopwatchThread
 import java.util.*
 
-class TemplateEditingAdapter<T: Any>(val context: Context, private val templateModels: MutableList<T>) : LancerAdapter() {
+class TemplateEditingAdapter<T: Any>(val context: Context, private val templateModels: MutableList<T>) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), LancerAdapter {
     class HeaderHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         private var headerText = itemView.findViewById<EditText>(R.id.header_title)
 
@@ -74,7 +74,11 @@ class TemplateEditingAdapter<T: Any>(val context: Context, private val templateM
                 val splitText = stopwatchButtonText.split(" ")
 
                 if (splitText[0] == "Start") {
-                    stopWatchThread = StopwatchThread(stopwatchButton, context)
+                    stopWatchThread =
+                        StopwatchThread(
+                            stopwatchButton,
+                            context
+                        )
                     stopWatchThread.start()
 
                     stopwatchButton.setBackgroundColor(Color.RED)
@@ -155,7 +159,11 @@ class TemplateEditingAdapter<T: Any>(val context: Context, private val templateM
         private var itemSelectorItems = mutableListOf<ItemSelectorItem>()
 
         private var itemSelectorAdapter = ItemSelectorAdapter(itemSelectorRecyclerView.context, itemSelectorItems, this)
-        private var itemSelectorItemTouchHelper = ItemTouchHelper(ItemTouchHelperSimpleCallbackNoSwipe(itemSelectorRecyclerView.context, itemSelectorAdapter).simpleItemCallback)
+        private var itemSelectorItemTouchHelper = ItemTouchHelper(
+            ItemTouchHelperSimpleCallbackNoSwipe(
+                itemSelectorRecyclerView.context,
+                itemSelectorAdapter
+            ).simpleItemCallback)
         private val itemSelectorLinearLayoutManager = LinearLayoutManager(itemSelectorRecyclerView.context, RecyclerView.VERTICAL, false)
 
         fun bind(templateModel: ItemSelector) {

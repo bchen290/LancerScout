@@ -11,14 +11,19 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.robolancers.lancerscoutkotlin.R
 import com.robolancers.lancerscoutkotlin.adapters.TemplateAdapter
 import com.robolancers.lancerscoutkotlin.room.entities.Template
-import com.robolancers.lancerscoutkotlin.utilities.*
 import com.robolancers.lancerscoutkotlin.room.viewmodels.TemplateViewModel
+import com.robolancers.lancerscoutkotlin.utilities.activity.ToolbarActivity
+import com.robolancers.lancerscoutkotlin.utilities.callback.ItemTouchHelperSimpleCallback
 
 class TemplateActivity : ToolbarActivity() {
     private lateinit var templateAdapter: TemplateAdapter
 
     private val templateItemTouchHelper by lazy {
-        ItemTouchHelper(ItemTouchHelperSimpleCallback(applicationContext, templateAdapter).simpleItemCallback)
+        ItemTouchHelper(
+            ItemTouchHelperSimpleCallback(
+                applicationContext,
+                templateAdapter
+            ).simpleItemCallback)
     }
 
     private lateinit var templateViewModel: TemplateViewModel

@@ -4,7 +4,7 @@ import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
-import com.robolancers.lancerscoutkotlin.utilities.LancerDialogFragment
+import com.robolancers.lancerscoutkotlin.utilities.fragment.LancerDialogFragment
 import com.robolancers.lancerscoutkotlin.utilities.enums.TemplateModelType
 
 class TemplateModelChooserDialogFragment : LancerDialogFragment() {

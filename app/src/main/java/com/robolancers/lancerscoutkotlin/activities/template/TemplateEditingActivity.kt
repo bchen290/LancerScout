@@ -3,7 +3,6 @@ package com.robolancers.lancerscoutkotlin.activities.template
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.inputmethod.InputMethodManager
@@ -21,12 +20,11 @@ import com.github.salomonbrys.kotson.*
 import com.google.android.material.snackbar.Snackbar
 import com.robolancers.lancerscoutkotlin.room.entities.Template
 import com.robolancers.lancerscoutkotlin.room.viewmodels.TemplateViewModel
-import com.robolancers.lancerscoutkotlin.utilities.*
-import com.robolancers.lancerscoutkotlin.utilities.Util.Companion.gson
+import com.robolancers.lancerscoutkotlin.utilities.GsonHelper.Companion.gson
+import com.robolancers.lancerscoutkotlin.utilities.activity.ToolbarActivity
+import com.robolancers.lancerscoutkotlin.utilities.callback.ItemTouchHelperSimpleCallback
 import com.robolancers.lancerscoutkotlin.utilities.enums.TemplateModelType
 import com.robolancers.lancerscoutkotlin.utilities.enums.TemplateModelType.*
-import com.robolancers.lancerscoutkotlin.utilities.enums.TemplateType
-import com.robolancers.lancerscoutkotlin.utilities.enums.getEnumExtra
 
 class TemplateEditingActivity : ToolbarActivity(), TemplateModelChooserDialogFragment.TemplateModelChooserDialogListener {
     private lateinit var parentLayout: LinearLayout
@@ -42,7 +40,11 @@ class TemplateEditingActivity : ToolbarActivity(), TemplateModelChooserDialogFra
     private lateinit var templateViewModel: TemplateViewModel
 
     private val templateEditingHelper by lazy {
-        ItemTouchHelper(ItemTouchHelperSimpleCallback(applicationContext, templateEditingAdapter).simpleItemCallback)
+        ItemTouchHelper(
+            ItemTouchHelperSimpleCallback(
+                applicationContext,
+                templateEditingAdapter
+            ).simpleItemCallback)
     }
 
     @SuppressLint("ClickableViewAccessibility")

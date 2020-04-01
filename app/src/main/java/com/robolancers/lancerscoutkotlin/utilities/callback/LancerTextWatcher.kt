@@ -1,4 +1,4 @@
-package com.robolancers.lancerscoutkotlin.utilities
+package com.robolancers.lancerscoutkotlin.utilities.callback
 
 import android.text.Editable
 import android.text.TextWatcher

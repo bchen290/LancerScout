@@ -1,8 +1,6 @@
 package com.robolancers.lancerscoutkotlin.adapters
 
-import androidx.recyclerview.widget.RecyclerView
-
-abstract class LancerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+interface LancerAdapter {
     abstract fun moveItem(from: Int, to: Int)
 
     abstract fun deleteItem(position: Int)
