@@ -20,7 +20,7 @@ import com.robolancers.lancerscoutkotlin.utilities.callback.LancerTextWatcher
 import kotlinx.android.synthetic.main.list_item_text_handle.view.*
 import java.util.*
 
-class ItemSelectorAdapter<T: Any>(private val context: Context, private val listItems: MutableList<ItemSelectorItem>, private val itemSelectorHolder: TemplateEditingAdapter<T>.ItemSelectorHolder) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), Deletable, Reorderable {
+class ItemSelectorAdapter(private val context: Context, private val listItems: MutableList<ItemSelectorItem>, private val itemSelectorHolder: TemplateEditingAdapter.ItemSelectorHolder) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), Deletable, Reorderable {
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         private val itemTitle: EditText = itemView.findViewById(R.id.item_selector_item_title)
         private val itemDelete: ImageButton = itemView.findViewById(R.id.item_selector_item_delete)
@@ -60,7 +60,7 @@ class ItemSelectorAdapter<T: Any>(private val context: Context, private val list
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if (holder is ItemSelectorAdapter<*>.ViewHolder) {
+        if (holder is ViewHolder) {
             holder.bind(listItems[position])
         }
     }

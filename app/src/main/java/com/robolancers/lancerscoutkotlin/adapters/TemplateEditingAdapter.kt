@@ -19,13 +19,11 @@ import com.robolancers.lancerscoutkotlin.models.template.*
 import com.robolancers.lancerscoutkotlin.utilities.callback.ItemTouchHelperSimpleCallbackReorderable
 import com.robolancers.lancerscoutkotlin.utilities.callback.LancerTextWatcher
 import com.robolancers.lancerscoutkotlin.utilities.activity.StopwatchThread
-import com.robolancers.lancerscoutkotlin.utilities.adapters.Deletable
 import com.robolancers.lancerscoutkotlin.utilities.adapters.LancerAdapter
-import com.robolancers.lancerscoutkotlin.utilities.adapters.Reorderable
 import java.util.*
 
-class TemplateEditingAdapter<T: Any>(val context: Context, private val templateModels: MutableList<T>) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), LancerAdapter {
-    class HeaderHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+class TemplateEditingAdapter(val context: Context, private val templateModels: MutableList<TemplateModel>) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), LancerAdapter {
+    inner class HeaderHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         private var headerText = itemView.findViewById<EditText>(R.id.header_title)
 
         fun bind(templateModel: Header) {
@@ -34,12 +32,13 @@ class TemplateEditingAdapter<T: Any>(val context: Context, private val templateM
             headerText.addTextChangedListener(object: LancerTextWatcher() {
                 override fun afterTextChanged(s: Editable?) {
                     templateModel.text = s.toString()
+                    hasTemplateChanged = true
                 }
             })
         }
     }
 
-    class NoteHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+    inner class NoteHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         private var noteTitle = itemView.findViewById<EditText>(R.id.note_title)
         private var noteText = itemView.findViewById<EditText>(R.id.note_text)
 
@@ -50,12 +49,14 @@ class TemplateEditingAdapter<T: Any>(val context: Context, private val templateM
             noteTitle.addTextChangedListener(object: LancerTextWatcher() {
                 override fun afterTextChanged(s: Editable?) {
                     templateModel.title = s.toString()
+                    hasTemplateChanged = true
                 }
             })
 
             noteText.addTextChangedListener(object: LancerTextWatcher() {
                 override fun afterTextChanged(s: Editable?) {
                     templateModel.text = s.toString()
+                    hasTemplateChanged = true
                 }
             })
         }
@@ -92,17 +93,20 @@ class TemplateEditingAdapter<T: Any>(val context: Context, private val templateM
 
                     templateModel.time = splitText[1]
                 }
+
+                hasTemplateChanged = true
             }
 
             stopwatchTitle.addTextChangedListener(object: LancerTextWatcher() {
                 override fun afterTextChanged(s: Editable?) {
                     templateModel.title = s.toString()
+                    hasTemplateChanged = true
                 }
             })
         }
     }
 
-    class CounterHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+    inner class CounterHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         private var counterTitle = itemView.findViewById<EditText>(R.id.counter_title)
         private var counterPlusButton = itemView.findViewById<Button>(R.id.counter_plus)
         private var counterMinusButton = itemView.findViewById<Button>(R.id.counter_minus)
@@ -120,6 +124,7 @@ class TemplateEditingAdapter<T: Any>(val context: Context, private val templateM
                 counterCount.setText(count.toString())
 
                 templateModel.count = counterCount.text.toString().toInt()
+                hasTemplateChanged = true
             }
 
             counterPlusButton.setOnClickListener {
@@ -128,11 +133,13 @@ class TemplateEditingAdapter<T: Any>(val context: Context, private val templateM
                 counterCount.setText(count.toString())
 
                 templateModel.count = counterCount.text.toString().toInt()
+                hasTemplateChanged = true
             }
 
             counterTitle.addTextChangedListener(object: LancerTextWatcher() {
                 override fun afterTextChanged(s: Editable?) {
                     templateModel.title = s.toString()
+                    hasTemplateChanged = true
                 }
             })
 
@@ -143,12 +150,15 @@ class TemplateEditingAdapter<T: Any>(val context: Context, private val templateM
                     } else {
                         templateModel.count = s.toString().toInt()
                     }
+
+                    hasTemplateChanged = true
                 }
             })
 
             counterUnit.addTextChangedListener(object: LancerTextWatcher() {
                 override fun afterTextChanged(s: Editable?) {
                     templateModel.unit = s.toString()
+                    hasTemplateChanged = true
                 }
             })
         }
@@ -177,6 +187,8 @@ class TemplateEditingAdapter<T: Any>(val context: Context, private val templateM
             itemSelectorAdd.setOnClickListener {
                 itemSelectorItems.add(ItemSelectorItem(""))
                 itemSelectorAdapter.notifyItemInserted(itemSelectorItems.size - 1)
+
+                hasTemplateChanged = true
             }
 
             itemSelectorRecyclerView.apply {
@@ -188,6 +200,7 @@ class TemplateEditingAdapter<T: Any>(val context: Context, private val templateM
             itemSelectorTitle.addTextChangedListener(object: LancerTextWatcher() {
                 override fun afterTextChanged(s: Editable?) {
                     templateModel.title = s.toString()
+                    hasTemplateChanged = true
                 }
             })
 
@@ -199,7 +212,7 @@ class TemplateEditingAdapter<T: Any>(val context: Context, private val templateM
         }
     }
 
-    class CheckboxHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+    inner class CheckboxHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         private val checkbox = itemView.findViewById<CheckBox>(R.id.checkbox)
         private val checkboxTitle = itemView.findViewById<EditText>(R.id.checkbox_title)
 
@@ -210,19 +223,23 @@ class TemplateEditingAdapter<T: Any>(val context: Context, private val templateM
             checkboxTitle.addTextChangedListener(object: LancerTextWatcher() {
                 override fun afterTextChanged(s: Editable?) {
                     templateModel.title = s.toString()
+                    hasTemplateChanged = true
                 }
             })
 
             checkbox.setOnClickListener {
                 templateModel.checkedState = checkbox.isChecked
+                hasTemplateChanged = true
             }
         }
     }
 
-    class EmptyHolder(itemView: View): RecyclerView.ViewHolder(itemView)
+    inner class EmptyHolder(itemView: View): RecyclerView.ViewHolder(itemView)
+
+    private var hasTemplateChanged = false
 
     private val viewPool = RecyclerView.RecycledViewPool()
-    private lateinit var recentlyDeletedItem: T
+    private lateinit var recentlyDeletedItem: TemplateModel
     private var recentlyDeletedItemPosition = 0
 
     companion object {
@@ -300,9 +317,9 @@ class TemplateEditingAdapter<T: Any>(val context: Context, private val templateM
         when (holder.itemViewType) {
             VIEW_TYPE_HEADER -> (holder as HeaderHolder).bind(templateModels[position] as Header)
             VIEW_TYPE_NOTE -> (holder as NoteHolder).bind(templateModels[position] as Note)
-            VIEW_TYPE_STOPWATCH -> (holder as TemplateEditingAdapter<*>.StopwatchHolder).bind(templateModels[position] as Stopwatch)
+            VIEW_TYPE_STOPWATCH -> (holder as StopwatchHolder).bind(templateModels[position] as Stopwatch)
             VIEW_TYPE_COUNTER -> (holder as CounterHolder).bind(templateModels[position] as Counter)
-            VIEW_TYPE_ITEM_SELECTOR -> (holder as TemplateEditingAdapter<*>.ItemSelectorHolder).bind(templateModels[position] as ItemSelector)
+            VIEW_TYPE_ITEM_SELECTOR -> (holder as ItemSelectorHolder).bind(templateModels[position] as ItemSelector)
             VIEW_TYPE_CHECKBOX -> (holder as CheckboxHolder).bind(templateModels[position] as Checkbox)
         }
     }
