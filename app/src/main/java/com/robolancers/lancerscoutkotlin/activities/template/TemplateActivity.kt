@@ -1,5 +1,6 @@
 package com.robolancers.lancerscoutkotlin.activities.template
 
+import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.Observer
@@ -37,12 +38,7 @@ class TemplateActivity : ToolbarActivity() {
         val fab = findViewById<FloatingActionButton>(R.id.fab)
         fab.setOnClickListener {
             val intent = Intent(this, TemplateEditingActivity::class.java)
-            intent.putExtra("Template",
-                Template(
-                    "",
-                    ""
-                )
-            )
+            intent.putExtra("Template", Template("", ""))
 
             startActivity(intent)
         }

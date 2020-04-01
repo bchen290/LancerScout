@@ -28,5 +28,4 @@
             android:name=".activities.template.TemplateEditingActivity"
             android:parentActivityName=".activities.template.TemplateActivity" />
     </application>
-
 </manifest>

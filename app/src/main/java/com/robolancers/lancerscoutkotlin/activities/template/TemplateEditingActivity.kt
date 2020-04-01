@@ -113,6 +113,10 @@ class TemplateEditingActivity : ToolbarActivity(), TemplateModelChooserDialogFra
                 newFragment.show(supportFragmentManager, "templateModelChooser")
                 true
             }
+            android.R.id.home -> {
+                finishAfterTransition()
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }

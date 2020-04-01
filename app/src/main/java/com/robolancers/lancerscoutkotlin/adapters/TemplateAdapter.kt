@@ -1,5 +1,6 @@
 package com.robolancers.lancerscoutkotlin.adapters
 
+import android.app.ActivityOptions
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
@@ -9,8 +10,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.robolancers.lancerscoutkotlin.R
@@ -18,17 +17,16 @@ import com.robolancers.lancerscoutkotlin.activities.template.TemplateActivity
 import com.robolancers.lancerscoutkotlin.activities.template.TemplateEditingActivity
 import com.robolancers.lancerscoutkotlin.room.entities.Template
 import com.robolancers.lancerscoutkotlin.room.viewmodels.TemplateViewModel
-import com.robolancers.lancerscoutkotlin.utilities.callback.RecyclerViewOnClickListener
 import kotlinx.android.synthetic.main.list_item_white_text.view.*
 import java.util.*
 
-class TemplateAdapter(private val context: Context): RecyclerView.Adapter<RecyclerView.ViewHolder>(), LancerAdapter {
-    inner class TemplateListener :
-        RecyclerViewOnClickListener<Template> {
-        override fun onItemClicked(itemClicked: Template) {
-            val intent = Intent(context, TemplateEditingActivity::class.java)
+class TemplateAdapter(private val templateActivity: TemplateActivity): RecyclerView.Adapter<RecyclerView.ViewHolder>(), LancerAdapter {
+    inner class TemplateListener {
+        fun onItemClicked(viewHolder: RecyclerView.ViewHolder, itemClicked: Template) {
+            val intent = Intent(templateActivity, TemplateEditingActivity::class.java)
             intent.putExtra("Template", itemClicked)
-            context.startActivity(intent)
+            val options = ActivityOptions.makeSceneTransitionAnimation(templateActivity, (viewHolder as ViewHolder).textView, "title")
+            templateActivity.startActivity(intent, options.toBundle())
         }
     }
 
@@ -39,7 +37,7 @@ class TemplateAdapter(private val context: Context): RecyclerView.Adapter<Recycl
     private lateinit var recentlyDeletedItem: Template
     private var templates = emptyList<Template>()
     private val listener = TemplateListener()
-    private val viewModel = ViewModelProvider(context as TemplateActivity, ViewModelProvider.AndroidViewModelFactory(context.application)).get(
+    private val viewModel = ViewModelProvider(templateActivity, ViewModelProvider.AndroidViewModelFactory(templateActivity.application)).get(
         TemplateViewModel::class.java)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -51,9 +49,7 @@ class TemplateAdapter(private val context: Context): RecyclerView.Adapter<Recycl
 
         viewHolder.itemView.handle_view.setOnTouchListener { _, event ->
             if (event.actionMasked == MotionEvent.ACTION_DOWN) {
-                if (context is TemplateActivity) {
-                    context.startDrag(viewHolder)
-                }
+                templateActivity.startDrag(viewHolder)
             }
 
             return@setOnTouchListener true
@@ -66,7 +62,7 @@ class TemplateAdapter(private val context: Context): RecyclerView.Adapter<Recycl
         if (holder is ViewHolder) {
             holder.textView.text = templates[position].name
             holder.itemView.setOnClickListener {
-                listener.onItemClicked(templates[position])
+                listener.onItemClicked(holder, templates[position])
             }
         }
     }
@@ -79,14 +75,12 @@ class TemplateAdapter(private val context: Context): RecyclerView.Adapter<Recycl
     override fun getItemCount(): Int = templates.size
 
     override fun showUndoSnackbar() {
-        if (context is TemplateActivity) {
-            val view = context.findViewById<CoordinatorLayout>(R.id.template_coordinator_layout)
-            val snackbar = Snackbar.make(view, "Deleted", Snackbar.LENGTH_LONG)
-            snackbar.setAction("Undo") {
-                undoDelete()
-            }
-            snackbar.show()
+        val view = templateActivity.findViewById<CoordinatorLayout>(R.id.template_coordinator_layout)
+        val snackbar = Snackbar.make(view, "Deleted", Snackbar.LENGTH_LONG)
+        snackbar.setAction("Undo") {
+            undoDelete()
         }
+        snackbar.show()
     }
 
     override fun moveItem(from: Int, to: Int){

@@ -16,5 +16,8 @@
         <item name="android:homeAsUpIndicator">@drawable/arrow_left</item>
         <item name="android:textColorSecondary">@android:color/white</item>
         <item name="android:divider">@android:color/white</item>
+
+        <!-- enable window content transitions -->
+        <item name="android:windowActivityTransitions">true</item>
     </style>
 </resources>
