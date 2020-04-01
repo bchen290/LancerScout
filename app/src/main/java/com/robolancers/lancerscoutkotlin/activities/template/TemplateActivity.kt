@@ -35,7 +35,7 @@ class TemplateActivity : ToolbarActivity() {
 
         fab.setOnClickListener {
             val intent = Intent(this, TemplateEditingActivity::class.java)
-            intent.putExtra("Template", Template("", ""))
+            intent.putExtra("Template", Template("Untitled", ""))
 
             startActivity(intent)
         }
