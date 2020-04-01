@@ -14,19 +14,18 @@ import com.google.android.material.snackbar.Snackbar
 import com.robolancers.lancerscoutkotlin.R
 import com.robolancers.lancerscoutkotlin.activities.template.TemplateActivity
 import com.robolancers.lancerscoutkotlin.activities.template.TemplateEditingActivity
-import com.robolancers.lancerscoutkotlin.room.entities.PitTemplate
-import com.robolancers.lancerscoutkotlin.room.viewmodels.PitTemplateViewModel
+import com.robolancers.lancerscoutkotlin.room.entities.Template
+import com.robolancers.lancerscoutkotlin.room.viewmodels.TemplateViewModel
 import com.robolancers.lancerscoutkotlin.utilities.RecyclerViewOnClickListener
 import com.robolancers.lancerscoutkotlin.utilities.enums.TemplateType
 import com.robolancers.lancerscoutkotlin.utilities.enums.putExtra
 import kotlinx.android.synthetic.main.list_item_white_text.view.*
 import java.util.*
 
-class PitTemplateAdapter(private val context: Context): LancerAdapter() {
-    inner class PitTemplateListener : RecyclerViewOnClickListener<PitTemplate> {
-        override fun onItemClicked(itemClicked: PitTemplate) {
+class TemplateAdapter(private val context: Context): LancerAdapter() {
+    inner class TemplateListener : RecyclerViewOnClickListener<Template> {
+        override fun onItemClicked(itemClicked: Template) {
             val intent = Intent(context, TemplateEditingActivity::class.java)
-            intent.putExtra(TemplateType.PIT)
             intent.putExtra("Template", itemClicked)
             context.startActivity(intent)
         }
@@ -36,11 +35,11 @@ class PitTemplateAdapter(private val context: Context): LancerAdapter() {
         var textView: TextView = itemView.findViewById(R.id.list_content)
     }
 
-    private lateinit var recentlyDeletedItem: PitTemplate
-    private var templates = emptyList<PitTemplate>()
-    private val listener = PitTemplateListener()
+    private lateinit var recentlyDeletedItem: Template
+    private var templates = emptyList<Template>()
+    private val listener = TemplateListener()
     private val viewModel = ViewModelProvider(context as TemplateActivity, ViewModelProvider.AndroidViewModelFactory(context.application)).get(
-        PitTemplateViewModel::class.java)
+        TemplateViewModel::class.java)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val viewHolder =
@@ -52,7 +51,7 @@ class PitTemplateAdapter(private val context: Context): LancerAdapter() {
         viewHolder.itemView.handle_view.setOnTouchListener { _, event ->
             if (event.actionMasked == MotionEvent.ACTION_DOWN) {
                 if (context is TemplateActivity) {
-                    context.startPitDrag(viewHolder)
+                    context.startDrag(viewHolder)
                 }
             }
 
@@ -71,7 +70,7 @@ class PitTemplateAdapter(private val context: Context): LancerAdapter() {
         }
     }
 
-    fun setTemplates(templates: List<PitTemplate>) {
+    fun setTemplates(templates: List<Template>) {
         this.templates = templates
         notifyDataSetChanged()
     }

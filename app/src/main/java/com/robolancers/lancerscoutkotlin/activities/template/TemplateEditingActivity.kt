@@ -19,10 +19,8 @@ import com.robolancers.lancerscoutkotlin.models.template.*
 import com.robolancers.lancerscoutkotlin.adapters.TemplateEditingAdapter
 import com.github.salomonbrys.kotson.*
 import com.google.android.material.snackbar.Snackbar
-import com.robolancers.lancerscoutkotlin.room.entities.MatchTemplate
-import com.robolancers.lancerscoutkotlin.room.entities.PitTemplate
-import com.robolancers.lancerscoutkotlin.room.viewmodels.MatchTemplateViewModel
-import com.robolancers.lancerscoutkotlin.room.viewmodels.PitTemplateViewModel
+import com.robolancers.lancerscoutkotlin.room.entities.Template
+import com.robolancers.lancerscoutkotlin.room.viewmodels.TemplateViewModel
 import com.robolancers.lancerscoutkotlin.utilities.*
 import com.robolancers.lancerscoutkotlin.utilities.Util.Companion.gson
 import com.robolancers.lancerscoutkotlin.utilities.enums.TemplateModelType
@@ -38,13 +36,10 @@ class TemplateEditingActivity : ToolbarActivity(), TemplateModelChooserDialogFra
     private lateinit var templateEditingAdapter: TemplateEditingAdapter<TemplateModel>
     private var templateEditingList = mutableListOf<TemplateModel>()
 
-    private var templateType: TemplateType? = null
-    private var pitTemplate: PitTemplate? = null
-    private var matchTemplate: MatchTemplate? = null
+    private var template: Template? = null
     private var templateName: String? = ""
 
-    private lateinit var matchTemplateViewModel: MatchTemplateViewModel
-    private lateinit var pitTemplateViewModel: PitTemplateViewModel
+    private lateinit var templateViewModel: TemplateViewModel
 
     private val templateEditingHelper by lazy {
         ItemTouchHelper(ItemTouchHelperSimpleCallback(applicationContext, templateEditingAdapter).simpleItemCallback)
@@ -59,22 +54,10 @@ class TemplateEditingActivity : ToolbarActivity(), TemplateModelChooserDialogFra
 
         parentLayout = findViewById(R.id.template_editing_linear_layout)
 
-        templateType = intent.getEnumExtra<TemplateType>()
-        var templateData: String? = ""
+        template = intent.getParcelableExtra("Template")
+        templateName = template?.name
 
-        when (templateType) {
-            TemplateType.PIT -> {
-                pitTemplate = intent.getParcelableExtra("Template")
-                templateData = pitTemplate?.data
-                templateName = pitTemplate?.name
-            }
-            TemplateType.MATCH -> {
-                matchTemplate = intent.getParcelableExtra("Template")
-                templateData = matchTemplate?.data
-                templateName = matchTemplate?.name
-            }
-        }
-
+        val templateData: String? = template?.data
         if (templateData != null && templateData != "") {
             templateEditingList = gson.fromJson(templateData)
         }
@@ -95,10 +78,8 @@ class TemplateEditingActivity : ToolbarActivity(), TemplateModelChooserDialogFra
 
         templateEditingHelper.attachToRecyclerView(templateEditingRecyclerView)
 
-        matchTemplateViewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory(application)).get(
-            MatchTemplateViewModel::class.java)
-        pitTemplateViewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory(application)).get(
-            PitTemplateViewModel::class.java)
+        templateViewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory(application)).get(
+            TemplateViewModel::class.java)
     }
 
     override fun onDialogClicked(clickedItem: TemplateModelType) {
@@ -147,28 +128,12 @@ class TemplateEditingActivity : ToolbarActivity(), TemplateModelChooserDialogFra
         val json = gson.toJson(templateEditingList, gsonTypeToken<MutableList<TemplateModel>>())
         templateName = templateEditingTitle.text.toString()
 
-        when(templateType) {
-            TemplateType.PIT -> {
-                val template = pitTemplate
-                if (template != null) {
-                    template.data = json
-                    template.name = templateName
+        val templateCopy = template
+        if (templateCopy != null) {
+            templateCopy.data = json
+            templateCopy.name = templateName
 
-                    pitTemplateViewModel.insert(template)
-                }
-            }
-            TemplateType.MATCH -> {
-                val template = matchTemplate
-                if (template != null) {
-                    template.data = json
-                    template.name = templateName
-
-                    matchTemplateViewModel.insert(template)
-                }
-            }
-            null -> {
-                Log.e("TemplateEditingActivity", "Template Type should never be null!")
-            }
+            templateViewModel.insert(templateCopy)
         }
 
         Snackbar.make(parentLayout, "Saved", Snackbar.LENGTH_LONG).show()

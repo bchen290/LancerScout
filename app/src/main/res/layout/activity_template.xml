@@ -25,7 +25,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/match_templates"
+                android:text="@string/templates"
                 android:textSize="30sp" />
 
             <View
@@ -34,31 +34,7 @@
                 android:background="@android:color/white"/>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/match_template_recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:orientation="vertical"
-            android:gravity="center_horizontal"
-            android:layout_weight="1">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/pit_templates"
-                android:textSize="30sp" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@android:color/white"/>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/pit_template_recycler_view"
+                android:id="@+id/template_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
         </LinearLayout>

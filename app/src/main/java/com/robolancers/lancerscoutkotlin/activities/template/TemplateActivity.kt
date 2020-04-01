@@ -9,31 +9,19 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.robolancers.lancerscoutkotlin.R
-import com.robolancers.lancerscoutkotlin.adapters.MatchTemplateAdapter
-import com.robolancers.lancerscoutkotlin.adapters.PitTemplateAdapter
-import com.robolancers.lancerscoutkotlin.fragments.TemplateChooserDialogFragment
-import com.robolancers.lancerscoutkotlin.room.entities.MatchTemplate
+import com.robolancers.lancerscoutkotlin.adapters.TemplateAdapter
+import com.robolancers.lancerscoutkotlin.room.entities.Template
 import com.robolancers.lancerscoutkotlin.utilities.*
-import com.robolancers.lancerscoutkotlin.room.viewmodels.MatchTemplateViewModel
-import com.robolancers.lancerscoutkotlin.room.entities.PitTemplate
-import com.robolancers.lancerscoutkotlin.room.viewmodels.PitTemplateViewModel
-import com.robolancers.lancerscoutkotlin.utilities.enums.TemplateType
-import com.robolancers.lancerscoutkotlin.utilities.enums.putExtra
+import com.robolancers.lancerscoutkotlin.room.viewmodels.TemplateViewModel
 
-class TemplateActivity : ToolbarActivity(), TemplateChooserDialogFragment.TemplateChooserDialogListener {
-    private lateinit var matchAdapter: MatchTemplateAdapter
-    private lateinit var pitAdapter: PitTemplateAdapter
+class TemplateActivity : ToolbarActivity() {
+    private lateinit var templateAdapter: TemplateAdapter
 
-    private val matchItemTouchHelper by lazy {
-        ItemTouchHelper(ItemTouchHelperSimpleCallback(applicationContext, matchAdapter).simpleItemCallback)
+    private val templateItemTouchHelper by lazy {
+        ItemTouchHelper(ItemTouchHelperSimpleCallback(applicationContext, templateAdapter).simpleItemCallback)
     }
 
-    private val pitItemTouchHelper by lazy {
-        ItemTouchHelper(ItemTouchHelperSimpleCallback(applicationContext, pitAdapter).simpleItemCallback)
-    }
-
-    private lateinit var matchTemplateViewModel: MatchTemplateViewModel
-    private lateinit var pitTemplateViewModel: PitTemplateViewModel
+    private lateinit var templateViewModel: TemplateViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,73 +31,36 @@ class TemplateActivity : ToolbarActivity(), TemplateChooserDialogFragment.Templa
 
         val fab = findViewById<FloatingActionButton>(R.id.fab)
         fab.setOnClickListener {
-            val newFragment = TemplateChooserDialogFragment()
-            newFragment.show(supportFragmentManager, "templates")
-        }
-
-        val matchTemplateManager = LinearLayoutManager(this)
-        matchAdapter = MatchTemplateAdapter(this@TemplateActivity)
-
-        val matchTemplateRecyclerView = findViewById<RecyclerView>(R.id.match_template_recycler_view).apply {
-            layoutManager = matchTemplateManager
-            adapter = matchAdapter
-        }
-        matchItemTouchHelper.attachToRecyclerView(matchTemplateRecyclerView)
-
-        val pitTemplateManager = LinearLayoutManager(this)
-        pitAdapter = PitTemplateAdapter(this@TemplateActivity)
-
-        val pitTemplateRecyclerView = findViewById<RecyclerView>(R.id.pit_template_recycler_view).apply {
-            layoutManager = pitTemplateManager
-            adapter = pitAdapter
-        }
-        pitItemTouchHelper.attachToRecyclerView(pitTemplateRecyclerView)
-
-        matchTemplateViewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory(application)).get(
-            MatchTemplateViewModel::class.java)
-        pitTemplateViewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory(application)).get(
-            PitTemplateViewModel::class.java)
-
-        matchTemplateViewModel.allMatchTemplates.observe(this, Observer { templates ->
-            templates?.let {
-                matchAdapter.setTemplates(it)
-            }
-        })
-
-        pitTemplateViewModel.allPitTemplates.observe(this, Observer { templates ->
-            templates.let {
-                pitAdapter.setTemplates(it)
-            }
-        })
-    }
-
-    override fun onDialogClicked(clickedItem: TemplateType) {
-        val intent = Intent(this, TemplateEditingActivity::class.java)
-        intent.putExtra(clickedItem)
-
-        when (clickedItem) {
-            TemplateType.PIT -> intent.putExtra("Template",
-                PitTemplate(
+            val intent = Intent(this, TemplateEditingActivity::class.java)
+            intent.putExtra("Template",
+                Template(
                     "",
                     ""
                 )
             )
-            TemplateType.MATCH -> intent.putExtra("Template",
-                MatchTemplate(
-                    "",
-                    ""
-                )
-            )
+
+            startActivity(intent)
         }
 
-        startActivity(intent)
+        val templateManager = LinearLayoutManager(this)
+        templateAdapter = TemplateAdapter(this@TemplateActivity)
+
+        val templateRecyclerView = findViewById<RecyclerView>(R.id.template_recycler_view).apply {
+            layoutManager = templateManager
+            adapter = templateAdapter
+        }
+
+        templateItemTouchHelper.attachToRecyclerView(templateRecyclerView)
+
+        templateViewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory(application)).get(
+            TemplateViewModel::class.java)
+
+        templateViewModel.allTemplates.observe(this, Observer { templates ->
+            templateAdapter.setTemplates(templates)
+        })
     }
 
-    fun startPitDrag(viewHolder: RecyclerView.ViewHolder) {
-        pitItemTouchHelper.startDrag(viewHolder)
-    }
-
-    fun startMatchDrag(viewHolder: RecyclerView.ViewHolder) {
-        matchItemTouchHelper.startDrag(viewHolder)
+    fun startDrag(viewHolder: RecyclerView.ViewHolder) {
+        templateItemTouchHelper.startDrag(viewHolder)
     }
 }

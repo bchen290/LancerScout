@@ -4,15 +4,12 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.robolancers.lancerscoutkotlin.room.daos.MatchTemplateDao
-import com.robolancers.lancerscoutkotlin.room.daos.PitTemplateDao
-import com.robolancers.lancerscoutkotlin.room.entities.MatchTemplate
-import com.robolancers.lancerscoutkotlin.room.entities.PitTemplate
+import com.robolancers.lancerscoutkotlin.room.daos.TemplateDao
+import com.robolancers.lancerscoutkotlin.room.entities.Template
 
-@Database(entities = [PitTemplate::class, MatchTemplate::class], version = 1, exportSchema = false)
+@Database(entities = [Template::class], version = 3, exportSchema = false)
 abstract class TemplateDatabase  : RoomDatabase() {
-    abstract fun pitTemplateDao(): PitTemplateDao
-    abstract fun matchTemplateDao(): MatchTemplateDao
+    abstract fun templateDao(): TemplateDao
 
     companion object {
         @Volatile

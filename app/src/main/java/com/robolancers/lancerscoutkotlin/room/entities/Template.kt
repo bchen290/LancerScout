@@ -5,8 +5,8 @@ import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "pit_templates")
-data class PitTemplate(var name: String?, var data: String?) : Parcelable {
+@Entity(tableName = "templates")
+data class Template(var name: String?, var data: String?) : Parcelable {
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
 
@@ -27,14 +27,14 @@ data class PitTemplate(var name: String?, var data: String?) : Parcelable {
         return 0
     }
 
-    companion object CREATOR : Parcelable.Creator<PitTemplate> {
-        override fun createFromParcel(parcel: Parcel): PitTemplate {
-            return PitTemplate(
+    companion object CREATOR : Parcelable.Creator<Template> {
+        override fun createFromParcel(parcel: Parcel): Template {
+            return Template(
                 parcel
             )
         }
 
-        override fun newArray(size: Int): Array<PitTemplate?> {
+        override fun newArray(size: Int): Array<Template?> {
             return arrayOfNulls(size)
         }
     }
