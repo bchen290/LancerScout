@@ -26,7 +26,7 @@ android {
     sourceSets {
         main {
             res {
-                srcDirs 'src/main/res', 'src/main/res/layouts/template', 'src/main/res/layouts/main', 'src/main/res/layouts/match', 'src/main/res/layouts/pit'
+                srcDirs 'src/main/res'
             }
         }
     }
