@@ -13,7 +13,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.afollestad.materialdialogs.LayoutMode
 import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.bottomsheets.BottomSheet
+import com.afollestad.materialdialogs.bottomsheets.setPeekHeight
 import com.afollestad.materialdialogs.list.listItems
 import com.robolancers.lancerscoutkotlin.R
 import com.robolancers.lancerscoutkotlin.models.template.*
@@ -103,7 +106,7 @@ class TemplateEditingActivity : ToolbarActivity() {
                 true
             }
             R.id.item_editing_add -> {
-                MaterialDialog(this).show {
+                MaterialDialog(this, BottomSheet(LayoutMode.WRAP_CONTENT)).show {
                     listItems(items = values().map { it.toString() }.toList()) { _, _, text ->
                         when(text) {
                             HEADER.toString() -> templateEditingList.add(Header())
