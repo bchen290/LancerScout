@@ -12,7 +12,7 @@ import android.widget.LinearLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.robolancers.lancerscoutkotlin.R
-import com.robolancers.lancerscoutkotlin.activities.TemplateEditingActivity
+import com.robolancers.lancerscoutkotlin.activities.template.TemplateEditingActivity
 import com.robolancers.lancerscoutkotlin.models.template.ItemSelectorItem
 import com.robolancers.lancerscoutkotlin.utilities.LancerTextWatcher
 import kotlinx.android.synthetic.main.list_item_white_text.view.*

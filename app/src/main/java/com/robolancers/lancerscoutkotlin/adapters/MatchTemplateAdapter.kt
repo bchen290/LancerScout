@@ -12,8 +12,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.robolancers.lancerscoutkotlin.R
-import com.robolancers.lancerscoutkotlin.activities.TemplateActivity
-import com.robolancers.lancerscoutkotlin.activities.TemplateEditingActivity
+import com.robolancers.lancerscoutkotlin.activities.template.TemplateActivity
+import com.robolancers.lancerscoutkotlin.activities.template.TemplateEditingActivity
 import com.robolancers.lancerscoutkotlin.room.entities.MatchTemplate
 import com.robolancers.lancerscoutkotlin.room.viewmodels.MatchTemplateViewModel
 import com.robolancers.lancerscoutkotlin.utilities.RecyclerViewOnClickListener

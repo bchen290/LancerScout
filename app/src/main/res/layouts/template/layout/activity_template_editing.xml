@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:fitsSystemWindows="true"
-    tools:context=".activities.TemplateEditingActivity">
+    tools:context=".activities.template.TemplateEditingActivity">
 
     <include layout="@layout/toolbar" />
 

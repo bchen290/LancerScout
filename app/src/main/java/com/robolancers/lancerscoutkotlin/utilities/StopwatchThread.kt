@@ -5,7 +5,7 @@ import android.content.Context
 import android.os.Handler
 import android.os.Looper
 import android.widget.Button
-import com.robolancers.lancerscoutkotlin.activities.TemplateEditingActivity
+import com.robolancers.lancerscoutkotlin.activities.template.TemplateEditingActivity
 
 class StopwatchThread(val stopwatchButton: Button, val context: Context) : Thread() {
     private var startTime: Long = 0

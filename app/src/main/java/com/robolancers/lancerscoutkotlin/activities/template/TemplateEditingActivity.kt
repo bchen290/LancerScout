@@ -1,4 +1,4 @@
-package com.robolancers.lancerscoutkotlin.activities
+package com.robolancers.lancerscoutkotlin.activities.template
 
 import android.annotation.SuppressLint
 import android.content.Context
