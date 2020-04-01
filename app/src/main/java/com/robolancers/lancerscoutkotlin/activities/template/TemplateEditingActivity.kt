@@ -35,6 +35,8 @@ class TemplateEditingActivity : ToolbarActivity() {
 
     private lateinit var templateViewModel: TemplateViewModel
 
+    private var userWantToSave = true
+
     private val templateEditingHelper by lazy {
         ItemTouchHelper(
             ItemTouchHelperSimpleCallback(
@@ -86,9 +88,6 @@ class TemplateEditingActivity : ToolbarActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId) {
             R.id.item_editing_save -> {
-                MaterialDialog(this).show {
-
-                }
                 save()
                 true
             }
@@ -110,7 +109,18 @@ class TemplateEditingActivity : ToolbarActivity() {
                 true
             }
             android.R.id.home -> {
-                finishAfterTransition()
+                MaterialDialog(this).show {
+                    title(text = "Do you want to save?")
+                    positiveButton(text = "Yes") {
+                        save()
+                        userWantToSave = true
+                        finishAfterTransition()
+                    }
+                    negativeButton(text = "No") {
+                        userWantToSave = false
+                        finishAfterTransition()
+                    }
+                }
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -119,7 +129,8 @@ class TemplateEditingActivity : ToolbarActivity() {
 
     override fun onStop() {
         super.onStop()
-        save()
+
+        if (userWantToSave) save()
     }
 
     fun startDragging(viewHolder: RecyclerView.ViewHolder) {
