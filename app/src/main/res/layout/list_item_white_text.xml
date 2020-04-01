@@ -7,6 +7,10 @@
     android:orientation="horizontal"
     android:paddingTop="20dp">
 
+    <include
+        layout="@layout/list_item_handle"
+        android:id="@+id/handle_view" />
+
     <TextView
         android:id="@+id/list_content"
         android:layout_width="0dp"
@@ -16,8 +20,4 @@
         android:textSize="30sp"
         android:layout_weight="1"
         android:transitionName="title"/>
-
-    <include
-        layout="@layout/list_item_handle"
-        android:id="@+id/handle_view" />
 </LinearLayout>
