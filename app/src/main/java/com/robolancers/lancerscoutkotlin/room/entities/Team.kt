@@ -3,9 +3,11 @@ package com.robolancers.lancerscoutkotlin.room.entities
 import android.os.Parcel
 import android.os.Parcelable
 import androidx.room.Entity
+import androidx.room.PrimaryKey
 
 @Entity(tableName = "teams")
 data class Team(var teamNumber: Int?) : Parcelable{
+    @PrimaryKey(autoGenerate = true)
     var id: Int = 0
 
     constructor(parcel: Parcel) : this(parcel.readValue(Int::class.java.classLoader) as? Int) {

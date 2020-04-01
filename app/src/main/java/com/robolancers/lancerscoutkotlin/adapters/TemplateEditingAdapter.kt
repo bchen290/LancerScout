@@ -16,9 +16,12 @@ import com.google.android.material.snackbar.Snackbar
 import com.robolancers.lancerscoutkotlin.R
 import com.robolancers.lancerscoutkotlin.activities.template.TemplateEditingActivity
 import com.robolancers.lancerscoutkotlin.models.template.*
-import com.robolancers.lancerscoutkotlin.utilities.callback.ItemTouchHelperSimpleCallbackNoSwipe
+import com.robolancers.lancerscoutkotlin.utilities.callback.ItemTouchHelperSimpleCallbackReorderable
 import com.robolancers.lancerscoutkotlin.utilities.callback.LancerTextWatcher
 import com.robolancers.lancerscoutkotlin.utilities.activity.StopwatchThread
+import com.robolancers.lancerscoutkotlin.utilities.adapters.Deletable
+import com.robolancers.lancerscoutkotlin.utilities.adapters.LancerAdapter
+import com.robolancers.lancerscoutkotlin.utilities.adapters.Reorderable
 import java.util.*
 
 class TemplateEditingAdapter<T: Any>(val context: Context, private val templateModels: MutableList<T>) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), LancerAdapter {
@@ -160,8 +163,7 @@ class TemplateEditingAdapter<T: Any>(val context: Context, private val templateM
 
         private var itemSelectorAdapter = ItemSelectorAdapter(itemSelectorRecyclerView.context, itemSelectorItems, this)
         private var itemSelectorItemTouchHelper = ItemTouchHelper(
-            ItemTouchHelperSimpleCallbackNoSwipe(
-                itemSelectorRecyclerView.context,
+            ItemTouchHelperSimpleCallbackReorderable(
                 itemSelectorAdapter
             ).simpleItemCallback)
         private val itemSelectorLinearLayoutManager = LinearLayoutManager(itemSelectorRecyclerView.context, RecyclerView.VERTICAL, false)

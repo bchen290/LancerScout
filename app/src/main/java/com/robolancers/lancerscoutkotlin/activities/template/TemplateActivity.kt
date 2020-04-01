@@ -6,27 +6,26 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.robolancers.lancerscoutkotlin.R
 import com.robolancers.lancerscoutkotlin.adapters.TemplateAdapter
 import com.robolancers.lancerscoutkotlin.room.entities.Template
 import com.robolancers.lancerscoutkotlin.room.viewmodels.TemplateViewModel
 import com.robolancers.lancerscoutkotlin.utilities.activity.ToolbarActivity
-import com.robolancers.lancerscoutkotlin.utilities.callback.ItemTouchHelperSimpleCallback
+import com.robolancers.lancerscoutkotlin.utilities.callback.ItemTouchHelperSimpleCallbackDeletable
 import kotlinx.android.synthetic.main.activity_template.*
 
 class TemplateActivity : ToolbarActivity() {
     private lateinit var templateAdapter: TemplateAdapter
 
-    private val templateItemTouchHelper by lazy {
+    private lateinit var templateViewModel: TemplateViewModel
+
+    private val templateHelper by lazy {
         ItemTouchHelper(
-            ItemTouchHelperSimpleCallback(
+            ItemTouchHelperSimpleCallbackDeletable(
                 applicationContext,
                 templateAdapter
             ).simpleItemCallback)
     }
-
-    private lateinit var templateViewModel: TemplateViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,12 +43,12 @@ class TemplateActivity : ToolbarActivity() {
         val templateManager = LinearLayoutManager(this)
         templateAdapter = TemplateAdapter(this@TemplateActivity)
 
-        val templateRecyclerView = template_recycler_view.apply {
+        template_recycler_view.apply {
             layoutManager = templateManager
             adapter = templateAdapter
+        }.also {
+            templateHelper.attachToRecyclerView(it)
         }
-
-        templateItemTouchHelper.attachToRecyclerView(templateRecyclerView)
 
         templateViewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory(application)).get(
             TemplateViewModel::class.java)
@@ -57,9 +56,5 @@ class TemplateActivity : ToolbarActivity() {
         templateViewModel.allTemplates.observe(this, Observer { templates ->
             templateAdapter.setTemplates(templates)
         })
-    }
-
-    fun startDrag(viewHolder: RecyclerView.ViewHolder) {
-        templateItemTouchHelper.startDrag(viewHolder)
     }
 }

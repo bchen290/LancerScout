@@ -2,6 +2,7 @@
   <dictionary name="brian">
     <words>
       <w>gson</w>
+      <w>reorderable</w>
       <w>snackbar</w>
     </words>
   </dictionary>

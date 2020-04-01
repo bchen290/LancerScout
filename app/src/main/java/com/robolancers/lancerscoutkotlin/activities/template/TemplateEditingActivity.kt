@@ -6,8 +6,6 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
-import android.widget.LinearLayout
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,12 +21,12 @@ import com.robolancers.lancerscoutkotlin.room.viewmodels.TemplateViewModel
 import com.robolancers.lancerscoutkotlin.utilities.GsonHelper.Companion.gson
 import com.robolancers.lancerscoutkotlin.utilities.activity.ToolbarActivity
 import com.robolancers.lancerscoutkotlin.utilities.callback.ItemTouchHelperSimpleCallback
+import com.robolancers.lancerscoutkotlin.utilities.callback.ItemTouchHelperSimpleCallbackDeletable
 import com.robolancers.lancerscoutkotlin.utilities.enums.TemplateModelType
 import com.robolancers.lancerscoutkotlin.utilities.enums.TemplateModelType.*
 import kotlinx.android.synthetic.main.activity_template_editing.*
 
 class TemplateEditingActivity : ToolbarActivity(), TemplateModelChooserDialogFragment.TemplateModelChooserDialogListener {
-    private lateinit var templateEditingRecyclerView: RecyclerView
     private lateinit var templateEditingAdapter: TemplateEditingAdapter<TemplateModel>
     private var templateEditingList = mutableListOf<TemplateModel>()
 
@@ -63,17 +61,18 @@ class TemplateEditingActivity : ToolbarActivity(), TemplateModelChooserDialogFra
         template_editing_title.setText(templateName)
         
         templateEditingAdapter = TemplateEditingAdapter(this@TemplateEditingActivity, templateEditingList)
-        templateEditingRecyclerView = findViewById<RecyclerView>(R.id.template_editing_list).apply {
+
+        template_editing_list.apply {
             layoutManager = LinearLayoutManager(this@TemplateEditingActivity, RecyclerView.VERTICAL, false)
             adapter = templateEditingAdapter
-        }
 
-        templateEditingRecyclerView.setOnTouchListener { v, _ ->
-            (getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(v.windowToken, 0)
-            false
+            setOnTouchListener { v, _ ->
+                (getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(v.windowToken, 0)
+                false
+            }
+        }.also {
+            templateEditingHelper.attachToRecyclerView(it)
         }
-
-        templateEditingHelper.attachToRecyclerView(templateEditingRecyclerView)
 
         templateViewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory(application)).get(
             TemplateViewModel::class.java)

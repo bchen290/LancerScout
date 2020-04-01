@@ -10,7 +10,7 @@ import com.robolancers.lancerscoutkotlin.R
 import com.robolancers.lancerscoutkotlin.adapters.TeamAdapter
 import com.robolancers.lancerscoutkotlin.room.viewmodels.TeamViewModel
 import com.robolancers.lancerscoutkotlin.utilities.activity.ToolbarActivity
-import com.robolancers.lancerscoutkotlin.utilities.callback.ItemTouchHelperSimpleCallback
+import com.robolancers.lancerscoutkotlin.utilities.callback.ItemTouchHelperSimpleCallbackDeletable
 import kotlinx.android.synthetic.main.activity_team_chooser.*
 
 class TeamChooserActivity : ToolbarActivity() {
@@ -18,7 +18,7 @@ class TeamChooserActivity : ToolbarActivity() {
 
     private val templateItemTouchHelper by lazy {
         ItemTouchHelper(
-            ItemTouchHelperSimpleCallback(
+            ItemTouchHelperSimpleCallbackDeletable(
                 applicationContext,
                 teamAdapter
             ).simpleItemCallback)

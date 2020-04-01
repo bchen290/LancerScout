@@ -1,10 +1,8 @@
 package com.robolancers.lancerscoutkotlin.adapters
 
 import android.app.ActivityOptions
-import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
@@ -17,10 +15,9 @@ import com.robolancers.lancerscoutkotlin.activities.template.TemplateActivity
 import com.robolancers.lancerscoutkotlin.activities.template.TemplateEditingActivity
 import com.robolancers.lancerscoutkotlin.room.entities.Template
 import com.robolancers.lancerscoutkotlin.room.viewmodels.TemplateViewModel
-import kotlinx.android.synthetic.main.list_item_white_text.view.*
-import java.util.*
+import com.robolancers.lancerscoutkotlin.utilities.adapters.Deletable
 
-class TemplateAdapter(private val templateActivity: TemplateActivity): RecyclerView.Adapter<RecyclerView.ViewHolder>(), LancerAdapter {
+class TemplateAdapter(private val templateActivity: TemplateActivity): RecyclerView.Adapter<RecyclerView.ViewHolder>(), Deletable {
     inner class TemplateListener {
         fun onItemClicked(viewHolder: RecyclerView.ViewHolder, itemClicked: Template) {
             val intent = Intent(templateActivity, TemplateEditingActivity::class.java)
@@ -41,21 +38,10 @@ class TemplateAdapter(private val templateActivity: TemplateActivity): RecyclerV
         TemplateViewModel::class.java)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val viewHolder =
-            ViewHolder(
-                LayoutInflater.from(parent.context)
-                    .inflate(R.layout.list_item_white_text, parent, false)
-            )
-
-        viewHolder.itemView.handle_view.setOnTouchListener { _, event ->
-            if (event.actionMasked == MotionEvent.ACTION_DOWN) {
-                templateActivity.startDrag(viewHolder)
-            }
-
-            return@setOnTouchListener true
-        }
-
-        return viewHolder
+        return ViewHolder(
+            LayoutInflater.from(parent.context)
+                .inflate(R.layout.list_item_white_text_no_handle, parent, false)
+        )
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -81,10 +67,6 @@ class TemplateAdapter(private val templateActivity: TemplateActivity): RecyclerV
             undoDelete()
         }
         snackbar.show()
-    }
-
-    override fun moveItem(from: Int, to: Int){
-        Collections.swap(templates, from, to)
     }
 
     override fun deleteItem(position: Int) {

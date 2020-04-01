@@ -6,9 +6,10 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.robolancers.lancerscoutkotlin.room.daos.TeamDao
 import com.robolancers.lancerscoutkotlin.room.daos.TemplateDao
+import com.robolancers.lancerscoutkotlin.room.entities.Team
 import com.robolancers.lancerscoutkotlin.room.entities.Template
 
-@Database(entities = [Template::class], version = 3, exportSchema = false)
+@Database(entities = [Template::class, Team::class], version = 1, exportSchema = false)
 abstract class TemplateDatabase  : RoomDatabase() {
     abstract fun templateDao(): TemplateDao
     abstract fun teamDao(): TeamDao

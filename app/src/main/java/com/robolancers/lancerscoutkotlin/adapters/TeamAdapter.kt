@@ -13,10 +13,10 @@ import com.robolancers.lancerscoutkotlin.R
 import com.robolancers.lancerscoutkotlin.activities.scouting.TeamChooserActivity
 import com.robolancers.lancerscoutkotlin.room.entities.Team
 import com.robolancers.lancerscoutkotlin.room.viewmodels.TeamViewModel
-import kotlinx.android.synthetic.main.list_item_white_text.view.*
-import java.util.*
+import com.robolancers.lancerscoutkotlin.utilities.adapters.Deletable
+import kotlinx.android.synthetic.main.list_item_white_text_handle.view.*
 
-class TeamAdapter(private var teamChooserActivity: TeamChooserActivity) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), LancerAdapter {
+class TeamAdapter(private var teamChooserActivity: TeamChooserActivity) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), Deletable {
     inner class TeamListener {
         fun onItemClicked(viewHolder: RecyclerView.ViewHolder, itemClicked: Team) {
 
@@ -36,7 +36,7 @@ class TeamAdapter(private var teamChooserActivity: TeamChooserActivity) : Recycl
         val viewHolder =
             ViewHolder(
                 LayoutInflater.from(parent.context)
-                    .inflate(R.layout.list_item_white_text, parent, false)
+                    .inflate(R.layout.list_item_white_text_no_handle, parent, false)
             )
 
         viewHolder.itemView.handle_view.setOnTouchListener { _, event ->
@@ -73,10 +73,6 @@ class TeamAdapter(private var teamChooserActivity: TeamChooserActivity) : Recycl
             undoDelete()
         }
         snackbar.show()
-    }
-
-    override fun moveItem(from: Int, to: Int){
-        Collections.swap(teams, from, to)
     }
 
     override fun deleteItem(position: Int) {
