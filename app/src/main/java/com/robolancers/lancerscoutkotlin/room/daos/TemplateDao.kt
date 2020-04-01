@@ -6,6 +6,6 @@ import com.robolancers.lancerscoutkotlin.room.entities.Template
 
 @Dao
 interface TemplateDao : BaseDao<Template> {
-    @Query("SELECT * FROM templates")
+    @Query("SELECT * FROM templates ORDER BY name ")
     fun getAllTemplates(): LiveData<List<Template>>
 }

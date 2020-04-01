@@ -2,11 +2,12 @@ package com.robolancers.lancerscoutkotlin.room.entities
 
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "teams")
-data class Team(var teamNumber: Int?) : Parcelable{
+data class Team(@ColumnInfo(name = "teamNumber") var teamNumber: Int?) : Parcelable{
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
 

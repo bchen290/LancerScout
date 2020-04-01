@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
-import com.robolancers.lancerscoutkotlin.room.TemplateDatabase
+import com.robolancers.lancerscoutkotlin.room.LancerDatabase
 import com.robolancers.lancerscoutkotlin.room.entities.Team
 import com.robolancers.lancerscoutkotlin.room.repositories.TeamRepository
 import kotlinx.coroutines.launch
@@ -15,7 +15,7 @@ class TeamViewModel(application: Application) : AndroidViewModel(application) {
     val allTeams: LiveData<List<Team>>
 
     init {
-        val teamDao = TemplateDatabase.getDatabase(application).teamDao()
+        val teamDao = LancerDatabase.getDatabase(application).teamDao()
 
         teamRepository = TeamRepository(teamDao)
         allTeams = teamRepository.allTeams
