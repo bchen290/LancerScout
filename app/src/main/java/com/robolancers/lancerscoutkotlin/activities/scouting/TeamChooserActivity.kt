@@ -28,7 +28,7 @@ class TeamChooserActivity : ToolbarActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_template)
+        setContentView(R.layout.activity_team_chooser)
 
         setupToolbar()
 
@@ -36,11 +36,11 @@ class TeamChooserActivity : ToolbarActivity() {
             //TODO Set up team page
         }
 
-        val templateManager = LinearLayoutManager(this)
+        val teamLayoutManager = LinearLayoutManager(this)
         teamAdapter = TeamAdapter(this)
 
         val templateRecyclerView = teams_recycler_view.apply {
-            layoutManager = templateManager
+            layoutManager = teamLayoutManager
             adapter = teamAdapter
         }
 

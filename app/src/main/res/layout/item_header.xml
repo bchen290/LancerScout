@@ -16,7 +16,5 @@
         android:autofillHints="text"
         android:hint="@string/header_title"
         android:inputType="textMultiLine"
-        android:textColor="@color/colorAccent"
-        android:textSize="20sp"
         android:layout_weight="1" />
 </LinearLayout>

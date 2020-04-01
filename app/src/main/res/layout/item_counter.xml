@@ -15,8 +15,6 @@
         android:autofillHints="text"
         android:hint="@string/counter_title"
         android:inputType="textMultiLine"
-        android:textColor="@color/colorAccent"
-        android:textSize="20sp"
         android:layout_weight="1" />
 
     <Button
@@ -32,20 +30,16 @@
         android:layout_height="wrap_content"
         android:text="@string/_0"
         android:hint="@string/_0"
-        android:textColor="@color/colorAccent"
         android:autofillHints=""
-        android:textSize="20sp"
         android:inputType="number" />
 
     <EditText
         android:id="@+id/counter_unit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:autofillHints="text"
+        android:autofillHints=""
         android:hint="@string/unit"
-        android:inputType="text"
-        android:textColor="@color/colorAccent"
-        android:textSize="20sp" />
+        android:inputType="text" />
 
     <Button
         android:id="@+id/counter_plus"

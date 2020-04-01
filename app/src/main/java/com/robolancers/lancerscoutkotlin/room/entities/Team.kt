@@ -4,9 +4,10 @@ import android.os.Parcel
 import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "teams")
+@Entity(tableName = "teams", indices = [Index(value = ["teamNumber"], unique = true)])
 data class Team(@ColumnInfo(name = "teamNumber") var teamNumber: Int?) : Parcelable{
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0

@@ -16,8 +16,6 @@
         android:autofillHints="text"
         android:hint="@string/note_title"
         android:inputType="textMultiLine"
-        android:textColor="@color/colorAccent"
-        android:textSize="20sp"
         android:layout_weight="1" />
 
     <EditText
@@ -27,7 +25,5 @@
         android:autofillHints="text"
         android:hint="@string/note_text"
         android:inputType="textMultiLine"
-        android:textColor="@color/colorAccent"
-        android:textSize="20sp"
         android:layout_weight="1" />
 </LinearLayout>

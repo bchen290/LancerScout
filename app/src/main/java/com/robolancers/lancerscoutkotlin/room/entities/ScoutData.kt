@@ -2,12 +2,9 @@ package com.robolancers.lancerscoutkotlin.room.entities
 
 import android.os.Parcel
 import android.os.Parcelable
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.ForeignKey
-import androidx.room.PrimaryKey
+import androidx.room.*
 
-@Entity(tableName = "scout_data", foreignKeys = [ForeignKey(entity = Team::class,
+@Entity(tableName = "scout_data", indices = [Index("teamNumber")], foreignKeys = [ForeignKey(entity = Team::class,
                                                  parentColumns = ["teamNumber"],
                                                  childColumns = ["teamNumber"],
                                                  onDelete = ForeignKey.CASCADE)])

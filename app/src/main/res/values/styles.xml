@@ -9,15 +9,22 @@
 
         <!-- Dark theme -->
         <item name="android:background">#303030</item>
-        <item name="android:textColor">#fff</item>
-        <item name="android:textColorHint">#fff</item>
-        <item name="android:textColorPrimaryDisableOnly">#fff</item>
-        <item name="textColorAlertDialogListItem">#fff</item>
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textColorHint">@color/colorAccent</item>
+        <item name="android:textColorPrimaryDisableOnly">@color/colorAccent</item>
+        <item name="textColorAlertDialogListItem">@color/colorAccent</item>
         <item name="android:homeAsUpIndicator">@drawable/arrow_left</item>
-        <item name="android:textColorSecondary">@android:color/white</item>
-        <item name="android:divider">@android:color/white</item>
+        <item name="android:textColorSecondary">@color/colorAccent</item>
+        <item name="android:divider">@color/colorAccent</item>
+
+        <item name="editTextStyle">@style/LancerEditText</item>
 
         <!-- enable window content transitions -->
         <item name="android:windowActivityTransitions">true</item>
+    </style>
+
+    <style name="LancerEditText" parent="Widget.AppCompat.EditText">
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textSize">20sp</item>
     </style>
 </resources>

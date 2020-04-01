@@ -20,7 +20,5 @@
         android:layout_weight="1"
         android:autofillHints="text"
         android:inputType="text"
-        android:textSize="20sp"
-        android:hint="@string/checkbox_title"
-        android:textColor="@color/colorAccent"/>
+        android:hint="@string/checkbox_title"/>
 </LinearLayout>

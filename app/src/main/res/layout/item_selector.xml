@@ -21,9 +21,7 @@
             android:hint="@string/item_selector_title"
             android:inputType="text"
             android:autofillHints="@string/item_selector_title"
-            android:textSize="20sp"
-            android:layout_weight="1"
-            android:textColor="@color/colorAccent"/>
+            android:layout_weight="1"/>
 
         <Button
             android:id="@+id/item_selector_add"
@@ -37,5 +35,4 @@
         android:id="@+id/item_selector_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-
 </LinearLayout>
