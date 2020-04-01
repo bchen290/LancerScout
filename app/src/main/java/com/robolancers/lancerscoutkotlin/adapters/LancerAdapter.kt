@@ -1,11 +1,13 @@
 package com.robolancers.lancerscoutkotlin.adapters
 
 interface LancerAdapter {
-    abstract fun moveItem(from: Int, to: Int)
+    fun moveItem(from: Int, to: Int)
 
-    abstract fun deleteItem(position: Int)
+    fun deleteItem(position: Int)
 
-    abstract fun showUndoSnackbar()
+    fun showUndoSnackbar()
 
-    abstract fun undoDelete()
+    fun undoDelete()
+
+    fun notifyItemMoved(from: Int, to: Int)
 }
