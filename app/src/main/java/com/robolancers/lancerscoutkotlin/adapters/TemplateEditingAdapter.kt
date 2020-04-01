@@ -3,6 +3,7 @@ package com.robolancers.lancerscoutkotlin.adapters
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
+import android.graphics.PorterDuff
 import android.text.Editable
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -236,7 +237,7 @@ class TemplateEditingAdapter(val context: Context, private val templateModels: M
 
     inner class EmptyHolder(itemView: View): RecyclerView.ViewHolder(itemView)
 
-    private var hasTemplateChanged = false
+    var hasTemplateChanged = false
 
     private val viewPool = RecyclerView.RecycledViewPool()
     private lateinit var recentlyDeletedItem: TemplateModel
@@ -346,11 +347,12 @@ class TemplateEditingAdapter(val context: Context, private val templateModels: M
     override fun showUndoSnackbar() {
         if (context is TemplateEditingActivity) {
             val view = context.findViewById<LinearLayout>(R.id.template_editing_linear_layout)
-            val snackbar = Snackbar.make(view, "Deleted", Snackbar.LENGTH_LONG)
-            snackbar.setAction("Undo") {
-                undoDelete()
-            }
-            snackbar.show()
+            Snackbar.make(view, "Deleted", Snackbar.LENGTH_LONG)
+                .setTextColor(Color.WHITE)
+                .setBackgroundTint(Color.RED)
+                .setAction("Undo") {
+                    undoDelete()
+                }.show()
         }
     }
 }

@@ -2,10 +2,13 @@ package com.robolancers.lancerscoutkotlin.activities.template
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
+import android.text.Editable
 import android.view.Menu
 import android.view.MenuItem
 import android.view.inputmethod.InputMethodManager
+import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,12 +25,13 @@ import com.robolancers.lancerscoutkotlin.room.viewmodels.TemplateViewModel
 import com.robolancers.lancerscoutkotlin.utilities.GsonHelper.Companion.gson
 import com.robolancers.lancerscoutkotlin.utilities.activity.ToolbarActivity
 import com.robolancers.lancerscoutkotlin.utilities.callback.ItemTouchHelperSimpleCallback
-import com.robolancers.lancerscoutkotlin.utilities.enums.TemplateModelType
+import com.robolancers.lancerscoutkotlin.utilities.callback.LancerTextWatcher
 import com.robolancers.lancerscoutkotlin.utilities.enums.TemplateModelType.*
 import kotlinx.android.synthetic.main.activity_template_editing.*
+import kotlinx.android.synthetic.main.item_note.view.*
 
 class TemplateEditingActivity : ToolbarActivity() {
-    private lateinit var templateEditingAdapter: TemplateEditingAdapter<TemplateModel>
+    private lateinit var templateEditingAdapter: TemplateEditingAdapter
     private var templateEditingList = mutableListOf<TemplateModel>()
 
     private var template: Template? = null
@@ -60,8 +64,6 @@ class TemplateEditingActivity : ToolbarActivity() {
             templateEditingList = gson.fromJson(templateData)
         }
 
-        template_editing_title.setText(templateName)
-        
         templateEditingAdapter = TemplateEditingAdapter(this@TemplateEditingActivity, templateEditingList)
 
         template_editing_list.apply {
@@ -78,6 +80,15 @@ class TemplateEditingActivity : ToolbarActivity() {
 
         templateViewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory(application)).get(
             TemplateViewModel::class.java)
+
+        template_editing_title.apply {
+            setText(templateName)
+            addTextChangedListener(object: LancerTextWatcher() {
+                override fun afterTextChanged(s: Editable?) {
+                    templateEditingAdapter.hasTemplateChanged = true
+                }
+            })
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -109,17 +120,22 @@ class TemplateEditingActivity : ToolbarActivity() {
                 true
             }
             android.R.id.home -> {
-                MaterialDialog(this).show {
-                    title(text = "Do you want to save?")
-                    positiveButton(text = "Yes") {
-                        save()
-                        userWantToSave = true
-                        finishAfterTransition()
+                if (templateEditingAdapter.hasTemplateChanged) {
+                    MaterialDialog(this).show {
+                        title(text = "Do you want to save?")
+                        positiveButton(text = "Yes") {
+                            save()
+                            userWantToSave = true
+                            finishAfterTransition()
+                        }
+                        negativeButton(text = "No") {
+                            userWantToSave = false
+                            finishAfterTransition()
+                        }
                     }
-                    negativeButton(text = "No") {
-                        userWantToSave = false
-                        finishAfterTransition()
-                    }
+                }else {
+                    userWantToSave = false
+                    finishAfterTransition()
                 }
                 true
             }
@@ -149,6 +165,9 @@ class TemplateEditingActivity : ToolbarActivity() {
             templateViewModel.insert(templateCopy)
         }
 
-        Snackbar.make(template_editing_linear_layout, "Saved", Snackbar.LENGTH_LONG).show()
+        Snackbar.make(template_editing_linear_layout, "Saved", Snackbar.LENGTH_LONG)
+            .setBackgroundTint(Color.RED)
+            .setTextColor(Color.WHITE)
+            .show()
     }
 }
