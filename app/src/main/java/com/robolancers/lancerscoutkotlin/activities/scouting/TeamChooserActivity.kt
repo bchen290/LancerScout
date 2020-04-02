@@ -1,5 +1,6 @@
 package com.robolancers.lancerscoutkotlin.activities.scouting
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
 import androidx.lifecycle.Observer
@@ -11,6 +12,7 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.input.input
 import com.robolancers.lancerscoutkotlin.R
 import com.robolancers.lancerscoutkotlin.adapters.TeamAdapter
+import com.robolancers.lancerscoutkotlin.room.entities.Team
 import com.robolancers.lancerscoutkotlin.room.viewmodels.TeamViewModel
 import com.robolancers.lancerscoutkotlin.utilities.activity.ToolbarActivity
 import com.robolancers.lancerscoutkotlin.utilities.callback.ItemTouchHelperSimpleCallbackDeletable
@@ -38,7 +40,8 @@ class TeamChooserActivity : ToolbarActivity() {
         fab.setOnClickListener {
             MaterialDialog(this).show {
                 input(hint = "Enter team number", inputType = InputType.TYPE_CLASS_NUMBER) { _, text ->
-
+                    teamViewModel.insert(Team(teamNumber = text.toString().toInt()))
+                    startActivity(Intent(this@TeamChooserActivity, ScoutDataActivity::class.java).putExtra("TeamNumber", text.toString().toInt()))
                 }
                 positiveButton(text = "Submit")
             }

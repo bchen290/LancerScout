@@ -1,29 +1,23 @@
 package com.robolancers.lancerscoutkotlin.adapters
 
-import android.app.ActivityOptions
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.robolancers.lancerscoutkotlin.R
 import com.robolancers.lancerscoutkotlin.activities.scouting.ScoutDataActivity
-import com.robolancers.lancerscoutkotlin.activities.scouting.TeamChooserActivity
-import com.robolancers.lancerscoutkotlin.room.entities.Team
-import com.robolancers.lancerscoutkotlin.room.viewmodels.TeamViewModel
+import com.robolancers.lancerscoutkotlin.room.entities.ScoutData
+import com.robolancers.lancerscoutkotlin.room.viewmodels.ScoutDataViewModel
 import com.robolancers.lancerscoutkotlin.utilities.adapters.Deletable
 
-class TeamAdapter(private var teamChooserActivity: TeamChooserActivity) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), Deletable {
+class ScoutDataAdapter(private var scoutDataActivity: ScoutDataActivity) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), Deletable {
     inner class TeamListener {
-        fun onItemClicked(viewHolder: RecyclerView.ViewHolder, itemClicked: Team) {
-            val intent = Intent(teamChooserActivity, ScoutDataActivity::class.java)
-            intent.putExtra("TeamNumber", itemClicked.teamNumber)
-            val options = ActivityOptions.makeSceneTransitionAnimation(teamChooserActivity, (viewHolder as ViewHolder).textView, "title")
-            teamChooserActivity.startActivity(intent, options.toBundle())
+        fun onItemClicked(viewHolder: RecyclerView.ViewHolder, itemClicked: ScoutData) {
+
         }
     }
 
@@ -31,10 +25,10 @@ class TeamAdapter(private var teamChooserActivity: TeamChooserActivity) : Recycl
         var textView: TextView = itemView.findViewById(R.id.list_content)
     }
 
-    private lateinit var recentlyDeletedItem: Team
-    private var teams = emptyList<Team>()
+    private lateinit var recentlyDeletedItem: ScoutData
+    private var teams = emptyList<ScoutData>()
     private val listener = TeamListener()
-    private val teamViewModel = ViewModelProvider(teamChooserActivity, ViewModelProvider.AndroidViewModelFactory(teamChooserActivity.application)).get(TeamViewModel::class.java)
+    private val viewModel = ViewModelProvider(scoutDataActivity, ViewModelProvider.AndroidViewModelFactory(scoutDataActivity.application)).get(ScoutDataViewModel::class.java)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return ViewHolder(
@@ -54,13 +48,13 @@ class TeamAdapter(private var teamChooserActivity: TeamChooserActivity) : Recycl
         }
     }
 
-    fun setTeams(teams: List<Team>) {
+    fun setTeams(teams: List<ScoutData>) {
         this.teams = teams
         notifyDataSetChanged()
     }
 
     override fun showUndoSnackbar() {
-        val view = teamChooserActivity.findViewById<LinearLayout>(R.id.team_coordinator_layout)
+        val view = scoutDataActivity.findViewById<CoordinatorLayout>(R.id.scout_data_linear_layout)
         val snackbar = Snackbar.make(view, "Deleted", Snackbar.LENGTH_LONG)
         snackbar.setAction("Undo") {
             undoDelete()
@@ -70,13 +64,13 @@ class TeamAdapter(private var teamChooserActivity: TeamChooserActivity) : Recycl
 
     override fun deleteItem(position: Int) {
         recentlyDeletedItem = teams[position]
-        teamViewModel.delete(teams[position])
+        viewModel.delete(teams[position])
         notifyItemRemoved(position)
         showUndoSnackbar()
     }
 
     override fun undoDelete() {
-        teamViewModel.insert(recentlyDeletedItem)
+        viewModel.insert(recentlyDeletedItem)
         notifyItemInserted(teams.size - 1)
     }
 }

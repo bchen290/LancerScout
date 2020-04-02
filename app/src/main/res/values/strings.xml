@@ -29,4 +29,5 @@
     <string name="scouting">Scouting</string>
     <string name="input_team_number">Input team number</string>
     <string name="team_number">Team Number</string>
+    <string name="teams">Teams</string>
 </resources>
