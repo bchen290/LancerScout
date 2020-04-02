@@ -28,6 +28,10 @@
             android:parentActivityName=".activities.template.TemplateActivity" />
         <activity
             android:name=".activities.scouting.TeamChooserActivity"
-            android:parentActivityName=".MainActivity"/>
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".activities.scouting.TeamActivity"
+            android:parentActivityName=".activities.scouting.TeamChooserActivity"/>
     </application>
+
 </manifest>

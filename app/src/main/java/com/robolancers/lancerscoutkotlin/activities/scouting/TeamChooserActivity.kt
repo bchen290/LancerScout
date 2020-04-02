@@ -1,11 +1,14 @@
 package com.robolancers.lancerscoutkotlin.activities.scouting
 
 import android.os.Bundle
+import android.text.InputType
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.input.input
 import com.robolancers.lancerscoutkotlin.R
 import com.robolancers.lancerscoutkotlin.adapters.TeamAdapter
 import com.robolancers.lancerscoutkotlin.room.viewmodels.TeamViewModel
@@ -33,7 +36,12 @@ class TeamChooserActivity : ToolbarActivity() {
         setupToolbar()
 
         fab.setOnClickListener {
-            //TODO Set up team page
+            MaterialDialog(this).show {
+                input(hint = "Enter team number", inputType = InputType.TYPE_CLASS_NUMBER) { _, text ->
+
+                }
+                positiveButton(text = "Submit")
+            }
         }
 
         val teamLayoutManager = LinearLayoutManager(this)

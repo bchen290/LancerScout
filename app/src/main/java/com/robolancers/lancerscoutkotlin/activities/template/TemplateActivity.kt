@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.robolancers.lancerscoutkotlin.R
@@ -46,6 +47,7 @@ class TemplateActivity : ToolbarActivity() {
         template_recycler_view.apply {
             layoutManager = templateManager
             adapter = templateAdapter
+            addItemDecoration(DividerItemDecoration(this.context, templateManager.orientation))
         }.also {
             templateHelper.attachToRecyclerView(it)
         }
