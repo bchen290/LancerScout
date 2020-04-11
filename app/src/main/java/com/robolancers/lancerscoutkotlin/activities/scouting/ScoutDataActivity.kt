@@ -1,6 +1,8 @@
 package com.robolancers.lancerscoutkotlin.activities.scouting
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -51,5 +53,25 @@ class ScoutDataActivity : ToolbarActivity() {
         scoutDataViewModel.getAllScoutData(teamNumber).observe(this, Observer { teams ->
             scoutDataAdapter.setTeams(teams)
         })
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.item_editing_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.item_editing_save -> {
+                true
+            }
+            R.id.item_editing_add -> {
+                true
+            }
+            android.R.id.home -> {
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }
