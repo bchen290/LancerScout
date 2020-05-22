@@ -41,7 +41,10 @@ class TeamChooserActivity : ToolbarActivity() {
         fab.setOnClickListener {
             MaterialDialog(this).show {
                 input(hint = "Enter team number", inputType = InputType.TYPE_CLASS_NUMBER) { _, text ->
-                    teamViewModel.insert(Team(teamNumber = text.toString().toInt()))
+                    if(teamViewModel.findTeamByNumber(321) == null) {
+                        teamViewModel.insert(Team(teamNumber = text.toString().toInt()))
+                    }
+
                     startActivity(Intent(this@TeamChooserActivity, ScoutDataActivity::class.java).putExtra("TeamNumber", text.toString().toInt()))
                 }
                 positiveButton(text = "Submit")
