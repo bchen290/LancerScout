@@ -29,7 +29,7 @@ class TeamViewModel(application: Application) : AndroidViewModel(application) {
         teamRepository.deleteTeams(*teams)
     }
 
-    fun findTeamByNumber(teamNumber: Int) {
-        teamRepository.findTeamByNumber(teamNumber)
+    fun findTeamByNumber(teamNumber: Int): Team {
+        return teamRepository.findTeamByNumber(teamNumber)
     }
 }

@@ -10,6 +10,6 @@ interface TeamDao : BaseDao<Team> {
     @Query("SELECT * FROM teams")
     fun getAllTeams(): LiveData<List<Team>>
 
-    @Query("SELECT * FROM teams WHERE teamNumber LIKE :teamNumber")
+    @Query("SELECT * FROM teams WHERE teamNumber=:teamNumber")
     fun findTeamByNumber(teamNumber: Int): Team
 }
