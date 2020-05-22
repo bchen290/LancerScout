@@ -8,16 +8,20 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "teams", indices = [Index(value = ["teamNumber"], unique = true)])
-data class Team(@ColumnInfo(name = "teamNumber") var teamNumber: Int?) : Parcelable{
+data class Team(@ColumnInfo(name = "teamNumber") var teamNumber: Int?, @ColumnInfo(name = "templates") var templates: String? = "") : Parcelable{
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
 
-    constructor(parcel: Parcel) : this(parcel.readValue(Int::class.java.classLoader) as? Int) {
+    constructor(parcel: Parcel) : this(
+        parcel.readValue(Int::class.java.classLoader) as? Int,
+        parcel.readString()
+    ) {
         id = parcel.readInt()
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeValue(teamNumber)
+        parcel.writeString(templates)
         parcel.writeInt(id)
     }
 
