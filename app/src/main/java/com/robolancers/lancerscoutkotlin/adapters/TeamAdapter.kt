@@ -1,57 +1,79 @@
 package com.robolancers.lancerscoutkotlin.adapters
 
-import android.app.ActivityOptions
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.robolancers.lancerscoutkotlin.R
-import com.robolancers.lancerscoutkotlin.activities.scouting.ScoutDataActivity
 import com.robolancers.lancerscoutkotlin.activities.scouting.TeamChooserActivity
+import com.robolancers.lancerscoutkotlin.models.scouting.TeamTemplateItem
 import com.robolancers.lancerscoutkotlin.room.entities.Team
 import com.robolancers.lancerscoutkotlin.room.viewmodels.TeamViewModel
 import com.robolancers.lancerscoutkotlin.utilities.adapters.Deletable
+import com.robolancers.lancerscoutkotlin.utilities.callback.ItemTouchHelperSimpleCallbackReorderable
 
 class TeamAdapter(private var teamChooserActivity: TeamChooserActivity) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), Deletable {
-    inner class TeamListener {
-        fun onItemClicked(viewHolder: RecyclerView.ViewHolder, itemClicked: Team) {
-            val intent = Intent(teamChooserActivity, ScoutDataActivity::class.java)
-            intent.putExtra("TeamNumber", itemClicked.teamNumber)
-            val options = ActivityOptions.makeSceneTransitionAnimation(teamChooserActivity, (viewHolder as ViewHolder).textView, "title")
-            teamChooserActivity.startActivity(intent, options.toBundle())
-        }
-    }
+    inner class TeamHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+        var teamNumber: TextView = itemView.findViewById(R.id.team_number)
+        private var teamTemplateRecyclerView = itemView.findViewById<RecyclerView>(R.id.team_template_list)
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var textView: TextView = itemView.findViewById(R.id.list_content)
+        private var teamTemplateItems = mutableListOf<TeamTemplateItem>()
+
+        private var itemSelectorAdapter = TeamTemplateAdapter(teamTemplateRecyclerView.context, teamTemplateItems, this)
+        private var itemSelectorItemTouchHelper = ItemTouchHelper(
+            ItemTouchHelperSimpleCallbackReorderable(
+                itemSelectorAdapter
+            ).simpleItemCallback)
+        private val itemSelectorLinearLayoutManager = LinearLayoutManager(teamTemplateRecyclerView.context, RecyclerView.VERTICAL, false)
+
+        fun bind(team: Team) {
+            teamNumber.text = team.teamNumber.toString()
+
+            if (!team.templates.isNullOrBlank()) {
+                teamTemplateItems.addAll(
+                    team.templates.orEmpty().split(",").map { TeamTemplateItem(it) }.toMutableList()
+                )
+                itemSelectorAdapter.notifyDataSetChanged()
+            }
+
+            teamTemplateRecyclerView.apply {
+                layoutManager = itemSelectorLinearLayoutManager
+                adapter = itemSelectorAdapter
+                setRecycledViewPool(viewPool)
+            }
+
+            itemSelectorItemTouchHelper.attachToRecyclerView(teamTemplateRecyclerView)
+        }
+
+        fun startDragging(viewHolder: RecyclerView.ViewHolder) {
+            itemSelectorItemTouchHelper.startDrag(viewHolder)
+        }
     }
 
     private lateinit var recentlyDeletedItem: Team
     private var teams = emptyList<Team>()
-    private val listener = TeamListener()
     private val teamViewModel = ViewModelProvider(teamChooserActivity, ViewModelProvider.AndroidViewModelFactory(teamChooserActivity.application)).get(TeamViewModel::class.java)
 
+    private val viewPool = RecyclerView.RecycledViewPool()
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return ViewHolder(
+        return TeamHolder(
             LayoutInflater.from(parent.context)
-                .inflate(R.layout.list_item_text_no_handle, parent, false)
+                .inflate(R.layout.item_team, parent, false)
         )
     }
 
     override fun getItemCount(): Int = teams.size
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if (holder is ViewHolder) {
-            holder.textView.text = teams[position].teamNumber.toString()
-            holder.itemView.setOnClickListener {
-                listener.onItemClicked(holder, teams[position])
-            }
+        if (holder is TeamHolder) {
+            holder.bind(teams[position])
         }
     }
 

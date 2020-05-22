@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/check_box_outline_blank_white_18dp"
+        android:contentDescription="@string/item_title"
+        android:visibility="invisible"/>
+
+    <include
+        layout="@layout/list_item_handle"
+        android:id="@+id/handle_view"
+        android:layout_height="match_parent"
+        android:layout_width="wrap_content" />
+
+    <TextView
+        android:id="@+id/item_selector_item_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_weight="1"
+        android:importantForAutofill="no"
+        android:textSize="40sp"/>
+
+    <ImageButton
+        android:id="@+id/item_selector_item_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:src="@drawable/delete_white_24dp"
+        android:contentDescription="@string/delete"
+        android:background="@android:color/transparent"/>
+</LinearLayout>

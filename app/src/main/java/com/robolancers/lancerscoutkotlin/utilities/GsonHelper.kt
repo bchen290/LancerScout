@@ -8,6 +8,7 @@ import com.google.gson.GsonBuilder
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.google.gson.reflect.TypeToken
+import com.robolancers.lancerscoutkotlin.models.scouting.TeamTemplateItem
 import com.robolancers.lancerscoutkotlin.models.template.*
 
 class GsonHelper {

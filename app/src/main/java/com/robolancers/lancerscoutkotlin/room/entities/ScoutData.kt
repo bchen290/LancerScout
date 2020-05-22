@@ -10,6 +10,7 @@ import androidx.room.*
                                                  onDelete = ForeignKey.CASCADE)])
 data class ScoutData(
     @ColumnInfo(name = "teamNumber") var teamNumber: Int?,
+    @ColumnInfo(name = "scoutDataName") var scoutDataName: String?,
     @ColumnInfo(name = "data") var data: String?
 ) : Parcelable {
     @PrimaryKey(autoGenerate = true)
@@ -17,6 +18,7 @@ data class ScoutData(
 
     constructor(parcel: Parcel) : this(
         parcel.readValue(Int::class.java.classLoader) as? Int,
+        parcel.readString(),
         parcel.readString()
     ) {
         id = parcel.readInt()
@@ -24,6 +26,7 @@ data class ScoutData(
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeValue(teamNumber)
+        parcel.writeString(scoutDataName)
         parcel.writeString(data)
         parcel.writeInt(id)
     }

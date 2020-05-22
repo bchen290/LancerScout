@@ -8,7 +8,6 @@ import android.text.Editable
 import android.view.Menu
 import android.view.MenuItem
 import android.view.inputmethod.InputMethodManager
-import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.afollestad.materialdialogs.LayoutMode
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.bottomsheets.BottomSheet
-import com.afollestad.materialdialogs.bottomsheets.setPeekHeight
 import com.afollestad.materialdialogs.list.listItems
 import com.robolancers.lancerscoutkotlin.R
 import com.robolancers.lancerscoutkotlin.models.template.*
@@ -31,7 +29,6 @@ import com.robolancers.lancerscoutkotlin.utilities.callback.ItemTouchHelperSimpl
 import com.robolancers.lancerscoutkotlin.utilities.callback.LancerTextWatcher
 import com.robolancers.lancerscoutkotlin.utilities.enums.TemplateModelType.*
 import kotlinx.android.synthetic.main.activity_template_editing.*
-import kotlinx.android.synthetic.main.item_note.view.*
 
 class TemplateEditingActivity : ToolbarActivity() {
     private lateinit var templateEditingAdapter: TemplateEditingAdapter

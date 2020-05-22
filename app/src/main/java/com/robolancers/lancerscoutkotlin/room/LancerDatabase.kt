@@ -11,7 +11,7 @@ import com.robolancers.lancerscoutkotlin.room.entities.ScoutData
 import com.robolancers.lancerscoutkotlin.room.entities.Team
 import com.robolancers.lancerscoutkotlin.room.entities.Template
 
-@Database(entities = [Template::class, Team::class, ScoutData::class], version = 1, exportSchema = false)
+@Database(entities = [Template::class, Team::class, ScoutData::class], version = 2, exportSchema = false)
 abstract class LancerDatabase : RoomDatabase() {
     abstract fun templateDao(): TemplateDao
     abstract fun teamDao(): TeamDao
@@ -33,7 +33,7 @@ abstract class LancerDatabase : RoomDatabase() {
                     context.applicationContext,
                     LancerDatabase::class.java,
                     "template_database"
-                ).fallbackToDestructiveMigration().build()
+                ).fallbackToDestructiveMigration().allowMainThreadQueries().build()
                 INSTANCE = instance
                 return instance
             }
