@@ -33,5 +33,4 @@
             android:name=".activities.scouting.ScoutDataActivity"
             android:parentActivityName=".activities.scouting.TeamChooserActivity"/>
     </application>
-
 </manifest>

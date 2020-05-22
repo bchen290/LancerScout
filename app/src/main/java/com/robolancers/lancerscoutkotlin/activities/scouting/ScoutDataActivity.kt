@@ -68,9 +68,6 @@ class ScoutDataActivity : ToolbarActivity() {
             R.id.item_editing_add -> {
                 true
             }
-            android.R.id.home -> {
-                true
-            }
             else -> super.onOptionsItemSelected(item)
         }
     }
