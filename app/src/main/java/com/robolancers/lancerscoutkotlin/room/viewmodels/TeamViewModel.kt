@@ -28,4 +28,8 @@ class TeamViewModel(application: Application) : AndroidViewModel(application) {
     fun delete(vararg teams: Team) = viewModelScope.launch {
         teamRepository.deleteTeams(*teams)
     }
+
+    fun findTeamByNumber(teamNumber: Int) {
+        teamRepository.findTeamByNumber(teamNumber)
+    }
 }

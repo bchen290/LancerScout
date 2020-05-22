@@ -14,4 +14,8 @@ class TeamRepository(private val teamDao: TeamDao) {
     suspend fun deleteTeams(vararg teams: Team) {
         teamDao.delete(*teams)
     }
+
+    fun findTeamByNumber(teamNumber: Int) {
+        teamDao.findTeamByNumber(teamNumber)
+    }
 }

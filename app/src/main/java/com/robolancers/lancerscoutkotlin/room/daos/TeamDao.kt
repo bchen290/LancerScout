@@ -9,4 +9,7 @@ import com.robolancers.lancerscoutkotlin.room.entities.Team
 interface TeamDao : BaseDao<Team> {
     @Query("SELECT * FROM teams")
     fun getAllTeams(): LiveData<List<Team>>
+
+    @Query("SELECT * FROM teams WHERE teamNumber LIKE :teamNumber")
+    fun findTeamByNumber(teamNumber: Int): Team
 }
