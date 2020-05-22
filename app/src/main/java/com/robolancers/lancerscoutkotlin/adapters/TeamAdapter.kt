@@ -78,6 +78,6 @@ class TeamAdapter(private var teamChooserActivity: TeamChooserActivity) : Recycl
 
     override fun undoDelete() {
         teamViewModel.insert(recentlyDeletedItem)
-        notifyItemInserted(teams.size - 1)
+        notifyDataSetChanged()
     }
 }
