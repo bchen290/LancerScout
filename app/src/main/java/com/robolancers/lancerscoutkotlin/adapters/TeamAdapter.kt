@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
@@ -60,7 +61,7 @@ class TeamAdapter(private var teamChooserActivity: TeamChooserActivity) : Recycl
     }
 
     override fun showUndoSnackbar() {
-        val view = teamChooserActivity.findViewById<LinearLayout>(R.id.team_coordinator_layout)
+        val view = teamChooserActivity.findViewById<CoordinatorLayout>(R.id.team_coordinator_layout)
         val snackbar = Snackbar.make(view, "Deleted", Snackbar.LENGTH_LONG)
         snackbar.setAction("Undo") {
             undoDelete()
