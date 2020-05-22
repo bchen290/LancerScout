@@ -33,7 +33,7 @@ abstract class LancerDatabase : RoomDatabase() {
                     context.applicationContext,
                     LancerDatabase::class.java,
                     "template_database"
-                ).fallbackToDestructiveMigration().allowMainThreadQueries().build()
+                ).fallbackToDestructiveMigration().build()
                 INSTANCE = instance
                 return instance
             }
