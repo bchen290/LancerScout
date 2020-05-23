@@ -15,7 +15,6 @@ import com.robolancers.lancerscoutkotlin.R
 import com.robolancers.lancerscoutkotlin.activities.scouting.TeamChooserActivity
 import com.robolancers.lancerscoutkotlin.activities.template.TemplateEditingActivity
 import com.robolancers.lancerscoutkotlin.room.entities.ScoutData
-import com.robolancers.lancerscoutkotlin.room.entities.Template
 import com.robolancers.lancerscoutkotlin.utilities.adapters.Deletable
 import com.robolancers.lancerscoutkotlin.utilities.adapters.Reorderable
 import com.robolancers.lancerscoutkotlin.utilities.callback.LancerTextWatcher
@@ -38,7 +37,7 @@ class TeamTemplateAdapter(private val context: Context, private var listItems: M
 
             itemView.setOnClickListener {
                 val intent = Intent(context, TemplateEditingActivity::class.java)
-                intent.putExtra("Template", Template(listItem.scoutDataName, listItem.data))
+                intent.putExtra("ScoutData", listItem)
                 context.startActivity(intent)
             }
 

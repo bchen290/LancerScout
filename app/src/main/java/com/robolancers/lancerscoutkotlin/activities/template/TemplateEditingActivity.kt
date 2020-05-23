@@ -22,7 +22,9 @@ import com.google.android.material.snackbar.Snackbar
 import com.robolancers.lancerscoutkotlin.R
 import com.robolancers.lancerscoutkotlin.adapters.TemplateEditingAdapter
 import com.robolancers.lancerscoutkotlin.models.template.*
+import com.robolancers.lancerscoutkotlin.room.entities.ScoutData
 import com.robolancers.lancerscoutkotlin.room.entities.Template
+import com.robolancers.lancerscoutkotlin.room.viewmodels.ScoutDataViewModel
 import com.robolancers.lancerscoutkotlin.room.viewmodels.TemplateViewModel
 import com.robolancers.lancerscoutkotlin.utilities.GsonHelper.Companion.gson
 import com.robolancers.lancerscoutkotlin.utilities.activity.ToolbarActivity
@@ -39,8 +41,12 @@ class TemplateEditingActivity : ToolbarActivity() {
     private var templateName: String? = ""
 
     private lateinit var templateViewModel: TemplateViewModel
+    private lateinit var scoutDataViewModel: ScoutDataViewModel
 
     private var userWantToSave = true
+
+    private var scoutData: ScoutData? = null
+    private var scouting = false
 
     private val templateEditingHelper by lazy {
         ItemTouchHelper(
@@ -58,9 +64,18 @@ class TemplateEditingActivity : ToolbarActivity() {
         setupToolbar()
 
         template = intent.getParcelableExtra("Template")
-        templateName = template?.name
+        if (template != null) {
+            templateName = template?.name
+        }
 
-        val templateData: String? = template?.data
+        scoutData = intent.getParcelableExtra("ScoutData")
+        if (scoutData != null) {
+            templateName = scoutData?.scoutDataName
+        }
+
+        scouting = scoutData != null
+
+        val templateData: String? = if (scouting) scoutData?.data else template?.data
         if (templateData != null && templateData != "") {
             templateEditingList = gson.fromJson(templateData)
         }
@@ -81,6 +96,11 @@ class TemplateEditingActivity : ToolbarActivity() {
 
         templateViewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory(application)).get(
             TemplateViewModel::class.java)
+
+        scoutDataViewModel =
+            ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory(application)).get(
+                ScoutDataViewModel::class.java
+            )
 
         template_editing_title.apply {
             setText(templateName)
@@ -121,7 +141,7 @@ class TemplateEditingActivity : ToolbarActivity() {
                 true
             }
             android.R.id.home -> {
-                if (templateEditingAdapter.hasTemplateChanged) {
+                if (templateEditingAdapter.hasTemplateChanged && userWantToSave) {
                     MaterialDialog(this).show {
                         title(text = "Do you want to save?")
                         positiveButton(text = "Yes") {
@@ -158,12 +178,22 @@ class TemplateEditingActivity : ToolbarActivity() {
         val json = gson.toJson(templateEditingList, gsonTypeToken<MutableList<TemplateModel>>())
         templateName = template_editing_title.text.toString()
 
-        val templateCopy = template
-        if (templateCopy != null) {
-            templateCopy.data = json
-            templateCopy.name = templateName
+        if (scouting) {
+            val scoutDataCopy = scoutData
+            if (scoutDataCopy != null) {
+                scoutDataCopy.data = json
+                scoutDataCopy.scoutDataName = templateName
 
-            templateViewModel.insert(templateCopy)
+                scoutDataViewModel.insert(scoutDataCopy)
+            }
+        } else {
+            val templateCopy = template
+            if (templateCopy != null) {
+                templateCopy.data = json
+                templateCopy.name = templateName
+
+                templateViewModel.insert(templateCopy)
+            }
         }
 
         userWantToSave = false

@@ -87,14 +87,19 @@ class TeamChooserActivity : ToolbarActivity() {
                             teamViewModel.insert(Team(teamNumber = text.toString().toInt()))
                         }
 
-                        scoutDataViewModel.insert(ScoutData(text.toString().toInt(), chosenTemplate.name, chosenTemplate.data))
+                        val scoutData = ScoutData(
+                            text.toString().toInt(),
+                            chosenTemplate.name,
+                            chosenTemplate.data
+                        )
+                        scoutDataViewModel.insert(scoutData)
 
                         startActivity(
                             Intent(
                                 this@TeamChooserActivity,
                                 TemplateEditingActivity::class.java
                             ).putExtra("TeamNumber", text.toString().toInt())
-                                .putExtra("Template", chosenTemplate)
+                                .putExtra("ScoutData", scoutData)
                         )
                     }
                     listItemsSingleChoice(items = templateList.map { it.name.orEmpty() }, waitForPositiveButton = false) { _, index, _ ->
