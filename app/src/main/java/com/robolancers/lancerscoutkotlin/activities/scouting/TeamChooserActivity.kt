@@ -3,6 +3,7 @@ package com.robolancers.lancerscoutkotlin.activities.scouting
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
+import android.util.Log
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -15,8 +16,10 @@ import com.google.android.material.snackbar.Snackbar
 import com.robolancers.lancerscoutkotlin.R
 import com.robolancers.lancerscoutkotlin.activities.template.TemplateEditingActivity
 import com.robolancers.lancerscoutkotlin.adapters.TeamAdapter
+import com.robolancers.lancerscoutkotlin.room.entities.ScoutData
 import com.robolancers.lancerscoutkotlin.room.entities.Team
 import com.robolancers.lancerscoutkotlin.room.entities.Template
+import com.robolancers.lancerscoutkotlin.room.viewmodels.ScoutDataViewModel
 import com.robolancers.lancerscoutkotlin.room.viewmodels.TeamViewModel
 import com.robolancers.lancerscoutkotlin.room.viewmodels.TemplateViewModel
 import com.robolancers.lancerscoutkotlin.utilities.activity.ToolbarActivity
@@ -36,6 +39,7 @@ class TeamChooserActivity : ToolbarActivity() {
 
     private lateinit var teamViewModel: TeamViewModel
     private lateinit var templateViewModel: TemplateViewModel
+    private lateinit var scoutDataViewModel: ScoutDataViewModel
 
     private lateinit var templateList: List<Template>
     private lateinit var chosenTemplate: Template
@@ -49,41 +53,15 @@ class TeamChooserActivity : ToolbarActivity() {
         templateViewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory(application)).get(
             TemplateViewModel::class.java)
 
+        scoutDataViewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory(application)).get(
+            ScoutDataViewModel::class.java)
+
         templateViewModel.allTemplates.observe(this, Observer { templates ->
             templateList = templates
         })
 
-        fab.setOnClickListener {
-            if (templateList.isNotEmpty()) {
-                MaterialDialog(this).show {
-                    input(
-                        hint = "Enter team number",
-                        inputType = InputType.TYPE_CLASS_NUMBER
-                    ) { _, text ->
-                        if (teamViewModel.findTeamByNumber(text.toString().toInt()) == null) {
-                            teamViewModel.insert(Team(teamNumber = text.toString().toInt()))
-                        }
-
-                        startActivity(
-                            Intent(
-                                this@TeamChooserActivity,
-                                TemplateEditingActivity::class.java
-                            ).putExtra("TeamNumber", text.toString().toInt())
-                                .putExtra("TemplateData", chosenTemplate.data)
-                        )
-                    }
-                    listItemsSingleChoice(items = templateList.map { it.name.orEmpty() }) { _, index, _ ->
-                        chosenTemplate = templateList[index]
-                    }
-                    positiveButton(text = "Submit")
-                }
-            } else {
-                Snackbar.make(team_coordinator_layout, "Create a template first!", Snackbar.LENGTH_LONG).show()
-            }
-        }
-
         val teamLayoutManager = LinearLayoutManager(this)
-        teamAdapter = TeamAdapter(this)
+        teamAdapter = TeamAdapter(this, scoutDataViewModel)
 
         val templateRecyclerView = teams_recycler_view.apply {
             layoutManager = teamLayoutManager
@@ -98,6 +76,38 @@ class TeamChooserActivity : ToolbarActivity() {
         teamViewModel.allTeams.observe(this, Observer { teams ->
             teamAdapter.setTeams(teams)
         })
+
+        fab.setOnClickListener {
+            if (templateList.isNotEmpty()) {
+                MaterialDialog(this).show {
+                    input(
+                        hint = "Enter team number",
+                        inputType = InputType.TYPE_CLASS_NUMBER,
+                        waitForPositiveButton = true
+                    ) { _, text ->
+                        if (teamViewModel.findTeamByNumber(text.toString().toInt()) == null) {
+                            teamViewModel.insert(Team(teamNumber = text.toString().toInt()))
+                        }
+
+                        scoutDataViewModel.insert(ScoutData(text.toString().toInt(), chosenTemplate.name, chosenTemplate.data))
+
+                        startActivity(
+                            Intent(
+                                this@TeamChooserActivity,
+                                TemplateEditingActivity::class.java
+                            ).putExtra("TeamNumber", text.toString().toInt())
+                                .putExtra("Template", chosenTemplate)
+                        )
+                    }
+                    listItemsSingleChoice(items = templateList.map { it.name.orEmpty() }, waitForPositiveButton = false) { _, index, _ ->
+                        chosenTemplate = templateList[index]
+                    }
+                    positiveButton(text = "Submit")
+                }
+            } else {
+                Snackbar.make(team_coordinator_layout, "Create a template first!", Snackbar.LENGTH_LONG).show()
+            }
+        }
     }
 
     fun startDrag(viewHolder: RecyclerView.ViewHolder) {

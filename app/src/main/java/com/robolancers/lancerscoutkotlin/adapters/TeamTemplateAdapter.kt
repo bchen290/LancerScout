@@ -15,24 +15,25 @@ import com.google.android.material.snackbar.Snackbar
 import com.robolancers.lancerscoutkotlin.R
 import com.robolancers.lancerscoutkotlin.activities.scouting.TeamChooserActivity
 import com.robolancers.lancerscoutkotlin.models.scouting.TeamTemplateItem
+import com.robolancers.lancerscoutkotlin.room.entities.ScoutData
 import com.robolancers.lancerscoutkotlin.utilities.adapters.Deletable
 import com.robolancers.lancerscoutkotlin.utilities.adapters.Reorderable
 import com.robolancers.lancerscoutkotlin.utilities.callback.LancerTextWatcher
 import kotlinx.android.synthetic.main.list_item_text_handle.view.*
 import java.util.*
 
-class TeamTemplateAdapter(private val context: Context, private val listItems: MutableList<TeamTemplateItem>, private val teamHolder: TeamAdapter.TeamHolder) : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
+class TeamTemplateAdapter(private val context: Context, private var listItems: MutableList<ScoutData>, private val teamHolder: TeamAdapter.TeamHolder) : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
     Deletable, Reorderable {
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         private val itemTitle: TextView = itemView.findViewById(R.id.item_selector_item_title)
         private val itemDelete: ImageButton = itemView.findViewById(R.id.item_selector_item_delete)
 
-        fun bind(listItem: TeamTemplateItem) {
-            itemTitle.text = listItem.templateName
+        fun bind(listItem: ScoutData) {
+            itemTitle.text = listItem.scoutDataName
 
             itemTitle.addTextChangedListener(object: LancerTextWatcher() {
                 override fun afterTextChanged(s: Editable?) {
-                    listItem.templateName = s.toString()
+                    listItem.scoutDataName = s.toString()
                 }
             })
 
@@ -55,6 +56,11 @@ class TeamTemplateAdapter(private val context: Context, private val listItems: M
         }
 
         return viewHolder
+    }
+
+    fun setTeamTemplates(teamTemplates: MutableList<ScoutData>) {
+        this.listItems = teamTemplates
+        notifyDataSetChanged()
     }
 
     override fun getItemCount(): Int {

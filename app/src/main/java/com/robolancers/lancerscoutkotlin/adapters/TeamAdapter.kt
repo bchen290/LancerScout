@@ -1,10 +1,13 @@
 package com.robolancers.lancerscoutkotlin.adapters
 
+import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,46 +16,46 @@ import com.google.android.material.snackbar.Snackbar
 import com.robolancers.lancerscoutkotlin.R
 import com.robolancers.lancerscoutkotlin.activities.scouting.TeamChooserActivity
 import com.robolancers.lancerscoutkotlin.models.scouting.TeamTemplateItem
+import com.robolancers.lancerscoutkotlin.room.LancerDatabase
+import com.robolancers.lancerscoutkotlin.room.entities.ScoutData
 import com.robolancers.lancerscoutkotlin.room.entities.Team
+import com.robolancers.lancerscoutkotlin.room.viewmodels.ScoutDataViewModel
 import com.robolancers.lancerscoutkotlin.room.viewmodels.TeamViewModel
 import com.robolancers.lancerscoutkotlin.utilities.adapters.Deletable
 import com.robolancers.lancerscoutkotlin.utilities.callback.ItemTouchHelperSimpleCallbackReorderable
 
-class TeamAdapter(private var teamChooserActivity: TeamChooserActivity) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), Deletable {
+class TeamAdapter(private var teamChooserActivity: TeamChooserActivity, private var scoutDataViewModel: ScoutDataViewModel) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), Deletable {
     inner class TeamHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         var teamNumber: TextView = itemView.findViewById(R.id.team_number)
         private var teamTemplateRecyclerView = itemView.findViewById<RecyclerView>(R.id.team_template_list)
 
-        private var teamTemplateItems = mutableListOf<TeamTemplateItem>()
+        private var teamTemplateItems = mutableListOf<ScoutData>()
 
-        private var itemSelectorAdapter = TeamTemplateAdapter(teamTemplateRecyclerView.context, teamTemplateItems, this)
-        private var itemSelectorItemTouchHelper = ItemTouchHelper(
+        private var teamTemplateAdapter = TeamTemplateAdapter(teamTemplateRecyclerView.context, teamTemplateItems, this)
+        private var teamTemplateItemTouchHelper = ItemTouchHelper(
             ItemTouchHelperSimpleCallbackReorderable(
-                itemSelectorAdapter
+                teamTemplateAdapter
             ).simpleItemCallback)
-        private val itemSelectorLinearLayoutManager = LinearLayoutManager(teamTemplateRecyclerView.context, RecyclerView.VERTICAL, false)
+        private val teamTemplateLinearLayoutManager = LinearLayoutManager(teamTemplateRecyclerView.context, RecyclerView.VERTICAL, false)
 
         fun bind(team: Team) {
             teamNumber.text = team.teamNumber.toString()
 
-            if (!team.templates.isNullOrBlank()) {
-                teamTemplateItems.addAll(
-                    team.templates.orEmpty().split(",").map { TeamTemplateItem(it) }.toMutableList()
-                )
-                itemSelectorAdapter.notifyDataSetChanged()
-            }
+            scoutDataViewModel.getAllScoutData(team.teamNumber ?: 0).observe(teamChooserActivity, Observer { data ->
+                teamTemplateAdapter.setTeamTemplates(data.toMutableList())
+            })
 
             teamTemplateRecyclerView.apply {
-                layoutManager = itemSelectorLinearLayoutManager
-                adapter = itemSelectorAdapter
+                layoutManager = teamTemplateLinearLayoutManager
+                adapter = teamTemplateAdapter
                 setRecycledViewPool(viewPool)
             }
 
-            itemSelectorItemTouchHelper.attachToRecyclerView(teamTemplateRecyclerView)
+            teamTemplateItemTouchHelper.attachToRecyclerView(teamTemplateRecyclerView)
         }
 
         fun startDragging(viewHolder: RecyclerView.ViewHolder) {
-            itemSelectorItemTouchHelper.startDrag(viewHolder)
+            teamTemplateItemTouchHelper.startDrag(viewHolder)
         }
     }
 

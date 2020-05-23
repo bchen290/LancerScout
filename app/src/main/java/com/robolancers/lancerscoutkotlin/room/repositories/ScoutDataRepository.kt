@@ -5,6 +5,8 @@ import com.robolancers.lancerscoutkotlin.room.daos.ScoutDataDao
 import com.robolancers.lancerscoutkotlin.room.entities.ScoutData
 
 class ScoutDataRepository(private val scoutDataDao: ScoutDataDao) {
+    val allScoutData: LiveData<List<ScoutData>> = scoutDataDao.getAllScoutData()
+
     fun getAllScoutData(teamNumber: Int): LiveData<List<ScoutData>> {
         return scoutDataDao.getAllScoutData(teamNumber)
     }

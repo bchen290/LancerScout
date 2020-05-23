@@ -12,6 +12,8 @@ import kotlinx.coroutines.launch
 class ScoutDataViewModel(application: Application) : AndroidViewModel(application) {
     private val scoutDataRepository: ScoutDataRepository
 
+    val allScoutData: LiveData<List<ScoutData>>
+
     init {
         val scoutDataDao = LancerDatabase.getDatabase(
             application
@@ -21,6 +23,8 @@ class ScoutDataViewModel(application: Application) : AndroidViewModel(applicatio
             ScoutDataRepository(
                 scoutDataDao
             )
+
+        allScoutData = scoutDataRepository.allScoutData
     }
 
     fun getAllScoutData(teamNumber: Int): LiveData<List<ScoutData>> {
