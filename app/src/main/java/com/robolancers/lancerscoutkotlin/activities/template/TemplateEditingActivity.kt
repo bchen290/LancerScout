@@ -16,11 +16,12 @@ import com.afollestad.materialdialogs.LayoutMode
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.bottomsheets.BottomSheet
 import com.afollestad.materialdialogs.list.listItems
-import com.robolancers.lancerscoutkotlin.R
-import com.robolancers.lancerscoutkotlin.models.template.*
-import com.robolancers.lancerscoutkotlin.adapters.TemplateEditingAdapter
-import com.github.salomonbrys.kotson.*
+import com.github.salomonbrys.kotson.fromJson
+import com.github.salomonbrys.kotson.gsonTypeToken
 import com.google.android.material.snackbar.Snackbar
+import com.robolancers.lancerscoutkotlin.R
+import com.robolancers.lancerscoutkotlin.adapters.TemplateEditingAdapter
+import com.robolancers.lancerscoutkotlin.models.template.*
 import com.robolancers.lancerscoutkotlin.room.entities.Template
 import com.robolancers.lancerscoutkotlin.room.viewmodels.TemplateViewModel
 import com.robolancers.lancerscoutkotlin.utilities.GsonHelper.Companion.gson
@@ -125,7 +126,7 @@ class TemplateEditingActivity : ToolbarActivity() {
                         title(text = "Do you want to save?")
                         positiveButton(text = "Yes") {
                             save()
-                            userWantToSave = true
+                            userWantToSave = false
                             finishAfterTransition()
                         }
                         negativeButton(text = "No") {
@@ -164,6 +165,8 @@ class TemplateEditingActivity : ToolbarActivity() {
 
             templateViewModel.insert(templateCopy)
         }
+
+        userWantToSave = false
 
         Snackbar.make(template_editing_linear_layout, "Saved", Snackbar.LENGTH_LONG)
             .setBackgroundTint(Color.RED)

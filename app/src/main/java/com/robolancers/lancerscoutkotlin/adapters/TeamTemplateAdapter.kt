@@ -1,12 +1,12 @@
 package com.robolancers.lancerscoutkotlin.adapters
 
 import android.content.Context
+import android.content.Intent
 import android.text.Editable
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -14,8 +14,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.robolancers.lancerscoutkotlin.R
 import com.robolancers.lancerscoutkotlin.activities.scouting.TeamChooserActivity
-import com.robolancers.lancerscoutkotlin.models.scouting.TeamTemplateItem
+import com.robolancers.lancerscoutkotlin.activities.template.TemplateEditingActivity
 import com.robolancers.lancerscoutkotlin.room.entities.ScoutData
+import com.robolancers.lancerscoutkotlin.room.entities.Template
 import com.robolancers.lancerscoutkotlin.utilities.adapters.Deletable
 import com.robolancers.lancerscoutkotlin.utilities.adapters.Reorderable
 import com.robolancers.lancerscoutkotlin.utilities.callback.LancerTextWatcher
@@ -36,6 +37,12 @@ class TeamTemplateAdapter(private val context: Context, private var listItems: M
                     listItem.scoutDataName = s.toString()
                 }
             })
+
+            itemView.setOnClickListener {
+                val intent = Intent(context, TemplateEditingActivity::class.java)
+                intent.putExtra("Template", Template(listItem.scoutDataName, listItem.data))
+                context.startActivity(intent)
+            }
 
             itemDelete.setOnClickListener {
                 listItems.removeAt(adapterPosition)

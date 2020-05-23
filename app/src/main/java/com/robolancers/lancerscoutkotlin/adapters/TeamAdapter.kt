@@ -1,7 +1,5 @@
 package com.robolancers.lancerscoutkotlin.adapters
 
-import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,8 +13,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.robolancers.lancerscoutkotlin.R
 import com.robolancers.lancerscoutkotlin.activities.scouting.TeamChooserActivity
-import com.robolancers.lancerscoutkotlin.models.scouting.TeamTemplateItem
-import com.robolancers.lancerscoutkotlin.room.LancerDatabase
 import com.robolancers.lancerscoutkotlin.room.entities.ScoutData
 import com.robolancers.lancerscoutkotlin.room.entities.Team
 import com.robolancers.lancerscoutkotlin.room.viewmodels.ScoutDataViewModel
