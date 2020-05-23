@@ -49,10 +49,6 @@ class TeamAdapter(private var teamChooserActivity: TeamChooserActivity, private 
 
             teamTemplateItemTouchHelper.attachToRecyclerView(teamTemplateRecyclerView)
         }
-
-        fun startDragging(viewHolder: RecyclerView.ViewHolder) {
-            teamTemplateItemTouchHelper.startDrag(viewHolder)
-        }
     }
 
     private lateinit var recentlyDeletedItem: Team

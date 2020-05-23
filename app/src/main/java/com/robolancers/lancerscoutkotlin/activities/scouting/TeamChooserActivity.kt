@@ -3,12 +3,10 @@ package com.robolancers.lancerscoutkotlin.activities.scouting
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
-import android.util.Log
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.input.input
 import com.afollestad.materialdialogs.list.listItemsSingleChoice
@@ -108,9 +106,5 @@ class TeamChooserActivity : ToolbarActivity() {
                 Snackbar.make(team_coordinator_layout, "Create a template first!", Snackbar.LENGTH_LONG).show()
             }
         }
-    }
-
-    fun startDrag(viewHolder: RecyclerView.ViewHolder) {
-        templateItemTouchHelper.startDrag(viewHolder)
     }
 }

@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.text.Editable
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
@@ -20,7 +19,6 @@ import com.robolancers.lancerscoutkotlin.room.entities.Template
 import com.robolancers.lancerscoutkotlin.utilities.adapters.Deletable
 import com.robolancers.lancerscoutkotlin.utilities.adapters.Reorderable
 import com.robolancers.lancerscoutkotlin.utilities.callback.LancerTextWatcher
-import kotlinx.android.synthetic.main.list_item_text_handle.view.*
 import java.util.*
 
 class TeamTemplateAdapter(private val context: Context, private var listItems: MutableList<ScoutData>, private val teamHolder: TeamAdapter.TeamHolder) : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
@@ -52,17 +50,9 @@ class TeamTemplateAdapter(private val context: Context, private var listItems: M
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val viewHolder = ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_team_template, parent, false))
-
-        viewHolder.itemView.handle_view.setOnTouchListener { _, event ->
-            if (event.actionMasked == MotionEvent.ACTION_DOWN) {
-                teamHolder.startDragging(viewHolder)
-            }
-
-            return@setOnTouchListener true
-        }
-
-        return viewHolder
+        return ViewHolder(
+            LayoutInflater.from(parent.context).inflate(R.layout.item_team_template, parent, false)
+        )
     }
 
     fun setTeamTemplates(teamTemplates: MutableList<ScoutData>) {
