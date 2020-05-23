@@ -34,6 +34,8 @@ class TeamAdapter(private var teamChooserActivity: TeamChooserActivity, private 
             ).simpleItemCallback)
         private val teamTemplateLinearLayoutManager = LinearLayoutManager(teamTemplateRecyclerView.context, RecyclerView.VERTICAL, false)
 
+        private var recyclerViewVisible = true
+
         fun bind(team: Team) {
             teamNumber.text = team.teamNumber.toString()
 
@@ -45,9 +47,20 @@ class TeamAdapter(private var teamChooserActivity: TeamChooserActivity, private 
                 layoutManager = teamTemplateLinearLayoutManager
                 adapter = teamTemplateAdapter
                 setRecycledViewPool(viewPool)
+                visibility = View.GONE
             }
 
             teamTemplateItemTouchHelper.attachToRecyclerView(teamTemplateRecyclerView)
+
+            itemView.setOnClickListener {
+                if (recyclerViewVisible) {
+                    teamTemplateRecyclerView.visibility = View.VISIBLE
+                } else {
+                    teamTemplateRecyclerView.visibility = View.GONE
+                }
+
+                recyclerViewVisible = !recyclerViewVisible
+            }
         }
     }
 
