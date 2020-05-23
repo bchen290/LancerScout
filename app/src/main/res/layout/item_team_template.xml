@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal">
@@ -13,11 +11,11 @@
         android:contentDescription="@string/item_title"
         android:visibility="invisible"/>
 
-    <include
-        layout="@layout/list_item_handle"
-        android:id="@+id/handle_view"
-        android:layout_height="match_parent"
-        android:layout_width="wrap_content" />
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/none"
+        android:src="@drawable/round_description_white_24dp" />
 
     <TextView
         android:id="@+id/item_selector_item_title"
