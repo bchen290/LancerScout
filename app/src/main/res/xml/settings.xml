@@ -7,4 +7,12 @@
         app:title="Scout/Phone Name"
         android:key="name"
         android:defaultValue="Scout Phone" />
+
+    <PreferenceCategory android:title="@string/about" />
+
+    <Preference android:title="LancerScout is developed for RoboLancers by Brian" />
+
+    <Preference
+        android:title="Version"
+        android:summary="1" />
 </PreferenceScreen>
