@@ -20,7 +20,10 @@ import com.robolancers.lancerscoutkotlin.utilities.adapters.Reorderable
 import com.robolancers.lancerscoutkotlin.utilities.callback.LancerTextWatcher
 import java.util.*
 
-class TeamTemplateAdapter(private val context: Context, private var listItems: MutableList<ScoutData>, private val teamHolder: TeamAdapter.TeamHolder) : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
+class TeamTemplateAdapter(
+    private val context: Context,
+    private var listItems: MutableList<ScoutData>
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>(),
     Deletable, Reorderable {
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         private val itemTitle: TextView = itemView.findViewById(R.id.item_selector_item_title)

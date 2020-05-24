@@ -27,7 +27,10 @@ class TeamAdapter(private var teamChooserActivity: TeamChooserActivity, private 
 
         private var teamTemplateItems = mutableListOf<ScoutData>()
 
-        private var teamTemplateAdapter = TeamTemplateAdapter(teamTemplateRecyclerView.context, teamTemplateItems, this)
+        private var teamTemplateAdapter = TeamTemplateAdapter(
+            teamTemplateRecyclerView.context,
+            teamTemplateItems
+        )
         private var teamTemplateItemTouchHelper = ItemTouchHelper(
             ItemTouchHelperSimpleCallbackReorderable(
                 teamTemplateAdapter
