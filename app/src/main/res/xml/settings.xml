@@ -8,6 +8,12 @@
         android:key="name"
         android:defaultValue="Scout Phone" />
 
+    <PreferenceCategory android:title="Communication" />
+
+    <Preference
+        android:title="Setup Bluetooth"
+        android:summary="Pair with scouting computer first then select name of scouting computer" />
+
     <PreferenceCategory android:title="@string/about" />
 
     <Preference android:title="LancerScout is developed for RoboLancers by Brian" />
