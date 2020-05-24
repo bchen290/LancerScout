@@ -30,7 +30,7 @@
             android:name=".activities.scouting.TeamChooserActivity"
             android:parentActivityName=".MainActivity" />
         <activity
-            android:name=".activities.scouting.ScoutDataActivity"
-            android:parentActivityName=".activities.scouting.TeamChooserActivity"/>
+            android:name=".activities.SettingsActivity"
+            android:parentActivityName=".MainActivity" />
     </application>
 </manifest>
