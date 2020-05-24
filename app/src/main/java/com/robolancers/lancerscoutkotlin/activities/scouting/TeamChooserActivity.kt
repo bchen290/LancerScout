@@ -3,6 +3,8 @@ package com.robolancers.lancerscoutkotlin.activities.scouting
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
+import android.view.Menu
+import android.view.MenuItem
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -110,6 +112,20 @@ class TeamChooserActivity : ToolbarActivity() {
             } else {
                 Snackbar.make(team_coordinator_layout, "Create a template first!", Snackbar.LENGTH_LONG).show()
             }
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.team_chooser_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.team_chooser_send -> {
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 }
