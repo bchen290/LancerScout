@@ -12,7 +12,12 @@
 
     <Preference
         android:title="Setup Bluetooth"
-        android:summary="Pair with scouting computer first then select name of scouting computer" />
+        android:summary="Pair with scouting computer first then select name of scouting computer">
+
+        <intent
+            android:targetPackage="com.robolancers.lancerscoutkotlin"
+            android:targetClass="com.robolancers.lancerscoutkotlin.activities.BluetoothSettingActivity" />
+    </Preference>
 
     <PreferenceCategory android:title="@string/about" />
 
