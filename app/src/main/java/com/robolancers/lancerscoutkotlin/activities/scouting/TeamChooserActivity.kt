@@ -1,10 +1,13 @@
 package com.robolancers.lancerscoutkotlin.activities.scouting
 
+import android.app.SearchManager
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -43,6 +46,8 @@ class TeamChooserActivity : ToolbarActivity() {
 
     private lateinit var templateList: List<Template>
     private lateinit var chosenTemplate: Template
+
+    private lateinit var searchView: SearchView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -117,6 +122,24 @@ class TeamChooserActivity : ToolbarActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.team_chooser_menu, menu)
+
+        val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
+        searchView = menu?.findItem(R.id.action_search)?.actionView as SearchView
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(componentName))
+        searchView.maxWidth = Integer.MAX_VALUE
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                teamAdapter.filter?.filter(query)
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                teamAdapter.filter?.filter(newText)
+                return false
+            }
+        })
+
         return true
     }
 
@@ -125,7 +148,19 @@ class TeamChooserActivity : ToolbarActivity() {
             R.id.team_chooser_send -> {
                 true
             }
+            R.id.action_search -> {
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun onBackPressed() {
+        if (!searchView.isIconified) {
+            searchView.isIconified = true
+            return
+        }
+
+        super.onBackPressed()
     }
 }

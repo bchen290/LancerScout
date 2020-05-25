@@ -28,7 +28,15 @@
             android:parentActivityName=".activities.template.TemplateActivity" />
         <activity
             android:name=".activities.scouting.TeamChooserActivity"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.app.search"
+                android:resource="@xml/searchable" />
+
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".activities.SettingsActivity"
             android:parentActivityName=".MainActivity" />

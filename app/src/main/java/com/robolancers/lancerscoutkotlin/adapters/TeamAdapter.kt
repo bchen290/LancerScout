@@ -3,6 +3,8 @@ package com.robolancers.lancerscoutkotlin.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import android.widget.TextView
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.lifecycle.Observer
@@ -20,7 +22,10 @@ import com.robolancers.lancerscoutkotlin.room.viewmodels.TeamViewModel
 import com.robolancers.lancerscoutkotlin.utilities.adapters.Deletable
 import com.robolancers.lancerscoutkotlin.utilities.callback.ItemTouchHelperSimpleCallbackReorderable
 
-class TeamAdapter(private var teamChooserActivity: TeamChooserActivity, private var scoutDataViewModel: ScoutDataViewModel) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), Deletable {
+class TeamAdapter(
+    private var teamChooserActivity: TeamChooserActivity,
+    private var scoutDataViewModel: ScoutDataViewModel
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), Deletable, Filterable {
     inner class TeamHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         var teamNumber: TextView = itemView.findViewById(R.id.team_number)
         private var teamTemplateRecyclerView = itemView.findViewById<RecyclerView>(R.id.team_template_list)
@@ -69,6 +74,7 @@ class TeamAdapter(private var teamChooserActivity: TeamChooserActivity, private 
 
     private lateinit var recentlyDeletedItem: Team
     private var teams = emptyList<Team>()
+    private var teamsFiltered = emptyList<Team>()
     private val teamViewModel = ViewModelProvider(teamChooserActivity, ViewModelProvider.AndroidViewModelFactory(teamChooserActivity.application)).get(TeamViewModel::class.java)
 
     private val viewPool = RecyclerView.RecycledViewPool()
@@ -80,16 +86,17 @@ class TeamAdapter(private var teamChooserActivity: TeamChooserActivity, private 
         )
     }
 
-    override fun getItemCount(): Int = teams.size
+    override fun getItemCount(): Int = teamsFiltered.size
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder is TeamHolder) {
-            holder.bind(teams[position])
+            holder.bind(teamsFiltered[position])
         }
     }
 
     fun setTeams(teams: List<Team>) {
         this.teams = teams
+        this.teamsFiltered = teams
         notifyDataSetChanged()
     }
 
@@ -103,8 +110,8 @@ class TeamAdapter(private var teamChooserActivity: TeamChooserActivity, private 
     }
 
     override fun deleteItem(position: Int) {
-        recentlyDeletedItem = teams[position]
-        teamViewModel.delete(teams[position])
+        recentlyDeletedItem = teamsFiltered[position]
+        teamViewModel.delete(teamsFiltered[position])
         notifyItemRemoved(position)
         showUndoSnackbar()
     }
@@ -112,5 +119,28 @@ class TeamAdapter(private var teamChooserActivity: TeamChooserActivity, private 
     override fun undoDelete() {
         teamViewModel.insert(recentlyDeletedItem)
         notifyDataSetChanged()
+    }
+
+    override fun getFilter(): Filter? {
+        return object : Filter() {
+            override fun performFiltering(constraint: CharSequence?): FilterResults {
+                val filterString = constraint.toString()
+                teamsFiltered = if (filterString.isEmpty()) {
+                    teams
+                } else {
+                    teams.filter { it.teamNumber.toString().contains(filterString) }
+                }
+
+                return FilterResults().apply {
+                    values = teamsFiltered
+                }
+            }
+
+            @Suppress("UNCHECKED_CAST")
+            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+                teamsFiltered = results?.values as? List<Team> ?: teams
+                notifyDataSetChanged()
+            }
+        }
     }
 }
