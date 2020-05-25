@@ -8,8 +8,16 @@ class Communication {
     companion object {
         private const val NAME = "Communication"
 
-        fun getPreference(context: Context): SharedPreferences {
+        private fun getPreference(context: Context): SharedPreferences {
             return context.getSharedPreferences(NAME, MODE_PRIVATE)
+        }
+
+        fun setMacAddress(context: Context, macAddress: String) {
+            getPreference(context).edit().putString("MacAddress", macAddress).apply()
+        }
+
+        fun getMacAddress(context: Context) {
+            getPreference(context).getString("MacAddress", "-1")
         }
     }
 }
