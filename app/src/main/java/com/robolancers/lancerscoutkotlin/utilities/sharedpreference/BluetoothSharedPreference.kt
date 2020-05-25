@@ -4,9 +4,9 @@ import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 
-class Communication {
+class BluetoothSharedPreference {
     companion object {
-        private const val NAME = "Communication"
+        private const val NAME = "Bluetooth"
 
         private fun getPreference(context: Context): SharedPreferences {
             return context.getSharedPreferences(NAME, MODE_PRIVATE)
@@ -16,8 +16,16 @@ class Communication {
             getPreference(context).edit().putString("MacAddress", macAddress).apply()
         }
 
-        fun getMacAddress(context: Context) {
-            getPreference(context).getString("MacAddress", "-1")
+        fun getMacAddress(context: Context): String {
+            return getPreference(context).getString("MacAddress", "") ?: ""
+        }
+
+        fun setName(context: Context, name: String) {
+            getPreference(context).edit().putString("Name", name).apply()
+        }
+
+        fun getName(context: Context): String {
+            return getPreference(context).getString("Name", "") ?: ""
         }
     }
 }

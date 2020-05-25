@@ -8,7 +8,11 @@
         android:key="name"
         android:defaultValue="Scout Phone" />
 
-    <PreferenceCategory android:title="Communication" />
+    <PreferenceCategory android:title="Bluetooth" />
+
+    <Preference
+        android:key="default"
+        android:title="Default Bluetooth Device" />
 
     <Preference
         android:title="Setup Bluetooth"
