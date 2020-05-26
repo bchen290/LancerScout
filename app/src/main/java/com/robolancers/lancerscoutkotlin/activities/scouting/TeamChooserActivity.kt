@@ -10,7 +10,6 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ProgressBar
-import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -196,7 +195,11 @@ class TeamChooserActivity : ToolbarActivity() {
             val startTime = System.currentTimeMillis()
 
             teamChooserActivity.runOnUiThread {
-                Toast.makeText(teamChooserActivity, "Sending...", Toast.LENGTH_LONG).show()
+                Snackbar.make(
+                    teamChooserActivity.team_chooser_layout,
+                    "Sending...",
+                    Snackbar.LENGTH_LONG
+                ).show()
             }
 
             teamChooserActivity.bluetoothService.start()
@@ -213,13 +216,22 @@ class TeamChooserActivity : ToolbarActivity() {
                 params.forEach {
                     teamChooserActivity.bluetoothService.write((it ?: "").toByteArray())
                     teamChooserActivity.runOnUiThread {
-                        Toast.makeText(teamChooserActivity, "Sent", Toast.LENGTH_LONG).show()
+                        Snackbar.make(
+                            teamChooserActivity.team_chooser_layout,
+                            "Sent",
+                            Snackbar.LENGTH_LONG
+                        ).show()
+
                     }
                 }
                 true
             } else {
                 teamChooserActivity.runOnUiThread {
-                    Toast.makeText(teamChooserActivity, "Timeout", Toast.LENGTH_LONG).show()
+                    Snackbar.make(
+                        teamChooserActivity.team_chooser_layout,
+                        "Timeout",
+                        Snackbar.LENGTH_LONG
+                    ).show()
                 }
                 false
             }
