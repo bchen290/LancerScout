@@ -193,6 +193,8 @@ class TeamChooserActivity : ToolbarActivity() {
         }
 
         override fun doInBackground(vararg params: String?): Boolean? {
+            val startTime = System.currentTimeMillis()
+
             teamChooserActivity.runOnUiThread {
                 Toast.makeText(teamChooserActivity, "Sending...", Toast.LENGTH_LONG).show()
             }
@@ -204,21 +206,31 @@ class TeamChooserActivity : ToolbarActivity() {
                 false
             )
 
-            while (teamChooserActivity.bluetoothService.serviceState != BluetoothService.STATE_CONNECTED) {
+            while (teamChooserActivity.bluetoothService.serviceState != BluetoothService.STATE_CONNECTED && (System.currentTimeMillis() - startTime <= TIMEOUT)) {
             }
 
-            params.forEach {
-                teamChooserActivity.bluetoothService.write((it ?: "").toByteArray())
-                teamChooserActivity.runOnUiThread {
-                    Toast.makeText(teamChooserActivity, "Sent", Toast.LENGTH_LONG).show()
+            return if (teamChooserActivity.bluetoothService.serviceState == BluetoothService.STATE_CONNECTED) {
+                params.forEach {
+                    teamChooserActivity.bluetoothService.write((it ?: "").toByteArray())
+                    teamChooserActivity.runOnUiThread {
+                        Toast.makeText(teamChooserActivity, "Sent", Toast.LENGTH_LONG).show()
+                    }
                 }
+                true
+            } else {
+                teamChooserActivity.runOnUiThread {
+                    Toast.makeText(teamChooserActivity, "Timeout", Toast.LENGTH_LONG).show()
+                }
+                false
             }
-
-            return true
         }
 
         override fun onPostExecute(result: Boolean?) {
             teamChooserActivity.progressBar.visibility = View.GONE
+        }
+
+        companion object {
+            const val TIMEOUT = 5000
         }
     }
 }
