@@ -18,7 +18,7 @@ class BluetoothService(val context: Context, val handler: Handler){
     private var connectThread: ConnectThread? = null
     private var connectedThread: ConnectedThread? = null
 
-    private var serviceState = STATE_NONE
+    var serviceState = STATE_NONE
         @Synchronized get
 
     companion object {
@@ -218,8 +218,10 @@ class BluetoothService(val context: Context, val handler: Handler){
 
         fun write(buffer: ByteArray){
             try {
+                Log.d(TAG, "wrote $buffer")
                 outputStream?.write(buffer)
                 handler.obtainMessage(Constants.MESSAGE_WRITE, -1, -1, buffer)
+                this@BluetoothService.stop()
             } catch (e: IOException) {
                 Log.e(TAG, "Exception during write", e)
             }

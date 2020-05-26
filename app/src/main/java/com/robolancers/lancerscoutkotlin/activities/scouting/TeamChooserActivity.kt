@@ -4,13 +4,13 @@ import android.app.SearchManager
 import android.bluetooth.BluetoothAdapter
 import android.content.Context
 import android.content.Intent
-import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.os.Message
+import android.os.*
 import android.text.InputType
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -58,6 +58,8 @@ class TeamChooserActivity : ToolbarActivity() {
 
     private lateinit var handler: Handler
     private lateinit var bluetoothService: BluetoothService
+
+    private lateinit var progressBar: ProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -136,11 +138,7 @@ class TeamChooserActivity : ToolbarActivity() {
         }
 
         bluetoothService = BluetoothService(this, handler)
-        bluetoothService.start()
-        bluetoothService.connect(
-            BluetoothAdapter.getDefaultAdapter()
-                .getRemoteDevice(BluetoothSharedPreference.getMacAddress(this)), true
-        )
+        progressBar = findViewById(R.id.progress_bar)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -169,7 +167,7 @@ class TeamChooserActivity : ToolbarActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.team_chooser_send -> {
-                bluetoothService.write(GsonHelper.gson.toJson(teamAdapter.getTeams()).toByteArray())
+                BluetoothSendAsyncTask(this).execute(GsonHelper.gson.toJson(teamAdapter.getTeams()))
                 true
             }
             R.id.action_search -> {
@@ -186,5 +184,41 @@ class TeamChooserActivity : ToolbarActivity() {
         }
 
         super.onBackPressed()
+    }
+
+    class BluetoothSendAsyncTask(private val teamChooserActivity: TeamChooserActivity) :
+        AsyncTask<String, Void, Boolean>() {
+        override fun onPreExecute() {
+            teamChooserActivity.progressBar.visibility = View.VISIBLE
+        }
+
+        override fun doInBackground(vararg params: String?): Boolean? {
+            teamChooserActivity.runOnUiThread {
+                Toast.makeText(teamChooserActivity, "Sending...", Toast.LENGTH_LONG).show()
+            }
+
+            teamChooserActivity.bluetoothService.start()
+            teamChooserActivity.bluetoothService.connect(
+                BluetoothAdapter.getDefaultAdapter()
+                    .getRemoteDevice(BluetoothSharedPreference.getMacAddress(teamChooserActivity)),
+                false
+            )
+
+            while (teamChooserActivity.bluetoothService.serviceState != BluetoothService.STATE_CONNECTED) {
+            }
+
+            params.forEach {
+                teamChooserActivity.bluetoothService.write((it ?: "").toByteArray())
+                teamChooserActivity.runOnUiThread {
+                    Toast.makeText(teamChooserActivity, "Sent", Toast.LENGTH_LONG).show()
+                }
+            }
+
+            return true
+        }
+
+        override fun onPostExecute(result: Boolean?) {
+            teamChooserActivity.progressBar.visibility = View.GONE
+        }
     }
 }
