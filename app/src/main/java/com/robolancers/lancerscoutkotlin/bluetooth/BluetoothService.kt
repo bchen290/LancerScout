@@ -26,7 +26,7 @@ class BluetoothService(val context: Context, val handler: Handler){
         const val STATE_CONNECTING = 2
         const val STATE_CONNECTED = 3
 
-        val APP_BLUETOOTH_UUID: UUID = UUID.fromString("981e6604-5feb-4403-82a5-ba5822119997")
+        val APP_BLUETOOTH_UUID: UUID = UUID.fromString("fba199f7-47a7-4ed4-b880-3073424d2e2c")
         val DEFAULT_BLUETOOTH_UUID: UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB")
 
         const val TAG = "BT"
@@ -56,7 +56,7 @@ class BluetoothService(val context: Context, val handler: Handler){
         connectedThread = null
 
         connectThread = ConnectThread(device, secure)
-        connectThread!!.start()
+        connectThread?.start()
     }
 
     @Synchronized

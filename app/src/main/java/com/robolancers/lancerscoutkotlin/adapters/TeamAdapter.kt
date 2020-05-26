@@ -100,6 +100,10 @@ class TeamAdapter(
         notifyDataSetChanged()
     }
 
+    fun getTeams(): List<Team> {
+        return teams
+    }
+
     override fun showUndoSnackbar() {
         val view = teamChooserActivity.findViewById<CoordinatorLayout>(R.id.team_coordinator_layout)
         val snackbar = Snackbar.make(view, "Deleted", Snackbar.LENGTH_LONG)
