@@ -8,8 +8,8 @@ import com.google.gson.GsonBuilder
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.google.gson.reflect.TypeToken
-import com.robolancers.lancerscoutkotlin.models.scouting.TeamTemplateItem
 import com.robolancers.lancerscoutkotlin.models.template.*
+import com.robolancers.lancerscoutkotlin.room.entities.ScoutData
 
 class GsonHelper {
     companion object {
@@ -103,6 +103,39 @@ class GsonHelper {
 
                             else -> TemplateModel("")
                         })
+                    }
+
+                    result
+                }
+            }
+            .registerTypeAdapter<MutableList<ScoutData>> {
+                serialize { arg ->
+                    val jsonArray = JsonArray()
+
+                    arg.src.forEach {
+                        val jsonObject = JsonObject().apply {
+                            addProperty("scoutDataName", it.scoutDataName)
+                            addProperty("teamNumber", it.teamNumber)
+                            addProperty("data", it.data)
+                        }
+
+                        jsonArray.add(jsonObject)
+                    }
+
+                    jsonArray
+                }
+                deserialize { arg ->
+                    val jsonArray = arg.json.asJsonArray
+                    val result = mutableListOf<ScoutData>()
+
+                    jsonArray.forEach { jsonObject ->
+                        result.add(
+                            ScoutData(
+                                jsonObject["teamNumber"].asInt,
+                                jsonObject["scoutDataName"].asString,
+                                jsonObject["data"].asString
+                            )
+                        )
                     }
 
                     result
