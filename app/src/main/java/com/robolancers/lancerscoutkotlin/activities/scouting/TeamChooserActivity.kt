@@ -50,6 +50,8 @@ class TeamChooserActivity : ToolbarActivity() {
     private lateinit var templateViewModel: TemplateViewModel
     private lateinit var scoutDataViewModel: ScoutDataViewModel
 
+    private lateinit var allScoutData: List<ScoutData>
+
     private lateinit var templateList: List<Template>
     private lateinit var chosenTemplate: Template
 
@@ -78,6 +80,10 @@ class TeamChooserActivity : ToolbarActivity() {
 
         val teamLayoutManager = LinearLayoutManager(this)
         teamAdapter = TeamAdapter(this, scoutDataViewModel)
+
+        scoutDataViewModel.allScoutData.observe(this, Observer { scoutData ->
+            allScoutData = scoutData
+        })
 
         val templateRecyclerView = teams_recycler_view.apply {
             layoutManager = teamLayoutManager
@@ -166,7 +172,7 @@ class TeamChooserActivity : ToolbarActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.team_chooser_send -> {
-                BluetoothSendAsyncTask(this).execute(GsonHelper.gson.toJson(teamAdapter.getTeams()))
+                BluetoothSendAsyncTask(this).execute(GsonHelper.gson.toJson(allScoutData))
                 true
             }
             R.id.action_search -> {
