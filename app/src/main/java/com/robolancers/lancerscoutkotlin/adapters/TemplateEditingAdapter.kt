@@ -234,6 +234,27 @@ class TemplateEditingAdapter(
         }
     }
 
+    inner class SpinnerHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private var text = itemView.findViewById<EditText>(R.id.item_selector_title)
+
+        private var spinner = itemView.findViewById<Spinner>(R.id.item_selector_spinner)
+        private lateinit var arrayAdapter: ArrayAdapter<String>
+
+        fun bind(templateModel: ItemSelector) {
+            if (scouting) {
+                EditTextUtil.disableEditText(text)
+            }
+
+            text.setText(templateModel.title)
+
+            arrayAdapter = ArrayAdapter(
+                context,
+                android.R.layout.simple_list_item_1,
+                templateModel.list.map { it.itemName })
+            spinner.adapter = arrayAdapter
+        }
+    }
+
     inner class CheckboxHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         private val checkbox = itemView.findViewById<CheckBox>(R.id.checkbox)
         private val checkboxTitle = itemView.findViewById<EditText>(R.id.checkbox_title)
@@ -275,6 +296,7 @@ class TemplateEditingAdapter(
         const val VIEW_TYPE_ITEM_SELECTOR = 4
         const val VIEW_TYPE_NOTE = 5
         const val VIEW_TYPE_STOPWATCH = 6
+        const val VIEW_TYPE_SPINNER = 7
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -282,7 +304,7 @@ class TemplateEditingAdapter(
             is Header -> VIEW_TYPE_HEADER
             is Checkbox -> VIEW_TYPE_CHECKBOX
             is Counter -> VIEW_TYPE_COUNTER
-            is ItemSelector -> VIEW_TYPE_ITEM_SELECTOR
+            is ItemSelector -> if (scouting) VIEW_TYPE_SPINNER else VIEW_TYPE_ITEM_SELECTOR
             is Note -> VIEW_TYPE_NOTE
             is Stopwatch -> VIEW_TYPE_STOPWATCH
             else -> super.getItemViewType(position)
@@ -319,6 +341,11 @@ class TemplateEditingAdapter(
                 inflatedView = LayoutInflater.from(parent.context).inflate(R.layout.item_checkbox, parent, false)
                 viewHolder = CheckboxHolder(inflatedView)
             }
+            VIEW_TYPE_SPINNER -> {
+                inflatedView = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.item_selector_scouting, parent, false)
+                viewHolder = SpinnerHolder(inflatedView)
+            }
             else -> {
                 inflatedView = LayoutInflater.from(parent.context).inflate(R.layout.item_empty, parent, false)
                 viewHolder = EmptyHolder(inflatedView)
@@ -352,6 +379,7 @@ class TemplateEditingAdapter(
             VIEW_TYPE_COUNTER -> (holder as CounterHolder).bind(templateModels[position] as Counter)
             VIEW_TYPE_ITEM_SELECTOR -> (holder as ItemSelectorHolder).bind(templateModels[position] as ItemSelector)
             VIEW_TYPE_CHECKBOX -> (holder as CheckboxHolder).bind(templateModels[position] as Checkbox)
+            VIEW_TYPE_SPINNER -> (holder as SpinnerHolder).bind(templateModels[position] as ItemSelector)
         }
     }
 
