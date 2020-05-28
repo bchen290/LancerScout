@@ -92,7 +92,9 @@ class TemplateEditingActivity : ToolbarActivity() {
                 false
             }
         }.also {
-            templateEditingHelper.attachToRecyclerView(it)
+            if (!scouting) {
+                templateEditingHelper.attachToRecyclerView(it)
+            }
         }
 
         templateViewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory(application)).get(
