@@ -116,7 +116,11 @@ class TemplateEditingActivity : ToolbarActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.item_editing_menu, menu)
+        if (scouting) {
+            menuInflater.inflate(R.menu.item_scouting_menu, menu)
+        } else {
+            menuInflater.inflate(R.menu.item_editing_menu, menu)
+        }
         return true
     }
 
