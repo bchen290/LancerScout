@@ -15,36 +15,44 @@
         android:autofillHints="text"
         android:hint="@string/counter_title"
         android:inputType="textMultiLine"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:textAlignment="center" />
 
-    <Button
-        android:id="@+id/counter_minus"
-        android:layout_width="50dp"
+    <LinearLayout
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/minus"
-        android:textColor="@android:color/black"/>
+        android:layout_weight="1"
+        android:gravity="center">
 
-    <EditText
-        android:id="@+id/counter_count"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/_0"
-        android:hint="@string/_0"
-        android:autofillHints=""
-        android:inputType="number" />
+        <Button
+            android:id="@+id/counter_minus"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:text="@string/minus"
+            android:textColor="@android:color/black" />
 
-    <EditText
-        android:id="@+id/counter_unit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:autofillHints=""
-        android:hint="@string/unit"
-        android:inputType="text" />
+        <EditText
+            android:id="@+id/counter_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/_0"
+            android:hint="@string/_0"
+            android:autofillHints=""
+            android:inputType="number" />
 
-    <Button
-        android:id="@+id/counter_plus"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:text="@string/plus"
-        android:textColor="@android:color/black"/>
+        <EditText
+            android:id="@+id/counter_unit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:autofillHints=""
+            android:hint="@string/unit"
+            android:inputType="text" />
+
+        <Button
+            android:id="@+id/counter_plus"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:text="@string/plus"
+            android:textColor="@android:color/black" />
+    </LinearLayout>
 </LinearLayout>
