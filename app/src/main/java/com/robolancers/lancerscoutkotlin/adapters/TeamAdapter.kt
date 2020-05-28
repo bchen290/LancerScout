@@ -6,13 +6,11 @@ import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
 import android.widget.TextView
-import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.snackbar.Snackbar
 import com.robolancers.lancerscoutkotlin.R
 import com.robolancers.lancerscoutkotlin.activities.scouting.TeamChooserActivity
 import com.robolancers.lancerscoutkotlin.room.entities.ScoutData
@@ -106,12 +104,12 @@ class TeamAdapter(
     }
 
     override fun showUndoSnackbar() {
-        val view = teamChooserActivity.findViewById<CoordinatorLayout>(R.id.team_coordinator_layout)
+        /* val view = teamChooserActivity.findViewById<CoordinatorLayout>(R.id.team_coordinator_layout)
         val snackbar = Snackbar.make(view, "Deleted", Snackbar.LENGTH_LONG)
         snackbar.setAction("Undo") {
             undoDelete()
         }
-        snackbar.show()
+        snackbar.show()*/
     }
 
     override fun deleteItem(position: Int) {
