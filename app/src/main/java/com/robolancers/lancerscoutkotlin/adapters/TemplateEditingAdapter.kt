@@ -3,7 +3,6 @@ package com.robolancers.lancerscoutkotlin.adapters
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
-import android.graphics.PorterDuff
 import android.text.Editable
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -17,17 +16,26 @@ import com.google.android.material.snackbar.Snackbar
 import com.robolancers.lancerscoutkotlin.R
 import com.robolancers.lancerscoutkotlin.activities.template.TemplateEditingActivity
 import com.robolancers.lancerscoutkotlin.models.template.*
-import com.robolancers.lancerscoutkotlin.utilities.callback.ItemTouchHelperSimpleCallbackReorderable
-import com.robolancers.lancerscoutkotlin.utilities.callback.LancerTextWatcher
 import com.robolancers.lancerscoutkotlin.utilities.activity.StopwatchThread
 import com.robolancers.lancerscoutkotlin.utilities.adapters.LancerAdapter
+import com.robolancers.lancerscoutkotlin.utilities.callback.ItemTouchHelperSimpleCallbackReorderable
+import com.robolancers.lancerscoutkotlin.utilities.callback.LancerTextWatcher
+import com.robolancers.lancerscoutkotlin.utilities.view.EditTextUtil
 import java.util.*
 
-class TemplateEditingAdapter(val context: Context, private val templateModels: MutableList<TemplateModel>) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), LancerAdapter {
+class TemplateEditingAdapter(
+    val context: Context,
+    private val templateModels: MutableList<TemplateModel>,
+    val scouting: Boolean
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), LancerAdapter {
     inner class HeaderHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         private var headerText = itemView.findViewById<EditText>(R.id.header_title)
 
         fun bind(templateModel: Header) {
+            if (scouting) {
+                EditTextUtil.disableEditText(headerText)
+            }
+
             headerText.setText(templateModel.text)
 
             headerText.addTextChangedListener(object: LancerTextWatcher() {
@@ -44,6 +52,10 @@ class TemplateEditingAdapter(val context: Context, private val templateModels: M
         private var noteText = itemView.findViewById<EditText>(R.id.note_text)
 
         fun bind(templateModel: Note) {
+            if (scouting) {
+                EditTextUtil.disableEditText(noteTitle)
+            }
+
             noteTitle.setText(templateModel.title)
             noteText.setText(templateModel.text)
 
@@ -71,6 +83,10 @@ class TemplateEditingAdapter(val context: Context, private val templateModels: M
 
         @SuppressLint("SetTextI18n")
         fun bind(templateModel: Stopwatch) {
+            if (scouting) {
+                EditTextUtil.disableEditText(stopwatchTitle)
+            }
+
             stopwatchTitle.setText(templateModel.title)
             stopwatchButton.text = "Start ${templateModel.time}"
 
@@ -115,6 +131,11 @@ class TemplateEditingAdapter(val context: Context, private val templateModels: M
         private var counterUnit = itemView.findViewById<EditText>(R.id.counter_unit)
 
         fun bind(templateModel: Counter) {
+            if (scouting) {
+                EditTextUtil.disableEditText(counterTitle)
+                EditTextUtil.disableEditText(counterUnit)
+            }
+
             counterTitle.setText(templateModel.title)
             counterCount.setText(templateModel.count.toString())
             counterUnit.setText(templateModel.unit)
@@ -218,6 +239,10 @@ class TemplateEditingAdapter(val context: Context, private val templateModels: M
         private val checkboxTitle = itemView.findViewById<EditText>(R.id.checkbox_title)
 
         fun bind(templateModel: Checkbox) {
+            if (scouting) {
+                EditTextUtil.disableEditText(checkboxTitle)
+            }
+
             checkbox.isChecked = templateModel.checkedState
             checkboxTitle.setText(templateModel.title)
 
@@ -301,14 +326,19 @@ class TemplateEditingAdapter(val context: Context, private val templateModels: M
         }
 
         val handleView = inflatedView.findViewById<ImageView>(R.id.handle_view)
-        handleView.setOnTouchListener { _, event ->
-            if (event.actionMasked == MotionEvent.ACTION_DOWN) {
-                if (context is TemplateEditingActivity) {
-                    context.startDragging(viewHolder)
-                }
-            }
 
-            return@setOnTouchListener true
+        if (scouting) {
+            handleView.visibility = View.GONE
+        } else {
+            handleView.setOnTouchListener { _, event ->
+                if (event.actionMasked == MotionEvent.ACTION_DOWN) {
+                    if (context is TemplateEditingActivity) {
+                        context.startDragging(viewHolder)
+                    }
+                }
+
+                return@setOnTouchListener true
+            }
         }
 
         return viewHolder

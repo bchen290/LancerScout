@@ -80,7 +80,8 @@ class TemplateEditingActivity : ToolbarActivity() {
             templateEditingList = gson.fromJson(templateData)
         }
 
-        templateEditingAdapter = TemplateEditingAdapter(this@TemplateEditingActivity, templateEditingList)
+        templateEditingAdapter =
+            TemplateEditingAdapter(this@TemplateEditingActivity, templateEditingList, scouting)
 
         template_editing_list.apply {
             layoutManager = LinearLayoutManager(this@TemplateEditingActivity, RecyclerView.VERTICAL, false)
