@@ -20,7 +20,7 @@ import com.robolancers.lancerscoutkotlin.room.entities.Team
 import com.robolancers.lancerscoutkotlin.room.viewmodels.ScoutDataViewModel
 import com.robolancers.lancerscoutkotlin.room.viewmodels.TeamViewModel
 import com.robolancers.lancerscoutkotlin.utilities.adapters.Deletable
-import com.robolancers.lancerscoutkotlin.utilities.callback.ItemTouchHelperSimpleCallbackReorderable
+import com.robolancers.lancerscoutkotlin.utilities.callback.ItemTouchHelperSimpleCallbackDeletable
 
 class TeamAdapter(
     private var teamChooserActivity: TeamChooserActivity,
@@ -33,11 +33,12 @@ class TeamAdapter(
         private var teamTemplateItems = mutableListOf<ScoutData>()
 
         private var teamTemplateAdapter = TeamTemplateAdapter(
-            teamTemplateRecyclerView.context,
+            teamChooserActivity,
             teamTemplateItems
         )
         private var teamTemplateItemTouchHelper = ItemTouchHelper(
-            ItemTouchHelperSimpleCallbackReorderable(
+            ItemTouchHelperSimpleCallbackDeletable(
+                teamChooserActivity,
                 teamTemplateAdapter
             ).simpleItemCallback)
         private val teamTemplateLinearLayoutManager = LinearLayoutManager(teamTemplateRecyclerView.context, RecyclerView.VERTICAL, false)
