@@ -1,3 +1,5 @@
+![GitHub](https://img.shields.io/github/license/bchen290/LancerScout)
+
 # LancerScout
 Lancer Scout is a scouting platform that accompanies Lancer Scout Server in order to provide a seamless and easy to use way to scout opponent teams in First Robotics Competition. This project came out of a need to upgrade our scouting system from pen and paper to something more advanced
 
