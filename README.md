@@ -1,4 +1,4 @@
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/bchen290/LancerScout)[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 
 # LancerScout
